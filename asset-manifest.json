@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/walexp/static/css/main.d79d5797.css",
+    "main.js": "/walexp/static/js/main.cf2b5f66.js",
+    "index.html": "/walexp/index.html",
+    "main.d79d5797.css.map": "/walexp/static/css/main.d79d5797.css.map",
+    "main.cf2b5f66.js.map": "/walexp/static/js/main.cf2b5f66.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d79d5797.css",
+    "static/js/main.cf2b5f66.js"
+  ]
+}
