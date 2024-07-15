@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { Container, Typography, Box } from "@mui/material"
 
 function ThankYou() {
   useEffect(() => {
@@ -9,9 +10,13 @@ function ThankYou() {
   }, [])
 
   return (
-    <div className="screen">
-      <h2>Thank you for participating!</h2>
-    </div>
+    <Container>
+      <Box sx={{ textAlign: "center", mt: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Thank you for participating!
+        </Typography>
+      </Box>
+    </Container>
   )
 }
 

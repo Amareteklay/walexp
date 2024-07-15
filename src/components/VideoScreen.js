@@ -1,26 +1,28 @@
 import React, { useEffect, useRef } from "react"
+import { Box, Button, Typography, Container } from "@mui/material"
 
 function VideoScreen({ onReaction, onNext }) {
   const videoRef = useRef(null)
 
   useEffect(() => {
     const video = videoRef.current
+
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
         video.pause()
       }
     }
 
-    document.documentElement
-      .requestFullscreen()
-      .then(() => {
-        video.play().catch((error) => {
-          console.error("Error attempting to play video:", error)
-        })
-      })
-      .catch((error) => {
-        console.error("Error attempting to enter fullscreen mode:", error)
-      })
+    const playVideo = async () => {
+      try {
+        await video.play()
+        document.documentElement.requestFullscreen()
+      } catch (error) {
+        console.error("Error attempting to play video:", error)
+      }
+    }
+
+    playVideo()
 
     document.addEventListener("fullscreenchange", handleFullscreenChange)
 
@@ -42,33 +44,61 @@ function VideoScreen({ onReaction, onNext }) {
   }
 
   return (
-    <div className="screen">
-      <div className="video-container">
-        <video ref={videoRef} loop>
+    <Container>
+      <Box sx={{ position: "relative", width: "100%", height: "60%" }}>
+        <video
+          ref={videoRef}
+          loop
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        >
           <source src="/videos/Floods1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <div className="overlay-text">Video playing now</div>
-      </div>
-      <div className="emoji-reactions">
+        <Typography
+          variant="h6"
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "white",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            padding: "5px 10px",
+            borderRadius: "5px",
+          }}
+        >
+          Video playing now
+        </Typography>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
         <img
           src="/emojis/happy.png"
           alt="Happy"
           onClick={() => handleReaction("happy")}
+          style={{ width: 50, height: 50, margin: "0 10px", cursor: "pointer" }}
         />
         <img
           src="/emojis/sad.png"
           alt="Sad"
           onClick={() => handleReaction("sad")}
+          style={{ width: 50, height: 50, margin: "0 10px", cursor: "pointer" }}
         />
         <img
           src="/emojis/neutral.png"
           alt="Neutral"
           onClick={() => handleReaction("neutral")}
+          style={{ width: 50, height: 50, margin: "0 10px", cursor: "pointer" }}
         />
-      </div>
-      <button onClick={onNext}>Next</button>
-    </div>
+      </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={onNext}
+        sx={{ mt: 2 }}
+      >
+        Next
+      </Button>
+    </Container>
   )
 }
 
