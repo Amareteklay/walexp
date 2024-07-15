@@ -52,7 +52,10 @@ function VideoScreen({ onReaction, onNext }) {
           autoPlay
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         >
-          <source src="/videos/Floods1.mp4" type="video/mp4" />
+          <source
+            src={`${process.env.PUBLIC_URL}/videos/Floods1.mp4`}
+            type="video/mp4"
+          />
           Your browser does not support the video tag.
         </video>
         <Typography
@@ -73,19 +76,19 @@ function VideoScreen({ onReaction, onNext }) {
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
         <img
-          src="/emojis/happy.png"
+          src={`${process.env.PUBLIC_URL}/emojis/happy.png`}
           alt="Happy"
           onClick={() => handleReaction("happy")}
           style={{ width: 50, height: 50, margin: "0 10px", cursor: "pointer" }}
         />
         <img
-          src="/emojis/sad.png"
+          src={`${process.env.PUBLIC_URL}/emojis/sad.png`}
           alt="Sad"
           onClick={() => handleReaction("sad")}
           style={{ width: 50, height: 50, margin: "0 10px", cursor: "pointer" }}
         />
         <img
-          src="/emojis/neutral.png"
+          src={`${process.env.PUBLIC_URL}/emojis/neutral.png`}
           alt="Neutral"
           onClick={() => handleReaction("neutral")}
           style={{ width: 50, height: 50, margin: "0 10px", cursor: "pointer" }}
