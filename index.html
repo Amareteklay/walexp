@@ -8,19 +8,30 @@
 </head>
 <body>
     <div id="experiment-container">
-        <h1>Video Stimuli Experiment</h1>
-        <div id="video-container">
-            <video id="stimulus-video" width="600" controls>
-                <source src="assets/Floods1.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+        <div id="welcome-screen">
+            <h1>Welcome to the Experiment</h1>
+            <button id="start-button">Start Experiment</button>
         </div>
-        <div id="emoji-reactions">
-            <img src="assets/emoji-icons/happy.png" alt="Happy" class="emoji" data-reaction="happy">
-            <img src="assets/emoji-icons/sad.png" alt="Sad" class="emoji" data-reaction="sad">
-            <img src="assets/emoji-icons/neutral.png" alt="Neutral" class="emoji" data-reaction="neutral">
+        <div id="instructions-screen" class="hidden">
+            <h2>Instructions</h2>
+            <p>Watch the video and react using the emojis below the video. Click next when you are ready to proceed.</p>
+            <button id="proceed-button">Proceed to Video</button>
         </div>
-        <button id="next-button">Next</button>
+        <div id="video-screen" class="hidden">
+            <div id="video-container">
+                <video id="stimulus-video" loop autoplay muted>
+                    <source src="assets/Floods1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div id="overlay-text">Video playing now</div>
+            </div>
+            <div id="emoji-reactions">
+                <img src="assets/emoji-icons/happy.png" alt="Happy" class="emoji" data-reaction="happy">
+                <img src="assets/emoji-icons/sad.png" alt="Sad" class="emoji" data-reaction="sad">
+                <img src="assets/emoji-icons/neutral.png" alt="Neutral" class="emoji" data-reaction="neutral">
+            </div>
+            <button id="next-button">Next</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
