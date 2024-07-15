@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import Welcome from "./components/Welcome"
+import DataPrivacy from "./components/DataPrivacy"
 import Instructions from "./components/Instructions"
 import VideoScreen from "./components/VideoScreen"
 import ThankYou from "./components/ThankYou"
@@ -9,8 +10,9 @@ function App() {
   const [screen, setScreen] = useState("welcome")
   const [reactionData, setReactionData] = useState([])
 
-  const handleStart = () => setScreen("instructions")
-  const handleProceed = () => setScreen("video")
+  const handleStart = () => setScreen("dataPrivacy")
+  const handleProceedToInstructions = () => setScreen("instructions")
+  const handleProceedToVideo = () => setScreen("video")
   const handleReaction = (reaction) =>
     setReactionData([...reactionData, reaction])
   const handleNext = () => {
@@ -29,8 +31,10 @@ function App() {
   }
 
   switch (screen) {
+    case "dataPrivacy":
+      return <DataPrivacy onProceed={handleProceedToInstructions} />
     case "instructions":
-      return <Instructions onProceed={handleProceed} />
+      return <Instructions onProceed={handleProceedToVideo} />
     case "video":
       return <VideoScreen onReaction={handleReaction} onNext={handleNext} />
     case "thankyou":
