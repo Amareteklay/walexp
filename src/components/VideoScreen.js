@@ -49,6 +49,7 @@ function VideoScreen({ onReaction, onNext }) {
         <video
           ref={videoRef}
           loop
+          autoPlay
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         >
           <source src="/videos/Floods1.mp4" type="video/mp4" />
