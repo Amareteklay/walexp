@@ -5,12 +5,34 @@ function VideoScreen({ onReaction, onNext }) {
 
   useEffect(() => {
     const video = videoRef.current
-    video.play()
-    document.documentElement.requestFullscreen()
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        video.pause()
+      }
+    }
+
+    document.documentElement
+      .requestFullscreen()
+      .then(() => {
+        video.play().catch((error) => {
+          console.error("Error attempting to play video:", error)
+        })
+      })
+      .catch((error) => {
+        console.error("Error attempting to enter fullscreen mode:", error)
+      })
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange)
+
     return () => {
       video.pause()
       video.currentTime = 0
-      document.exitFullscreen()
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch((error) => {
+          console.error("Error attempting to exit fullscreen mode:", error)
+        })
+      }
+      document.removeEventListener("fullscreenchange", handleFullscreenChange)
     }
   }, [])
 
@@ -23,24 +45,24 @@ function VideoScreen({ onReaction, onNext }) {
     <div className="screen">
       <div className="video-container">
         <video ref={videoRef} loop>
-          <source src="videos/Floods1.mp4" type="video/mp4" />
+          <source src="/videos/Floods1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="overlay-text">Video playing now</div>
       </div>
       <div className="emoji-reactions">
         <img
-          src="emojis/happy.png"
+          src="/emojis/happy.png"
           alt="Happy"
           onClick={() => handleReaction("happy")}
         />
         <img
-          src="emojis/sad.png"
+          src="/emojis/sad.png"
           alt="Sad"
           onClick={() => handleReaction("sad")}
         />
         <img
-          src="emojis/neutral.png"
+          src="/emojis/neutral.png"
           alt="Neutral"
           onClick={() => handleReaction("neutral")}
         />
