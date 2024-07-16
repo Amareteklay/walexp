@@ -24,7 +24,7 @@ function App() {
   const saveData = async (reactionData, comment) => {
     try {
       const response = await fetch(
-        "https://dad5-94-255-133-219.ngrok-free.app",
+        "https://3c65-94-255-133-219.ngrok-free.app",
         {
           // Update with your Ngrok URL
           method: "POST",
