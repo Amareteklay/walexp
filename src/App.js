@@ -26,6 +26,7 @@ function App() {
       const response = await fetch(
         "https://dad5-94-255-133-219.ngrok-free.app",
         {
+          // Update with your Ngrok URL
           method: "POST",
           headers: {
             "Content-Type": "application/json",
