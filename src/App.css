@@ -1,23 +1,20 @@
+/* src/App.css */
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  font-family: "Arial", sans-serif;
   margin: 0;
-  overflow: hidden;
+  overflow: hidden; /* Keep this to prevent scrolling */
 }
 
 .screen {
   background: white;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 80%;
-  height: 80%;
+  width: 60%;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,8 +23,11 @@ body {
 
 .video-container {
   position: relative;
-  width: 100%;
-  height: 60%;
+  width: 80%;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 video {
@@ -43,8 +43,10 @@ video {
   transform: translate(-50%, -50%);
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 5px 10px;
+  padding: 10px 20px;
   border-radius: 5px;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 .emoji-reactions {
@@ -53,25 +55,46 @@ video {
   margin-top: 20px;
 }
 
-.emoji-reactions img {
+.emoji-box {
+  width: 60px;
+  height: 60px;
+  margin: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.emoji-box img {
   width: 50px;
   height: 50px;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: transform 0.2s, filter 0.2s;
 }
 
-.emoji-reactions img:hover {
-  transform: scale(1.2);
-  filter: brightness(1.2);
+.emoji-box:hover {
+  transform: scale(1.1);
+  background-color: #d0d0d0;
 }
 
-.emoji.selected {
-  filter: brightness(0.8);
+.emoji-box.selected {
+  background-color: #a0a0a0;
 }
 
 button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }

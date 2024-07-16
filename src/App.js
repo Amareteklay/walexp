@@ -3,45 +3,81 @@ import Welcome from "./components/Welcome"
 import DataPrivacy from "./components/DataPrivacy"
 import Instructions from "./components/Instructions"
 import VideoScreen from "./components/VideoScreen"
+import CommentsScreen from "./components/CommentsScreen"
 import ThankYou from "./components/ThankYou"
+import Background from "./components/Background"
+import ContentContainer from "./components/ContentContainer"
 import "./App.css"
 
 function App() {
   const [screen, setScreen] = useState("welcome")
   const [reactionData, setReactionData] = useState([])
+  const [comments, setComments] = useState("")
 
   const handleStart = () => setScreen("dataPrivacy")
   const handleProceedToInstructions = () => setScreen("instructions")
   const handleProceedToVideo = () => setScreen("video")
   const handleReaction = (reaction) =>
     setReactionData([...reactionData, reaction])
-  const handleNext = () => {
-    saveData(reactionData)
+  const handleNext = () => setScreen("comments")
+
+  const saveData = async (reactionData, comment) => {
+    try {
+      const response = await fetch(
+        " https://7c46-94-255-133-219.ngrok-free.app",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            reaction: reactionData,
+            comment: comment,
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok")
+      }
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error)
+    }
+  }
+
+  const handleSubmitComment = async (comment) => {
+    setComments(comment)
+    await saveData(reactionData, comment)
     setScreen("thankyou")
   }
 
-  const saveData = (data) => {
-    const blob = new Blob([JSON.stringify(data)], { type: "application/json" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "reaction_data.json"
-    a.click()
-    URL.revokeObjectURL(url)
-  }
-
+  let content
   switch (screen) {
     case "dataPrivacy":
-      return <DataPrivacy onProceed={handleProceedToInstructions} />
+      content = <DataPrivacy onProceed={handleProceedToInstructions} />
+      break
     case "instructions":
-      return <Instructions onProceed={handleProceedToVideo} />
+      content = <Instructions onProceed={handleProceedToVideo} />
+      break
     case "video":
-      return <VideoScreen onReaction={handleReaction} onNext={handleNext} />
+      content = <VideoScreen onReaction={handleReaction} onNext={handleNext} />
+      break
+    case "comments":
+      content = <CommentsScreen onSubmit={handleSubmitComment} />
+      break
     case "thankyou":
-      return <ThankYou />
+      content = <ThankYou />
+      break
     default:
-      return <Welcome onStart={handleStart} />
+      content = <Welcome onStart={handleStart} />
   }
+
+  return (
+    <Background>
+      <ContentContainer>{content}</ContentContainer>
+    </Background>
+  )
 }
 
 export default App
