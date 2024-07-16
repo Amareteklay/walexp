@@ -24,7 +24,7 @@ function App() {
   const saveData = async (reactionData, comment) => {
     try {
       const response = await fetch(
-        " https://7c46-94-255-133-219.ngrok-free.app",
+        "https://dad5-94-255-133-219.ngrok-free.app",
         {
           method: "POST",
           headers: {
