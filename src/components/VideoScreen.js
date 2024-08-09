@@ -38,7 +38,7 @@ const EmojiBox = styled(Box)(({ selected }) => ({
   borderRadius: "50%",
 }))
 
-function VideoScreen({ onReaction, onNext }) {
+function VideoScreen() {
   const videoRef = useRef(null)
   const [selectedEmoji, setSelectedEmoji] = useState(null)
 
@@ -78,8 +78,21 @@ function VideoScreen({ onReaction, onNext }) {
 
   const handleReaction = (reaction) => {
     const timestamp = videoRef.current.currentTime
-    onReaction({ reaction, timestamp })
     setSelectedEmoji(reaction)
+    // Send data to the parent document (PsychoJS experiment)
+    window.parent.postMessage(
+      { type: "emoji_reaction", reaction, timestamp },
+      "*"
+    )
+  }
+
+  const handleNext = () => {
+    const nextClickTime = videoRef.current.currentTime
+    // Send data to the parent document (PsychoJS experiment)
+    window.parent.postMessage(
+      { type: "next_click", timestamp: nextClickTime },
+      "*"
+    )
   }
 
   return (
@@ -89,6 +102,7 @@ function VideoScreen({ onReaction, onNext }) {
           ref={videoRef}
           loop
           autoPlay
+          id="video" // Add an id to reference the video
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         >
           <source
@@ -103,6 +117,7 @@ function VideoScreen({ onReaction, onNext }) {
         <EmojiBox
           selected={selectedEmoji === "happy"}
           onClick={() => handleReaction("happy")}
+          data-emoji="happy"
         >
           <img
             src={`${process.env.PUBLIC_URL}/emojis/happy.png`}
@@ -113,6 +128,7 @@ function VideoScreen({ onReaction, onNext }) {
         <EmojiBox
           selected={selectedEmoji === "sad"}
           onClick={() => handleReaction("sad")}
+          data-emoji="sad"
         >
           <img
             src={`${process.env.PUBLIC_URL}/emojis/sad.png`}
@@ -123,6 +139,7 @@ function VideoScreen({ onReaction, onNext }) {
         <EmojiBox
           selected={selectedEmoji === "neutral"}
           onClick={() => handleReaction("neutral")}
+          data-emoji="neutral"
         >
           <img
             src={`${process.env.PUBLIC_URL}/emojis/neutral.png`}
@@ -132,9 +149,10 @@ function VideoScreen({ onReaction, onNext }) {
         </EmojiBox>
       </EmojiContainer>
       <Button
+        id="nextButton"
         variant="contained"
         color="primary"
-        onClick={onNext}
+        onClick={handleNext}
         sx={{ mt: 2 }}
       >
         Next
