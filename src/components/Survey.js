@@ -90,7 +90,7 @@ const options = {
   ],
 }
 
-function Survey() {
+function Survey({onSubmit}) {
   const [selectedValues, setSelectedValues] = useState({
     socialMedia: [],
     frequency: "",
@@ -141,6 +141,7 @@ function Survey() {
   const handleSubmit = () => {
     console.log("Survey submitted:", selectedValues)
     // Handle the submission of the survey form
+    onSubmit()
   }
 
   return (
