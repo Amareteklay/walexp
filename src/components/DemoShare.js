@@ -4,7 +4,7 @@ import { styled } from "@mui/system"
 
 const DemoContainer = styled(Container)({
   textAlign: "center",
-  marginTop: "30px",
+  marginTop: "20px",
 })
 
 const ButtonContainer = styled(Box)({
@@ -15,7 +15,7 @@ const ButtonContainer = styled(Box)({
 function DemoShare({ onProceed }) {
   return (
     <DemoContainer>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         For each video there is also a share button that you can use. Use this
         to indicate if this is content you would normally share on social media
         to your followers.

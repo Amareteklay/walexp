@@ -17,8 +17,6 @@ import { styled } from "@mui/system"
 const SurveyContainer = styled(Container)({
   textAlign: "left",
   marginTop: "30px",
-  overflowY: "auto",
-  height: "80vh",
 })
 
 const QuestionBox = styled(Box)({
@@ -90,7 +88,7 @@ const options = {
   ],
 }
 
-function Survey({onSubmit}) {
+function Survey({ onSubmit }) {
   const [selectedValues, setSelectedValues] = useState({
     socialMedia: [],
     frequency: "",
@@ -146,8 +144,9 @@ function Survey({onSubmit}) {
 
   return (
     <SurveyContainer>
-      <Typography variant="h5" gutterBottom>
-        Media use, familiarity with social media
+      <Typography variant="h5"> Survey Questions</Typography>
+      <Typography variant="h6" gutterBottom>
+        Part I: Media use, familiarity with social media
       </Typography>
       <QuestionBox>
         <Typography variant="body1">

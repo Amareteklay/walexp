@@ -98,3 +98,10 @@ button:hover {
   background-color: #0056b3;
   transform: scale(1.05);
 }
+
+.css-1lo9e02-MuiPaper-root {
+  width: 90% !important;
+  padding: 20px !important;
+  align-items: center;
+  overflow: auto;
+}

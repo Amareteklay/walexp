@@ -17,14 +17,31 @@ import TransitionScreen from "./components/TransitionScreen"
 import DonationPrompt from "./components/DonationPrompt"
 import DonationForm from "./components/DonationForm"
 import Survey from "./components/Survey"
+import FullScreenContainer from "./components/FullScreenContainer"
+import { textFrames, videos } from "./data" // Import your data
+
+function getRandomTextFrame(textFrames) {
+  const types = ["positive", "negative", "neutral"]
+  const randomType = types[Math.floor(Math.random() * types.length)]
+  const texts = textFrames[randomType]
+  const randomText = texts[Math.floor(Math.random() * texts.length)]
+  return randomText // Return only the text since we don't need the type
+}
 
 function App() {
   const [screen, setScreen] = useState("welcome")
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
   const [reactionData, setReactionData] = useState([])
   const [comments, setComments] = useState("")
+  const [overlayText, setOverlayText] = useState("") // New state for overlay text
 
   // This state will track if the experiment is complete
   const [experimentComplete, setExperimentComplete] = useState(false)
+
+  useEffect(() => {
+    const randomText = getRandomTextFrame(textFrames)
+    setOverlayText(randomText) // Set the random overlay text for the current video
+  }, [currentVideoIndex])
 
   // Handle redirection to Prolific when experiment is complete
   useEffect(() => {
@@ -33,16 +50,26 @@ function App() {
     }
   }, [experimentComplete])
 
-  const handleStart = () => setScreen("audioCheck")
+  const handleStart = () => {
+    setScreen("audioCheck")
+    requestFullScreen() // Trigger full-screen on start
+  }
+
   const handleProceedToFeedback = () => setScreen("feedback")
   const handleProceedToEmotionsScale = () => setScreen("emotions")
   const handleProceedToInstructions = () => setScreen("instructions")
+  const handleProceedToVideo = () => setScreen("video")
   const handleProceedToDemoIcons = () => setScreen("demoicons")
   const handleProceedToDemoShare = () => setScreen("demoshare")
-  const handleProceedToVideo = () => setScreen("video")
+
   const handleReaction = (reaction) =>
     setReactionData([...reactionData, reaction])
-  const handleNext = () => setScreen("transition")
+
+  const handleNext = () => {
+    // Loop videos: after the last video, start again from the first
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length)
+  }
+
   const handleProceedToDonationPrompt = () => setScreen("donationPrompt")
   const handleProceedToDonationForm = () => setScreen("donationForm")
   const handleDonationSubmit = () => setScreen("survey")
@@ -83,6 +110,18 @@ function App() {
     setExperimentComplete(true)
   }
 
+  const requestFullScreen = () => {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen()
+    } else if (document.documentElement.mozRequestFullScreen) {
+      document.documentElement.mozRequestFullScreen()
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen()
+    } else if (document.documentElement.msRequestFullscreen) {
+      document.documentElement.msRequestFullscreen()
+    }
+  }
+
   let content
   switch (screen) {
     case "audioCheck":
@@ -106,8 +145,8 @@ function App() {
     case "video":
       content = (
         <VideoScreen
-          videoSrc={`${process.env.PUBLIC_URL}/videos/Floods1.mp4`}
-          overlayText="Video 1 playing now"
+          videoSrc={`${process.env.PUBLIC_URL}/videos/${videos[currentVideoIndex]}`}
+          overlayText={overlayText}
           onReaction={handleReaction}
           onProceed={handleNext}
         />
@@ -137,9 +176,11 @@ function App() {
   }
 
   return (
-    <Background>
-      <ContentContainer>{content}</ContentContainer>
-    </Background>
+    <FullScreenContainer>
+      <Background>
+        <ContentContainer>{content}</ContentContainer>
+      </Background>
+    </FullScreenContainer>
   )
 }
 

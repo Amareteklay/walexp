@@ -1,15 +1,9 @@
 import React from "react"
-import { Container, Button, Typography, Box } from "@mui/material"
-import { styled } from "@mui/system"
-
-const AudioCheckContainer = styled(Container)({
-  textAlign: "center",
-  marginTop: "30px",
-})
+import { Button, Typography } from "@mui/material"
 
 function AudioCheck({ onProceed }) {
   return (
-    <AudioCheckContainer>
+    <>
       <Typography variant="h4" gutterBottom>
         Check your audio system.
       </Typography>
@@ -17,6 +11,7 @@ function AudioCheck({ onProceed }) {
         This task is to check that your audio system is working.
       </Typography>
       <Typography>What kind of sound do you hear?</Typography>
+      <div>
       <Button variant="contained" color="primary" onClick={onProceed}>
         Birds
       </Button>
@@ -26,7 +21,8 @@ function AudioCheck({ onProceed }) {
       <Button variant="contained" color="primary" onClick={onProceed}>
         Waves
       </Button>
-    </AudioCheckContainer>
+      </div>
+    </>
   )
 }
 

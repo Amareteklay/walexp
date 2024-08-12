@@ -193,8 +193,10 @@ function VideoScreen({ videoSrc, overlayText, onProceed }) {
       </Button>
 
       {/* Modal for Adding Comment and Share Option */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Interaction</DialogTitle>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm"
+      fullWidth={true}
+      sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '400px' } }}>
+        <DialogTitle>Comment</DialogTitle>
         <DialogContent>
           <Typography variant="body1" gutterBottom>
             What would you comment if you saw this video on your social media?
