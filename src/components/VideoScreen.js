@@ -1,5 +1,18 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Box, Button, Typography, Container } from "@mui/material"
+import {
+  Box,
+  Button,
+  Typography,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material"
 import { styled } from "@mui/system"
 
 const VideoContainer = styled(Box)({
@@ -38,9 +51,12 @@ const EmojiBox = styled(Box)(({ selected }) => ({
   borderRadius: "50%",
 }))
 
-function VideoScreen() {
+function VideoScreen({ videoSrc, overlayText, onProceed }) {
   const videoRef = useRef(null)
   const [selectedEmoji, setSelectedEmoji] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [comment, setComment] = useState("")
+  const [shareOption, setShareOption] = useState("")
 
   useEffect(() => {
     const video = videoRef.current
@@ -80,6 +96,8 @@ function VideoScreen() {
     const timestamp = videoRef.current.currentTime
     setSelectedEmoji(reaction)
     // Send data to the parent document (PsychoJS experiment)
+    console.log(timestamp)
+    console.log(reaction)
     window.parent.postMessage(
       { type: "emoji_reaction", reaction, timestamp },
       "*"
@@ -95,6 +113,17 @@ function VideoScreen() {
     )
   }
 
+  const handleAddComment = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    // Here you can handle sending the comment and share data
+    console.log("Comment:", comment)
+    console.log("Share Option:", shareOption)
+    setOpen(false)
+  }
+
   return (
     <Container>
       <VideoContainer>
@@ -102,16 +131,13 @@ function VideoScreen() {
           ref={videoRef}
           loop
           autoPlay
-          id="video" // Add an id to reference the video
+          id="video"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         >
-          <source
-            src={`${process.env.PUBLIC_URL}/videos/Floods1.mp4`}
-            type="video/mp4"
-          />
+          <source src={videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <OverlayText variant="h6">Video playing now</OverlayText>
+        <OverlayText variant="h6">{overlayText}</OverlayText>
       </VideoContainer>
       <EmojiContainer>
         <EmojiBox
@@ -149,14 +175,58 @@ function VideoScreen() {
         </EmojiBox>
       </EmojiContainer>
       <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddComment}
+        sx={{ mt: 2, mr: 2 }}
+      >
+        Add Comment
+      </Button>
+      <Button
         id="nextButton"
         variant="contained"
         color="primary"
-        onClick={handleNext}
+        onClick={onProceed}
         sx={{ mt: 2 }}
       >
         Next
       </Button>
+
+      {/* Modal for Adding Comment and Share Option */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Interaction</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" gutterBottom>
+            What would you comment if you saw this video on your social media?
+          </Typography>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="comment"
+            label="Your Comment"
+            type="text"
+            fullWidth
+            variant="outlined"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
+            Would you normally share this video on your social media?
+          </Typography>
+          <RadioGroup
+            value={shareOption}
+            onChange={(e) => setShareOption(e.target.value)}
+          >
+            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+            <FormControlLabel value="no" control={<Radio />} label="No" />
+          </RadioGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" variant="contained">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   )
 }

@@ -8,19 +8,34 @@ import ThankYou from "./components/ThankYou"
 import Background from "./components/Background"
 import ContentContainer from "./components/ContentContainer"
 import "./App.css"
+import AudioCheck from "./components/AudioCheck"
+import Feedback from "./components/Feedback"
+import EmotionsScale from "./components/EmotionsScale"
+import DemoEmoicons from "./components/DemoEmoicons"
+import DemoShare from "./components/DemoShare"
+import TransitionScreen from "./components/TransitionScreen"
+import DonationPrompt from "./components/DonationPrompt"
+import DonationForm from "./components/DonationForm"
+import Survey from "./components/Survey"
 
 function App() {
   const [screen, setScreen] = useState("welcome")
   const [reactionData, setReactionData] = useState([])
   const [comments, setComments] = useState("")
 
-  const handleStart = () => setScreen("dataPrivacy")
+  const handleStart = () => setScreen("audioCheck")
+  const handleProceedToFeedback = () => setScreen("feedback")
+  const handleProceedToEmotionsScale = () => setScreen("emotions")
   const handleProceedToInstructions = () => setScreen("instructions")
+  const handleProceedToDemoIcons = () => setScreen("demoicons")
+  const handleProceedToDemoShare = () => setScreen("demoshare")
   const handleProceedToVideo = () => setScreen("video")
   const handleReaction = (reaction) =>
     setReactionData([...reactionData, reaction])
-  const handleNext = () => setScreen("comments")
-
+  const handleNext = () => setScreen("transition")
+  const handleProceedToDonationPrompt = () => setScreen("donationPrompt")
+  const handleProceedToDonationForm = () => setScreen("donationForm")
+  const handleDonationSubmit = () => setScreen("survey")
   const saveData = async (reactionData, comment) => {
     try {
       const response = await fetch(
@@ -55,17 +70,45 @@ function App() {
 
   let content
   switch (screen) {
-    case "dataPrivacy":
-      content = <DataPrivacy onProceed={handleProceedToInstructions} />
+    case "audioCheck":
+      content = <AudioCheck onProceed={handleProceedToFeedback} />
+      break
+    case "feedback":
+      content = <Feedback onProceed={handleProceedToEmotionsScale} />
+      break
+    case "emotions":
+      content = <EmotionsScale onProceed={handleProceedToInstructions} />
       break
     case "instructions":
-      content = <Instructions onProceed={handleProceedToVideo} />
+      content = <Instructions onProceed={handleProceedToDemoIcons} />
+      break
+    case "demoicons":
+      content = <DemoEmoicons onProceed={handleProceedToDemoShare} />
+      break
+    case "demoshare":
+      content = <DemoShare onProceed={handleProceedToVideo} />
       break
     case "video":
-      content = <VideoScreen onReaction={handleReaction} onNext={handleNext} />
+      content = (
+        <VideoScreen
+          videoSrc={`${process.env.PUBLIC_URL}/videos/Floods1.mp4`}
+          overlayText="Video 1 playing now"
+          onReaction={handleReaction}
+          onProceed={handleNext}
+        />
+      )
       break
-    case "comments":
-      content = <CommentsScreen onSubmit={handleSubmitComment} />
+    case "transition":
+      content = <TransitionScreen onProceed={handleProceedToDonationPrompt} />
+      break
+    case "donationPrompt":
+      content = <DonationPrompt onProceed={handleProceedToDonationForm} />
+      break
+    case "donationForm":
+      content = <DonationForm onSubmit={handleDonationSubmit} />
+      break
+    case "survey":
+      content = <Survey />
       break
     case "thankyou":
       content = <ThankYou />

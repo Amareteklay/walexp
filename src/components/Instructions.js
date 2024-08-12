@@ -14,11 +14,16 @@ function Instructions({ onProceed }) {
         Instructions
       </Typography>
       <Typography variant="body1" paragraph>
-        Watch the video and react using the emojis below the video. Click next
-        when you are ready to proceed.
+        You will now watch a number of different videos about various
+        environmental phenomena such as flooding, forest fires, storms and
+        migration.
+      </Typography>
+      <Typography variant="body1">
+        Please click 'Continue' to continue reading instructions on the next
+        screen
       </Typography>
       <Button variant="contained" color="primary" onClick={onProceed}>
-        Proceed to Video
+        Continue
       </Button>
     </InstructionsContainer>
   )
