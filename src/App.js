@@ -4,29 +4,35 @@ import ScreenManager from "./components/ScreenManager"
 import FullScreenContainer from "./components/FullScreenContainer"
 import Background from "./components/Background"
 import ContentContainer from "./components/ContentContainer"
-import { requestFullScreen } from "./utils/utils"
+import CustomProgressBar from "./components/ProgressBar"
 
 function App() {
   const [screen, setScreen] = useState("welcome")
-  const [currentStep, setCurrentStep] = useState(0) // Tracks video series progression
-  const [videoSeriesStarted, setVideoSeriesStarted] = useState(false) // Tracks if video series has started
+  const [currentStep, setCurrentStep] = useState(0)
+  const [overallProgress, setOverallProgress] = useState(0);
+  const [videoSeriesStarted, setVideoSeriesStarted] = useState(false)
   const { overlayText } = useFraming(currentStep)
 
+  const totalSteps = 24
+
   const handleScreenTransition = (nextScreen) => {
+    setOverallProgress((prevProgress) => prevProgress + 1);
     if (nextScreen === "videoSeries" && !videoSeriesStarted) {
-      setCurrentStep(0) // Reset to start from the first video in series
+      setCurrentStep(0)
       setVideoSeriesStarted(true)
     } else if (nextScreen === "videoSeries" || nextScreen === "nextVideo") {
       setCurrentStep((prevStep) => prevStep + 1)
     }
 
     setScreen(nextScreen)
+
   }
 
   return (
     <FullScreenContainer>
       <Background>
         <ContentContainer>
+          <CustomProgressBar currentStep={overallProgress} totalSteps={totalSteps} />
           <ScreenManager
             screen={screen}
             currentStep={currentStep}
