@@ -4,7 +4,6 @@ const useFullscreen = () => {
   useEffect(() => {
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
-        // Optionally add logic for what happens when exiting fullscreen
       }
     }
 
