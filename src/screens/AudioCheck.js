@@ -2,8 +2,16 @@ import React from "react"
 import { Button, Typography, Box } from "@mui/material"
 
 function AudioCheck({ onProceed }) {
-  const handleProceed = (nextScreen) => () => {
-    onProceed(nextScreen)
+  const handleProceed = (buttonName) => () => {
+    window.parent.postMessage(
+      {
+        type: "audio_check",
+        buttonName: buttonName,
+        timestamp: Date.now(),
+      },
+      "*"
+    )
+    onProceed("feedback")
   }
 
   return (
@@ -21,14 +29,14 @@ function AudioCheck({ onProceed }) {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleProceed("feedback")}
+          onClick={handleProceed("birds")}
         >
           Birds
         </Button>
         <Button
           variant="contained"
           color="primary"
-          onClick={handleProceed("feedback")}
+          onClick={handleProceed("train")}
           sx={{ marginX: 2 }}
         >
           Train
@@ -36,7 +44,7 @@ function AudioCheck({ onProceed }) {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleProceed("feedback")}
+          onClick={handleProceed("waves")}
         >
           Waves
         </Button>
