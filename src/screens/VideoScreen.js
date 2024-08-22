@@ -4,7 +4,13 @@ import VideoPlayer from "../components/VideoPlayer"
 import EmojiReaction from "../components/EmojiReaction"
 import CommentDialog from "../components/CommentDialog"
 
-function VideoScreen({ videoSrc, overlayText, onProceed, nextScreen }) {
+function VideoScreen({
+  videoSrc,
+  overlayText,
+  videoId,
+  onProceed,
+  nextScreen,
+}) {
   const [selectedEmoji, setSelectedEmoji] = useState(null)
   const [open, setOpen] = useState(false)
   const [comment, setComment] = useState("")
@@ -19,7 +25,7 @@ function VideoScreen({ videoSrc, overlayText, onProceed, nextScreen }) {
       setSelectedEmoji(reaction)
       // Send emoji reaction data to PsychoJS
       window.parent.postMessage(
-        { type: "emoji_reaction", reaction, timestamp },
+        { type: "emoji_reaction", reaction, videoId, timestamp },
         "*"
       )
     } else {
@@ -40,6 +46,7 @@ function VideoScreen({ videoSrc, overlayText, onProceed, nextScreen }) {
         type: "comment_submitted",
         comment,
         shareOption,
+        videoId,
         timestamp,
       },
       "*"
@@ -51,7 +58,7 @@ function VideoScreen({ videoSrc, overlayText, onProceed, nextScreen }) {
     const timestamp = new Date().toISOString()
 
     // Send next button click event to PsychoJS
-    window.parent.postMessage({ type: "next_click", timestamp }, "*")
+    window.parent.postMessage({ type: "next_click", videoId, timestamp }, "*")
 
     if (onProceed && nextScreen) {
       onProceed(nextScreen)
