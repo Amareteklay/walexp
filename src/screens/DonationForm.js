@@ -30,8 +30,15 @@ function DonationForm({ onProceed }) {
   }
 
   const handleContinue = () => {
-    onProceed("survey");
-  };
+    // Send the selected donation value to the parent (PsychoJS)
+    window.parent.postMessage(
+      { type: "donation_selected", value: selectedValue },
+      "*"
+    )
+
+    // Proceed to the next part of the experiment
+    onProceed("survey")
+  }
 
   return (
     <DonationContainer>
