@@ -17,6 +17,7 @@ function VideoScreen({ videoSrc, overlayText, onProceed, nextScreen }) {
     if (videoRef.current) {
       const timestamp = videoRef.current.currentTime
       setSelectedEmoji(reaction)
+      // Send emoji reaction data to PsychoJS
       window.parent.postMessage(
         { type: "emoji_reaction", reaction, timestamp },
         "*"
@@ -33,9 +34,10 @@ function VideoScreen({ videoSrc, overlayText, onProceed, nextScreen }) {
   const handleClose = () => {
     const timestamp = new Date().toISOString()
 
+    // Send comment and share option data to PsychoJS
     window.parent.postMessage(
       {
-        type: "commentSubmitted",
+        type: "comment_submitted",
         comment,
         shareOption,
         timestamp,
@@ -46,7 +48,7 @@ function VideoScreen({ videoSrc, overlayText, onProceed, nextScreen }) {
   }
 
   const handleNext = () => {
-    const timestamp = new Date().toISOString() // Define timestamp here
+    const timestamp = new Date().toISOString()
 
     // Send next button click event to PsychoJS
     window.parent.postMessage({ type: "next_click", timestamp }, "*")
