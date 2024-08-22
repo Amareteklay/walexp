@@ -138,8 +138,13 @@ function Survey({ onSubmit }) {
   }
 
   const handleSubmit = () => {
-    console.log("Survey submitted:", selectedValues)
-    // Handle the submission of the survey form
+    // Send the selected survey data to the parent (PsychoJS)
+    window.parent.postMessage(
+      { type: "survey_data", data: selectedValues },
+      "*"
+    )
+
+    // Proceed to the next part of the experiment
     onSubmit()
   }
 
