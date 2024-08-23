@@ -11,6 +11,7 @@ import {
   TextField,
   Button,
   Slider,
+  FormGroup,
 } from "@mui/material"
 import { styled } from "@mui/system"
 
@@ -150,95 +151,105 @@ function Survey({ onSubmit }) {
 
   return (
     <SurveyContainer>
-      <Typography variant="h5"> Survey Questions</Typography>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h5" style={{ fontWeight: "bold" }}>
+        {" "}
+        Survey Questions
+      </Typography>
+      <Typography variant="body1" style={{ fontWeight: "bold" }} gutterBottom>
         Part I: Media use, familiarity with social media
       </Typography>
       <QuestionBox>
         <Typography variant="body1">
-          What social media platforms do you use frequently? You can mark
+          Q1. What social media platforms do you use frequently? (You can mark
+          several alternatives.)
+        </Typography>
+        <FormGroup sx={{ paddingLeft: "20px" }}>
+          {options.socialMedia.map((option) => (
+            <FormControlLabel
+              key={option}
+              control={
+                <Checkbox
+                  checked={selectedValues.socialMedia.includes(option)}
+                  onChange={() => handleCheckboxChange("socialMedia", option)}
+                />
+              }
+              label={<span style={{ fontSize: "0.875rem" }}>{option}</span>}
+            />
+          ))}
+        </FormGroup>
+      </QuestionBox>
+      <QuestionBox>
+        <Typography variant="body1">
+          Q2. How often do you use social media platforms? Mark the alternative
+          most relevant for you.
+        </Typography>
+        <FormGroup sx={{ paddingLeft: "20px" }}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              value={selectedValues.frequency}
+              onChange={(e) => handleRadioChange("frequency", e.target.value)}
+            >
+              {options.frequency.map((option) => (
+                <FormControlLabel
+                  key={option}
+                  value={option}
+                  control={<Radio />}
+                  label={option}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>{" "}
+        </FormGroup>
+      </QuestionBox>
+
+      <QuestionBox>
+        <Typography variant="body1">
+          Q3. What do you typically use these platforms for? You can mark
           several alternatives.
-        </Typography>
-        {options.socialMedia.map((option) => (
-          <FormControlLabel
-            key={option}
-            control={
-              <Checkbox
-                checked={selectedValues.socialMedia.includes(option)}
-                onChange={() => handleCheckboxChange("socialMedia", option)}
-              />
-            }
-            label={option}
-          />
-        ))}
+        </Typography>{" "}
+        <FormGroup sx={{ paddingLeft: "20px" }}>
+          {options.mediaUse.map((option) => (
+            <FormControlLabel
+              key={option}
+              control={
+                <Checkbox
+                  checked={selectedValues.mediaUse.includes(option)}
+                  onChange={() => handleCheckboxChange("mediaUse", option)}
+                />
+              }
+              label={option}
+            />
+          ))}
+        </FormGroup>
       </QuestionBox>
 
       <QuestionBox>
         <Typography variant="body1">
-          How often do you use social media platforms? Mark the alternative most
-          relevant for you.
-        </Typography>
-        <FormControl component="fieldset">
-          <RadioGroup
-            value={selectedValues.frequency}
-            onChange={(e) => handleRadioChange("frequency", e.target.value)}
-          >
-            {options.frequency.map((option) => (
-              <FormControlLabel
-                key={option}
-                value={option}
-                control={<Radio />}
-                label={option}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </QuestionBox>
-
-      <QuestionBox>
-        <Typography variant="body1">
-          What do you typically use these platforms for? You can mark several
-          alternatives.
-        </Typography>
-        {options.mediaUse.map((option) => (
-          <FormControlLabel
-            key={option}
-            control={
-              <Checkbox
-                checked={selectedValues.mediaUse.includes(option)}
-                onChange={() => handleCheckboxChange("mediaUse", option)}
-              />
-            }
-            label={option}
-          />
-        ))}
-      </QuestionBox>
-
-      <QuestionBox>
-        <Typography variant="body1">
-          What type of media do you typically use to get updated on current
+          Q4. What type of media do you typically use to get updated on current
           events? You can mark several alternatives.
-        </Typography>
-        {options.mediaType.map((option) => (
-          <FormControlLabel
-            key={option}
-            control={
-              <Checkbox
-                checked={selectedValues.mediaType.includes(option)}
-                onChange={() => handleCheckboxChange("mediaType", option)}
-              />
-            }
-            label={option}
-          />
-        ))}
+        </Typography>{" "}
+        <FormGroup sx={{ paddingLeft: "20px" }}>
+          {options.mediaType.map((option) => (
+            <FormControlLabel
+              key={option}
+              control={
+                <Checkbox
+                  checked={selectedValues.mediaType.includes(option)}
+                  onChange={() => handleCheckboxChange("mediaType", option)}
+                />
+              }
+              label={option}
+            />
+          ))}
+        </FormGroup>
       </QuestionBox>
 
       <QuestionBox>
-        <Typography variant="h5" gutterBottom>
-          Values and attitudes
+        <Typography variant="body1" sx={{fontWeight: "bold"}} gutterBottom>
+          Part II: Values and attitudes
         </Typography>
-        <Typography variant="body1" paragraph>
-          Where would you place yourself politically on a left-to-right scale?
+        <Typography variant="body2" paragraph>
+          Q5. Where would you place yourself politically on a left-to-right scale?
         </Typography>
         <Slider
           value={selectedValues.politicalScale || 4}
@@ -312,8 +323,8 @@ function Survey({ onSubmit }) {
       </QuestionBox>
 
       <QuestionBox>
-        <Typography variant="h5" gutterBottom>
-          Background information
+        <Typography variant="body1" sx={{fontWeight: "bold"}} gutterBottom>
+          Part III: Background information
         </Typography>
         <Typography variant="body1">
           What best describes your gender?

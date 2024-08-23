@@ -4,19 +4,19 @@ import { styled } from "@mui/system"
 
 const ProgressBarContainer = styled(Box)({
   width: "90%",
-  height: 10,
+  height: 7,
   backgroundColor: "#e0e0e0",
   borderRadius: 5,
   position: "absolute",
   zIndex: 1000,
   overflow: "hidden",
-  top: 24,
+  top: 16,
 })
 
 const ProgressBarFiller = styled(Box)(({ progress }) => ({
   width: `${progress}%`,
   height: "100%",
-  backgroundColor: "#76c7c0", // Green progress
+  backgroundColor: "#76c76c", // Green progress
   transition: "width 0.5s ease-in-out", // Smooth transition effect
 }))
 

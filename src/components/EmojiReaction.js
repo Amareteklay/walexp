@@ -1,40 +1,52 @@
 import React from "react"
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/system"
 
 const EmojiContainer = styled(Box)({
   display: "flex",
   justifyContent: "center",
+  alignItems: "center",
   marginTop: "20px",
+  marginBottom: "20px",
 })
 
-const EmojiBox = styled(Box)(({ selected }) => ({
-  width: "60px",
-  height: "60px",
+const EmojiWrapper = styled(Box)({
   display: "flex",
-  justifyContent: "center",
+  flexDirection: "column",
   alignItems: "center",
   margin: "0 10px",
-  cursor: "pointer",
-  backgroundColor: selected ? "#f0a" : "#ddd",
+})
+
+const EmojiIcon = styled("img")(({ selected, interactive }) => ({
+  width: "30px",
+  height: "30px",
+  backgroundColor: selected ? "#FFEB3B" : "transparent",
   borderRadius: "50%",
+  cursor: interactive ? "pointer" : "default",
+  transition: "transform 0.3s ease",
+  "&:hover": interactive ? { transform: "scale(1.5)" } : {},
 }))
 
-function EmojiReaction({ selectedEmoji, onReaction }) {
+function EmojiReaction({ selectedEmoji, onReaction, interactive = false }) {
+  const emojis = [
+    { name: "happy", label: "Happy" },
+    { name: "neutral", label: "Neutral" },
+    { name: "sad", label: "Sad" },
+  ]
+
   return (
     <EmojiContainer>
-      {["happy", "sad", "neutral"].map((emoji) => (
-        <EmojiBox
-          key={emoji}
-          selected={selectedEmoji === emoji}
-          onClick={() => onReaction(emoji)}
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/emojis/${emoji}.png`}
-            alt={emoji}
-            style={{ width: "50px", height: "50px" }}
+      {emojis.map((emoji) => (
+        <EmojiWrapper key={emoji.name}>
+          <EmojiIcon
+            src={`${process.env.PUBLIC_URL}/emojis/${emoji.name}.png`}
+            alt={emoji.label}
+            selected={selectedEmoji === emoji.name}
+            interactive={interactive}
+            onClick={interactive ? () => onReaction(emoji.name) : undefined}
           />
-        </EmojiBox>
+          <Typography variant="body2">{emoji.label}</Typography>
+        </EmojiWrapper>
       ))}
     </EmojiContainer>
   )

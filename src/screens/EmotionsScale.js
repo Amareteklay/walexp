@@ -8,26 +8,11 @@ const ScaleContainer = styled(Container)({
 })
 
 const marks = [
-  {
-    value: -2,
-    label: "-2",
-  },
-  {
-    value: -1,
-    label: "-1",
-  },
-  {
-    value: 0,
-    label: "0",
-  },
-  {
-    value: 1,
-    label: "1",
-  },
-  {
-    value: 2,
-    label: "2",
-  },
+  { value: -2, label: "Very Negative" },
+  { value: -1, label: "Negative" },
+  { value: 0, label: "Neutral" },
+  { value: 1, label: "Positive" },
+  { value: 2, label: "Very Positive" },
 ]
 
 function EmotionsScale({ onProceed, nextScreen }) {
@@ -39,23 +24,29 @@ function EmotionsScale({ onProceed, nextScreen }) {
 
   const handleConfirm = () => {
     if (value !== null) {
-      onProceed(nextScreen) // Use the passed nextScreen prop
+      onProceed(nextScreen) // Proceed to the next screen when a value is selected
     }
   }
 
   return (
     <ScaleContainer>
-      <Typography variant="h5" gutterBottom>
+      <Typography
+        variant="h5"
+        sx={{ fontWeight: "bold", marginBottom: 4 }}
+        gutterBottom
+      >
         How are you feeling right now?
       </Typography>
       <Typography variant="body1" paragraph>
-        Please click on the circle that best corresponds to your feelings.
+        Think about how you're feeling at this moment. Use the scale below to
+        express your emotions.
       </Typography>
-      <Box mt={4}>
+      <Box mt={8} mb={8}>
         <Slider
           value={value}
           onChange={handleChange}
-          aria-labelledby="discrete-slider"
+          aria-labelledby="emotion-scale-slider"
+          aria-valuetext={`Emotion level ${value}`}
           step={1}
           marks={marks}
           min={-2}
@@ -63,7 +54,7 @@ function EmotionsScale({ onProceed, nextScreen }) {
           valueLabelDisplay="auto"
         />
       </Box>
-      <Box mt={4}>
+      <Box mt={8}>
         <Button
           variant="contained"
           color="primary"

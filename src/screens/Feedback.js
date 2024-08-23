@@ -17,10 +17,10 @@ function Feedback({ onProceed }) {
 
   return (
     <FeedbackContainer>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" sx={{fontWeight: "bold", marginBottom: 8}} gutterBottom>
         Excellent!
       </Typography>
-      <Typography variant="body1" paragraph>
+      <Typography variant="body1" sx={{fontWeight: "bold", marginBottom: 8}}>
         You're all set up now. The next task will start in 4 seconds ...
       </Typography>
     </FeedbackContainer>

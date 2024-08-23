@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react"
-import { Container, Button } from "@mui/material"
+import { Container, Button, Box } from "@mui/material"
 import VideoPlayer from "../components/VideoPlayer"
 import EmojiReaction from "../components/EmojiReaction"
 import CommentDialog from "../components/CommentDialog"
+import AddCommentIcon from "@mui/icons-material/AddComment"
 
 function VideoScreen({
   videoSrc,
@@ -77,24 +78,36 @@ function VideoScreen({
       <EmojiReaction
         selectedEmoji={selectedEmoji}
         onReaction={handleReaction}
+        interactive={true}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddComment}
-        sx={{ mt: 2, mr: 2 }}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: 4, // Optional: Adjust margin-top to move the buttons down
+          gap: 2, // Space between the buttons
+        }}
       >
-        Add Comment
-      </Button>
-      <Button
-        id="nextButton"
-        variant="contained"
-        color="primary"
-        onClick={handleNext}
-        sx={{ mt: 2 }}
-      >
-        Next
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAddComment}
+          sx={{ mt: 2, mr: 2 }}
+          startIcon={<AddCommentIcon />}
+        >
+          Add Comment
+        </Button>
+        <Button
+          id="nextButton"
+          variant="contained"
+          color="primary"
+          onClick={handleNext}
+          sx={{ mt: 2 }}
+        >
+          Next
+        </Button>
+      </Box>
       <CommentDialog
         open={open}
         comment={comment}

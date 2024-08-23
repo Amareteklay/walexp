@@ -6,7 +6,7 @@ import { styled } from "@mui/system"
 const GradientBackground = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
   width: "100vw",
-  backgroundImage: "linear-gradient(180deg, #4b79a1, #283e51, #5a3f87)",
+  backgroundImage: "linear-gradient(180deg, #9ffff5, #5a3f87)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -15,10 +15,10 @@ const GradientBackground = styled(Box)(({ theme }) => ({
 // Tablet frame styling
 const TabletFrame = styled(Box)(({ theme }) => ({
   width: "100%",
-  maxWidth: "512px", // Tablet width
-  height: "80%",
-  maxHeight: "100vh", // Tablet height
-  border: "16px solid #333", // Border color for the tablet frame
+  maxWidth: "650px", // Tablet width
+  height: "100%",
+  maxHeight: "400vh", // Tablet height
+  border: "28px solid #333", // Border color for the tablet frame
   borderRadius: "36px", // Rounded corners to mimic a tablet
   background: "#000", // Background color inside the border (tablet frame color)
   boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)", // Shadow to give a 3D effect
@@ -34,8 +34,8 @@ const TabletFrame = styled(Box)(({ theme }) => ({
 const TabletScreen = styled(Box)(({ theme }) => ({
   width: "100%",
   height: "100%",
-  backgroundColor: "#f3f3f3", // Background of the screen itself
-  borderRadius: "20px", // Inner rounded corners to mimic a screen
+  backgroundColor: "#fff", // Background of the screen itself
+  //borderRadius: "20px", // Inner rounded corners to mimic a screen
   overflow: "hidden",
   display: "flex",
   flexDirection: "column",

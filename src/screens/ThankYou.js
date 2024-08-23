@@ -1,13 +1,6 @@
 import React, { useEffect } from "react"
-import { Container, Typography, Box } from "@mui/material"
-import { styled } from "@mui/system"
+import {Typography, Box } from "@mui/material"
 
-const ThankYouContainer = styled(Container)({
-  textAlign: "center",
-  minWidth: "60%",
-  minHeight: "80vh",
-  marginTop: "30px",
-})
 
 function ThankYou() {
   useEffect(() => {
@@ -22,11 +15,11 @@ function ThankYou() {
   }, [])
 
   return (
-    <ThankYouContainer>
+    <>
       <Typography variant="h4" gutterBottom>
         Thank you for participating!
       </Typography>
-    </ThankYouContainer>
+    </>
   )
 }
 

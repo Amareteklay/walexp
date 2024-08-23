@@ -5,7 +5,8 @@ import { styled } from "@mui/system"
 const VideoContainer = styled(Box)({
   position: "relative",
   width: "100%",
-  height: "auto",
+  height: "400px",
+  border: "2px red solid",
 })
 
 const OverlayText = styled(Typography)({
