@@ -32,8 +32,8 @@ const screens = {
   ),
   transitionOne: TransitionScreen,
   videoSeries: (props) => {
-    const { currentStep, overlayText, onProceed } = props
-    console.log("Current step", currentStep)
+    const { currentStep, onProceed } = props
+
     const handleNextScreen = () => {
       const nextStep = currentStep + 1
 
@@ -45,12 +45,14 @@ const screens = {
         onProceed("survey") // After the last video, show the survey
       }
     }
+
     const videoIndex = currentStep < videoData.length ? currentStep : 0
     return (
       <VideoScreen
         key={videoIndex} // This ensures the component re-renders with the new video
         videoSrc={`${process.env.PUBLIC_URL}/videos/${videoData[videoIndex].video}`}
-        overlayText={overlayText}
+        overlayText={videoData[videoIndex].texts.positive} // Choose the specific text
+        videoId={videoData[videoIndex].videoId} // Ensure videoId is passed
         onProceed={handleNextScreen}
         nextScreen="videoSeries" // Pass the next screen to VideoScreen
       />
