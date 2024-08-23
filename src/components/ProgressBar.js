@@ -10,7 +10,7 @@ const ProgressBarContainer = styled(Box)({
   position: "absolute",
   zIndex: 1000,
   overflow: "hidden",
-  top: 28,
+  top: 24,
 })
 
 const ProgressBarFiller = styled(Box)(({ progress }) => ({

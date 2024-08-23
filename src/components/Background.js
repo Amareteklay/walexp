@@ -6,7 +6,7 @@ import { styled } from "@mui/system"
 const GradientBackground = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
   width: "100vw",
-  backgroundImage: "linear-gradient(60deg, #29323c 0%, #485563 100%)",
+  backgroundImage: "linear-gradient(180deg, #4b79a1, #283e51, #5a3f87)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -34,16 +34,16 @@ const TabletFrame = styled(Box)(({ theme }) => ({
 const TabletScreen = styled(Box)(({ theme }) => ({
   width: "100%",
   height: "100%",
-  backgroundColor: "#fff", // Background of the screen itself
+  backgroundColor: "#f3f3f3", // Background of the screen itself
   borderRadius: "20px", // Inner rounded corners to mimic a screen
   overflow: "hidden",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center", // Center content vertically
   alignItems: "center", // Center content horizontally
-  padding: "20px", // Padding inside the tablet screen
+  padding: "10px", // Padding inside the tablet screen
   boxSizing: "border-box",
-}));
+}))
 
 const Background = ({ children }) => {
   return (
