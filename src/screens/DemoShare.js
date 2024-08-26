@@ -3,16 +3,9 @@ import { Container, Typography, Box, Button } from "@mui/material"
 import { styled } from "@mui/system"
 import CommentDialog from "../components/CommentDialog"
 import AddCommentIcon from "@mui/icons-material/AddComment"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
-const DemoContainer = styled(Container)({
-  textAlign: "center",
-  marginTop: "20px",
-})
-
-const ButtonContainer = styled(Box)({
-  marginTop: "20px",
-  marginBottom: "20px",
-})
 
 function DemoShare({ onProceed }) {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false)
@@ -30,7 +23,7 @@ function DemoShare({ onProceed }) {
   }
 
   return (
-    <DemoContainer>
+    <>
       <Typography variant="body1" sx={{mb: 4}} gutterBottom>
         You will see "add comment" button under each video. You can use this to
         write comments that you would normally post on similar content you watch
@@ -40,33 +33,27 @@ function DemoShare({ onProceed }) {
       <Typography variant="body1" sx={{mb: 4}} gutterBottom>
         Click the "add comment" button below to see what the form looks like.
       </Typography>
-      <ButtonContainer>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAddCommentClick}
-          sx={{ mt: 2, mr: 2 }}
-          startIcon={<AddCommentIcon />}
-        >
-          Add Comment
-        </Button>
-      </ButtonContainer>
-      <Typography variant="body1" paragraph>
+        <CustomButton
+        text={"Add Comment"}
+        onClick={handleAddCommentClick}
+        startIcon={<AddCommentIcon />}
+      />
+      <Typography variant="body1" sx={{padding: 4}} paragraph>
         Please click 'Continue' to continue reading instructions on the next
         screen
       </Typography>
-      <Box mt={2}>
-        <Button variant="contained" color="primary" onClick={handleContinue}>
-          Continue
-        </Button>
-      </Box>
+      <CustomButton
+        text={"Continue"}
+        onClick={handleContinue}
+        endIcon={<ArrowForwardIcon />}
+      />
 
       {/* Render the CommentDialog modal */}
       <CommentDialog
         open={isCommentDialogOpen}
         onClose={handleCloseCommentDialog}
       />
-    </DemoContainer>
+    </>
   )
 }
 

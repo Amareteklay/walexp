@@ -4,13 +4,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Button,
   Typography,
   TextField,
   RadioGroup,
   FormControlLabel,
   Radio,
 } from "@mui/material";
+import CustomButton from "./CustomButton";
 
 function CommentDialog({ open, comment, shareOption, onClose, onCommentChange, onShareOptionChange }) {
   return (
@@ -21,7 +21,7 @@ function CommentDialog({ open, comment, shareOption, onClose, onCommentChange, o
       fullWidth={true}
       sx={{ "& .MuiDialog-paper": { width: "100%", maxWidth: "400px" } }}
     >
-      <DialogTitle>Comment</DialogTitle>
+      <DialogTitle sx={{fontWeight: "bold"}}>Adding Comment</DialogTitle>
       <DialogContent>
         <Typography variant="body1" gutterBottom>
           What would you comment if you saw this video on your social media?
@@ -49,9 +49,7 @@ function CommentDialog({ open, comment, shareOption, onClose, onCommentChange, o
         </RadioGroup>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary" variant="contained">
-          Submit
-        </Button>
+        <CustomButton text={"Submit"} onClick={onClose} />
       </DialogActions>
     </Dialog>
   );

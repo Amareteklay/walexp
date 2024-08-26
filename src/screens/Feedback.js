@@ -17,7 +17,7 @@ function Feedback({ onProceed }) {
 
   return (
     <FeedbackContainer>
-      <Typography variant="h4" sx={{fontWeight: "bold", marginBottom: 8}} gutterBottom>
+      <Typography variant="h4" sx={{fontWeight: "bold", marginBottom: 4}} gutterBottom>
         Excellent!
       </Typography>
       <Typography variant="body1" sx={{fontWeight: "bold", marginBottom: 8}}>

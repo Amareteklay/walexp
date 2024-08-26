@@ -14,6 +14,8 @@ import {
   FormGroup,
 } from "@mui/material"
 import { styled } from "@mui/system"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
 const SurveyContainer = styled(Container)({
   textAlign: "left",
@@ -245,11 +247,12 @@ function Survey({ onSubmit }) {
       </QuestionBox>
 
       <QuestionBox>
-        <Typography variant="body1" sx={{fontWeight: "bold"}} gutterBottom>
+        <Typography variant="body1" sx={{ fontWeight: "bold" }} gutterBottom>
           Part II: Values and attitudes
         </Typography>
         <Typography variant="body2" paragraph>
-          Q5. Where would you place yourself politically on a left-to-right scale?
+          Q5. Where would you place yourself politically on a left-to-right
+          scale?
         </Typography>
         <Slider
           value={selectedValues.politicalScale || 4}
@@ -323,7 +326,7 @@ function Survey({ onSubmit }) {
       </QuestionBox>
 
       <QuestionBox>
-        <Typography variant="body1" sx={{fontWeight: "bold"}} gutterBottom>
+        <Typography variant="body1" sx={{ fontWeight: "bold" }} gutterBottom>
           Part III: Background information
         </Typography>
         <Typography variant="body1">
@@ -522,9 +525,7 @@ function Survey({ onSubmit }) {
         />
       </QuestionBox>
 
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Submit
-      </Button>
+      <CustomButton text={"Submit"} onClick={handleSubmit} />
     </SurveyContainer>
   )
 }

@@ -1,12 +1,9 @@
 import React, { useState } from "react"
-import { Container, Typography, Box, Button } from "@mui/material"
-import { styled } from "@mui/system"
+import { Typography } from "@mui/material"
 import EmojiReaction from "../components/EmojiReaction"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
-const DemoContainer = styled(Container)({
-  textAlign: "center",
-  marginTop: "30px",
-})
 
 function DemoEmoicons({ onProceed }) {
   const [selectedEmoji, setSelectedEmoji] = useState(null)
@@ -20,10 +17,10 @@ function DemoEmoicons({ onProceed }) {
   }
 
   return (
-    <DemoContainer>
+    <>
       <Typography
         variant="body1"
-        sx={{ fontWeight: "bold", mb: 8 }}
+        sx={{ fontWeight: "bold", padding: 4 }}
         gutterBottom
       >
         For each video we ask you to indicate your reaction towards the video
@@ -35,16 +32,16 @@ function DemoEmoicons({ onProceed }) {
         onReaction={handleReaction}
       />
 
-      <Typography variant="body1" sx={{ fontWeight: "bold", mb: 8, mt: 4 }}>
+      <Typography variant="body1" sx={{ fontWeight: "bold", padding: 4, mt: 2 }}>
         Please click 'Continue' to continue reading instructions on the next
         screen.
       </Typography>
-      <Box mt={4}>
-        <Button variant="contained" color="primary" onClick={handleContinue}>
-          Continue
-        </Button>
-      </Box>
-    </DemoContainer>
+      <CustomButton
+        text={"Continue"}
+        onClick={handleContinue}
+        endIcon={<ArrowForwardIcon />}
+      />
+    </>
   )
 }
 

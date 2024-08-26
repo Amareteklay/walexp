@@ -1,6 +1,7 @@
 import React from "react"
-import { Button, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
 function Welcome({ onStart }) {
   return (
@@ -10,7 +11,7 @@ function Welcome({ onStart }) {
       </Typography>
       <Typography
         variant="h6"
-        sx={{ fontWeight: "bold", padding: 4 }}
+        sx={{ fontWeight: "bold", padding: 2 }}
         gutterBottom
       >
         You will be asked to complete a series of tasks. For each task you will
@@ -25,19 +26,16 @@ function Welcome({ onStart }) {
       </Typography>
       <Typography
         variant="h6"
-        sx={{ fontWeight: "bold", padding: 4, marginBottom: 12 }}
+        sx={{ fontWeight: "bold", padding: 2, marginBottom: 12 }}
         gutterBottom
       >
         When you're ready, click 'Continue'.
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
+      <CustomButton
+        text={"Continue"}
         onClick={() => onStart("audioCheck")}
-        sx={{ display: "flex", alignItems: "center", gap: 1 }}
-      >
-        Continue <ArrowForwardIcon />
-      </Button>
+        endIcon={<ArrowForwardIcon />}
+      />
     </>
   )
 }

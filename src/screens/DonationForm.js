@@ -1,20 +1,15 @@
 import React, { useState } from "react"
 import {
-  Container,
   Typography,
   Box,
   FormControl,
   RadioGroup,
   FormControlLabel,
   Radio,
-  Button,
 } from "@mui/material"
 import { styled } from "@mui/system"
+import CustomButton from "../components/CustomButton"
 
-const DonationContainer = styled(Container)({
-  textAlign: "center",
-  marginTop: "30px",
-})
 
 const FormContainer = styled(Box)({
   marginTop: "20px",
@@ -41,7 +36,7 @@ function DonationForm({ onProceed }) {
   }
 
   return (
-    <DonationContainer>
+    <>
       <Typography variant="body1" paragraph>
         Please indicate how much you would like to donate.
       </Typography>
@@ -87,16 +82,13 @@ function DonationForm({ onProceed }) {
         </FormControl>
       </FormContainer>
       <Box mt={4}>
-        <Button
-          variant="contained"
-          color="primary"
+        <CustomButton
+          text={"Submit"}
           onClick={handleContinue}
           disabled={!selectedValue} // Disable button until a selection is made
-        >
-          Submit
-        </Button>
+        />
       </Box>
-    </DonationContainer>
+    </>
   )
 }
 

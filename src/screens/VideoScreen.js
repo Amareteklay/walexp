@@ -4,6 +4,8 @@ import VideoPlayer from "../components/VideoPlayer"
 import EmojiReaction from "../components/EmojiReaction"
 import CommentDialog from "../components/CommentDialog"
 import AddCommentIcon from "@mui/icons-material/AddComment"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
 function VideoScreen({
   videoSrc,
@@ -75,39 +77,41 @@ function VideoScreen({
         overlayText={overlayText}
         ref={videoRef}
       />
-      <EmojiReaction
-        selectedEmoji={selectedEmoji}
-        onReaction={handleReaction}
-        interactive={true}
-      />
       <Box
         sx={{
           display: "flex",
+          alignItems: "center", // Vertically center the items
           justifyContent: "center",
-          alignItems: "center",
-          mt: 4, // Optional: Adjust margin-top to move the buttons down
-          gap: 2, // Space between the buttons
+          gap: 2, // Add some space between the items
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
+        <EmojiReaction
+          selectedEmoji={selectedEmoji}
+          onReaction={handleReaction}
+          interactive={true}
+        />
+        <CustomButton
+          text={"Comment"}
           onClick={handleAddComment}
-          sx={{ mt: 2, mr: 2 }}
           startIcon={<AddCommentIcon />}
-        >
-          Add Comment
-        </Button>
-        <Button
-          id="nextButton"
-          variant="contained"
-          color="primary"
-          onClick={handleNext}
-          sx={{ mt: 2 }}
-        >
-          Next
-        </Button>
+        />
       </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center", // Vertically center the items
+          justifyContent: "center",
+          gap: 2, // Add some space between the items
+        }}
+      >
+        <CustomButton
+          id="nextButton"
+          text={"Next"}
+          onClick={handleNext}
+          endIcon={<ArrowForwardIcon />}
+        />
+      </Box>
+
       <CommentDialog
         open={open}
         comment={comment}

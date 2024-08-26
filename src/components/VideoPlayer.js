@@ -4,9 +4,13 @@ import { styled } from "@mui/system"
 
 const VideoContainer = styled(Box)({
   position: "relative",
-  width: "100%",
-  height: "400px",
-  border: "2px red solid",
+  width: "80%",
+  height: "300px",
+  backgroundColor: "#282828",
+  display: "flex", // Flexbox layout for the content inside the container
+  justifyContent: "center", // Center horizontally
+  alignItems: "center", // Center vertically
+  margin: "0 auto", // Center horizontally within parent container
 })
 
 const OverlayText = styled(Typography)({

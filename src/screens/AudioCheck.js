@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import {
-  Button,
   Typography,
   Box,
   Radio,
   RadioGroup,
   FormControlLabel,
 } from "@mui/material"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
 function AudioCheck({ onProceed }) {
   const [selectedOption, setSelectedOption] = useState("")
@@ -45,27 +46,25 @@ function AudioCheck({ onProceed }) {
       <Typography variant="body1" sx={{ fontWeight: "bold", marginBottom: 4 }}>
         This task is to check that your audio system is working.
       </Typography>
-      <Typography variant="h6" sx={{ fontWeight: "bold", padding: 4 }}>
+      <Typography variant="h6" sx={{ fontWeight: "bold", padding: 2 }}>
         What kind of sound do you hear?
       </Typography>
       <RadioGroup
         value={selectedOption}
         onChange={handleOptionChange}
-        sx={{ marginBottom: 4 }}
+        sx={{ marginBottom: 2 }}
       >
         <FormControlLabel value="birds" control={<Radio />} label="Birds" />
         <FormControlLabel value="train" control={<Radio />} label="Train" />
         <FormControlLabel value="waves" control={<Radio />} label="Waves" />
       </RadioGroup>
       <Box mt={2}>
-        <Button
-          variant="contained"
-          color="primary"
+        <CustomButton
+          text={"Continue"}
           onClick={handleContinue}
-          disabled={!selectedOption} // Disable the button until an option is selected
-        >
-          Continue
-        </Button>
+          disabled={!selectedOption}
+          endIcon={<ArrowForwardIcon />}
+        />
       </Box>
     </>
   )

@@ -1,29 +1,13 @@
-import React, { useState } from "react"
-import {
-  Container,
-  Typography,
-  Box,
-  Button,
-} from "@mui/material"
-import { styled } from "@mui/system"
-
-const DonationContainer = styled(Container)({
-  textAlign: "center",
-  marginTop: "30px",
-})
-
-const FormContainer = styled(Box)({
-  marginTop: "20px",
-  textAlign: "left",
-  display: "inline-block",
-})
+import { Typography, Box } from "@mui/material"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
 function DonationPrompt({ onProceed }) {
   const handleContinue = () => {
-    onProceed("donationForm");
-  };
+    onProceed("donationForm")
+  }
   return (
-    <DonationContainer>
+    <>
       <Typography variant="h5" gutterBottom>
         You will receive an additional 10 Euro/Dollar.
       </Typography>
@@ -33,15 +17,13 @@ function DonationPrompt({ onProceed }) {
         combat climate change.
       </Typography>
       <Box mt={4}>
-        <Button
-          variant="contained"
-          color="primary"
+        <CustomButton
+          text={"Next"}
           onClick={handleContinue}
-        >
-          Next
-        </Button>
+          endIcon={<ArrowForwardIcon />}
+        />
       </Box>
-    </DonationContainer>
+    </>
   )
 }
 

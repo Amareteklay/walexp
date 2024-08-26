@@ -1,11 +1,7 @@
 import React, { useState } from "react"
-import { Container, Typography, Slider, Box, Button } from "@mui/material"
-import { styled } from "@mui/system"
-
-const ScaleContainer = styled(Container)({
-  textAlign: "center",
-  marginTop: "30px",
-})
+import { Typography, Slider } from "@mui/material"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
 const marks = [
   { value: -2, label: "Very Negative" },
@@ -29,7 +25,7 @@ function EmotionsScale({ onProceed, nextScreen }) {
   }
 
   return (
-    <ScaleContainer>
+    <>
       <Typography
         variant="h5"
         sx={{ fontWeight: "bold", marginBottom: 4 }}
@@ -39,32 +35,29 @@ function EmotionsScale({ onProceed, nextScreen }) {
       </Typography>
       <Typography variant="body1" paragraph>
         Think about how you're feeling at this moment. Use the scale below to
-        express your emotions.
+        describe your emotions.
       </Typography>
-      <Box mt={8} mb={8}>
-        <Slider
-          value={value}
-          onChange={handleChange}
-          aria-labelledby="emotion-scale-slider"
-          aria-valuetext={`Emotion level ${value}`}
-          step={1}
-          marks={marks}
-          min={-2}
-          max={2}
-          valueLabelDisplay="auto"
-        />
-      </Box>
-      <Box mt={8}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleConfirm}
-          disabled={value === null}
-        >
-          Continue
-        </Button>
-      </Box>
-    </ScaleContainer>
+
+      <Slider
+        value={value}
+        onChange={handleChange}
+        aria-labelledby="emotion-scale-slider"
+        aria-valuetext={value !== null ? `Emotion level ${value}` : "No emotion selected"}
+        step={1}
+        marks={marks}
+        min={-2}
+        max={2}
+        valueLabelDisplay="auto"
+        sx={{ mb: 8, mt: 4, width: "80%" }}
+      />
+
+      <CustomButton
+        text={"Continue"}
+        onClick={handleConfirm}
+        disabled={value === null}
+        endIcon={<ArrowForwardIcon />}
+      />
+    </>
   )
 }
 
