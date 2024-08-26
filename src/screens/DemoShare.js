@@ -31,10 +31,10 @@ function DemoShare({ onProceed }) {
         video on your social media.
       </Typography>
       <Typography variant="body1" sx={{mb: 4}} gutterBottom>
-        Click the "add comment" button below to see what the form looks like.
+        Click the "comment" button below to see what the form looks like.
       </Typography>
         <CustomButton
-        text={"Add Comment"}
+        text={"Comment"}
         onClick={handleAddCommentClick}
         startIcon={<AddCommentIcon />}
       />

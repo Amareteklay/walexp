@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { Container, Button, Box } from "@mui/material"
+import { Container, Box } from "@mui/material"
 import VideoPlayer from "../components/VideoPlayer"
 import EmojiReaction from "../components/EmojiReaction"
 import CommentDialog from "../components/CommentDialog"

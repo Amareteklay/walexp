@@ -2,6 +2,7 @@ import React from "react"
 import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/system"
 
+// Styled components
 const EmojiContainer = styled(Box)({
   display: "flex",
   justifyContent: "center",
@@ -17,9 +18,8 @@ const EmojiWrapper = styled(Box)({
   margin: "0 10px",
 })
 
-const EmojiIcon = styled("img")(({ selected, interactive }) => ({
-  width: "30px",
-  height: "30px",
+const EmojiIcon = styled(Box)(({ selected, interactive }) => ({
+  fontSize: "30px",
   backgroundColor: selected ? "#FFEB3B" : "transparent",
   borderRadius: "50%",
   cursor: interactive ? "pointer" : "default",
@@ -29,9 +29,11 @@ const EmojiIcon = styled("img")(({ selected, interactive }) => ({
 
 function EmojiReaction({ selectedEmoji, onReaction, interactive = false }) {
   const emojis = [
-    { name: "happy", label: "Happy" },
-    { name: "neutral", label: "Neutral" },
-    { name: "sad", label: "Sad" },
+    { name: "happy", label: "Happy", symbol: "😊" },
+    { name: "neutral", label: "Neutral", symbol: "😐" },
+    { name: "sad", label: "Sad", symbol: "😢" },
+    { name: "slightly sad", label: "Slightly Sad", symbol: "😟" },
+    { name: "slightly happy", label: "Slightly Happy", symbol: "🙂" },
   ]
 
   return (
@@ -39,13 +41,13 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false }) {
       {emojis.map((emoji) => (
         <EmojiWrapper key={emoji.name}>
           <EmojiIcon
-            src={`${process.env.PUBLIC_URL}/emojis/${emoji.name}.png`}
-            alt={emoji.label}
             selected={selectedEmoji === emoji.name}
             interactive={interactive}
             onClick={interactive ? () => onReaction(emoji.name) : undefined}
-          />
-          <Typography variant="body2">{emoji.label}</Typography>
+          >
+            {emoji.symbol}
+          </EmojiIcon>
+          <Typography variant="body2" sx={{fontSize: "10px"}}>{emoji.label}</Typography>
         </EmojiWrapper>
       ))}
     </EmojiContainer>
