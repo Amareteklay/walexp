@@ -26,7 +26,7 @@ const OverlayText = styled(Typography)({
 
 const VideoPlayer = forwardRef(({ videoSrc, overlayText }, ref) => (
   <VideoContainer>
-    <video ref={ref} id="video" width="100%" height="100%" autoPlay loop>
+    <video ref={ref} id="video" width="100%" height="100%" autoPlay loop preload="auto">
       <source src={videoSrc} type="video/mp4" />
       Your browser does not support the video tag.
     </video>
