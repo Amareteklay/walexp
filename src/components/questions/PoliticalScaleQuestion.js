@@ -9,8 +9,8 @@ function PoliticalScaleQuestion({ selectedValue, handleSliderChange }) {
         Q5. Where would you place yourself politically on a left-to-right scale?
       </Typography>
       <Slider
-        value={selectedValue || 4}
-        onChange={(e, value) => handleSliderChange("politicalScale", value)}
+        value={typeof selectedValue === 'number' ? selectedValue : 4} // Ensure value is a number
+        onChange={(e, newValue) => handleSliderChange("politicalScale", newValue)}
         min={1}
         max={7}
         marks={[

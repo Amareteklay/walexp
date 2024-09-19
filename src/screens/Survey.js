@@ -27,7 +27,7 @@ function Survey({ onSubmit }) {
     frequency: "",
     mediaUse: [],
     mediaType: [],
-    politicalScale: "",
+    politicalScale: 4,
     valueRatings: {},
     statementRatings: {},
     gender: "",
@@ -108,17 +108,17 @@ function Survey({ onSubmit }) {
     />,
     <PoliticalScaleQuestion
       key="Q5"
-      selectedValues={selectedValues}
+      selectedValue={selectedValues.politicalScale}
       handleSliderChange={handleSliderChange}
     />,
     <ValueRatingsQuestion
       key="Q6"
-      selectedValues={selectedValues}
+      selectedValues={selectedValues.valueRatings}
       handleSliderChange={handleSliderChange}
     />,
     <StatementRatingsQuestion
       key="Q7"
-      selectedValues={selectedValues}
+      selectedValues={selectedValues.statementRatings}
       handleSliderChange={handleSliderChange}
     />,
     <GenderQuestion
