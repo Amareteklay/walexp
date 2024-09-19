@@ -1,8 +1,7 @@
-// StatementRatingsQuestion.jsx
 import React from 'react';
-import { Typography, Box, Slider } from '@mui/material';
+import { Typography, Box, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
-function StatementRatingsQuestion({ selectedValues, handleSliderChange }) {
+function StatementRatingsQuestion({ selectedValues, handleRadioChange }) {
   const statements = [
     "People should always strive for equality and social justice.",
     "It is important for the government to be strong and make decisions quickly.",
@@ -18,17 +17,21 @@ function StatementRatingsQuestion({ selectedValues, handleSliderChange }) {
       {statements.map((statement) => (
         <Box key={statement} mt={2}>
           <Typography variant="subtitle1">{statement}</Typography>
-          <Slider
-            value={selectedValues[statement] || 4}
-            onChange={(e, val) => handleSliderChange("statementRatings", { [statement]: val })}
-            min={1}
-            max={7}
-            step={1}
-            marks={[
-              { value: 1, label: "1" },
-              { value: 7, label: "7" },
-            ]}
-          />
+          <RadioGroup
+            row
+            value={selectedValues[statement] || '4'}
+            onChange={(e) => handleRadioChange(statement, e.target.value)}
+          >
+            {[1, 2, 3, 4, 5, 6, 7].map(num => (
+              <FormControlLabel
+                key={num}
+                value={num.toString()}
+                control={<Radio />}
+                label={num}
+                labelPlacement="top"
+              />
+            ))}
+          </RadioGroup>
         </Box>
       ))}
     </Box>

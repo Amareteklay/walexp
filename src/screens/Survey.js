@@ -1,16 +1,12 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Box,
-  Button,
-} from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SocialMediaQuestion from "../components/questions/SocialMediaQuestion";
-import FrequencyQuestion from "../components/questions/FrequencyQuestion";
-import MediaUseQuestion from "../components/questions/MediaUseQuestion";
-import MediaTypeQuestion from "../components/questions/MediaTypeQuestion";
-import PoliticalScaleQuestion from "../components/questions/PoliticalScaleQuestion";
+import React, { useState } from "react"
+import { Container, Box, Button } from "@mui/material"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import SocialMediaQuestion from "../components/questions/SocialMediaQuestion"
+import FrequencyQuestion from "../components/questions/FrequencyQuestion"
+import MediaUseQuestion from "../components/questions/MediaUseQuestion"
+import MediaTypeQuestion from "../components/questions/MediaTypeQuestion"
+import PoliticalScaleQuestion from "../components/questions/PoliticalScaleQuestion"
 import ValueRatingsQuestion from "../components/questions/ValueRatingsQuestion"
 import StatementRatingsQuestion from "../components/questions/StatementRatingsQuestion"
 import GenderQuestion from "../components/questions/GenderQuestion"
@@ -19,7 +15,7 @@ import AreaQuestion from "../components/questions/AreaQuestion"
 import AgeQuestion from "../components/questions/AgeQuestion"
 import EducationQuestion from "../components/questions/EducationQuestion"
 import HouseholdCompositionQuestion from "../components/questions/HouseholdCompositionQuestion"
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../components/CustomButton"
 
 function Survey({ onSubmit }) {
   const [selectedValues, setSelectedValues] = useState({
@@ -37,9 +33,9 @@ function Survey({ onSubmit }) {
     education: "",
     adults: "",
     children: "",
-  });
+  })
 
-  const [pageIndex, setPageIndex] = useState(0); // State to track the current question index
+  const [pageIndex, setPageIndex] = useState(0) // State to track the current question index
 
   const handleCheckboxChange = (field, value) => {
     setSelectedValues((prev) => ({
@@ -47,29 +43,49 @@ function Survey({ onSubmit }) {
       [field]: prev[field].includes(value)
         ? prev[field].filter((item) => item !== value)
         : [...prev[field], value],
-    }));
-  };
+    }))
+  }
 
   const handleRadioChange = (field, value) => {
-    setSelectedValues((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+    setSelectedValues((prev) => {
+      if (field === "politicalScale") {
+        return {
+          ...prev,
+          [field]: value,
+        }
+      }
+      if (field === "statementRatings") {
+        return {
+          ...prev,
+          statementRatings: {
+            ...prev.statementRatings,
+            [value]: value,
+          },
+        }
+      }
+      return {
+        ...prev,
+        valueRatings: {
+          ...prev.valueRatings,
+          [field]: value,
+        },
+      }
+    })
+  }
 
   const handleSliderChange = (field, value) => {
     setSelectedValues((prev) => ({
       ...prev,
       [field]: value,
-    }));
-  };
+    }))
+  }
 
   const handleInputChange = (field, value) => {
     setSelectedValues((prev) => ({
       ...prev,
       [field]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = () => {
     console.log("Submitting survey data:", selectedValues) // Debugging line
@@ -109,17 +125,17 @@ function Survey({ onSubmit }) {
     <PoliticalScaleQuestion
       key="Q5"
       selectedValue={selectedValues.politicalScale}
-      handleSliderChange={handleSliderChange}
+      handleRadioChange={handleRadioChange}
     />,
     <ValueRatingsQuestion
       key="Q6"
       selectedValues={selectedValues.valueRatings}
-      handleSliderChange={handleSliderChange}
+      handleRadioChange={handleRadioChange}
     />,
     <StatementRatingsQuestion
       key="Q7"
       selectedValues={selectedValues.statementRatings}
-      handleSliderChange={handleSliderChange}
+      handleRadioChange={handleRadioChange}
     />,
     <GenderQuestion
       key="Q8"
@@ -161,16 +177,16 @@ function Survey({ onSubmit }) {
   // Handle Next Button Click
   const handleNext = () => {
     if (pageIndex < questions.length - 1) {
-      setPageIndex(pageIndex + 1);
+      setPageIndex(pageIndex + 1)
     }
-  };
+  }
 
   // Handle Back Button Click
   const handleBack = () => {
     if (pageIndex > 0) {
-      setPageIndex(pageIndex - 1);
+      setPageIndex(pageIndex - 1)
     }
-  };
+  }
 
   return (
     <Container>
@@ -197,7 +213,7 @@ function Survey({ onSubmit }) {
         </Box>
       )}
     </Container>
-  );
+  )
 }
 
-export default Survey;
+export default Survey

@@ -1,8 +1,7 @@
-// ValueRatingsQuestion.jsx
 import React from 'react';
-import { Typography, Box, Slider } from '@mui/material';
+import { Typography, Box, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
-function ValueRatingsQuestion({ selectedValues, handleSliderChange }) {
+function ValueRatingsQuestion({ selectedValues, handleRadioChange }) {
   const values = [
     "Living in secure surroundings",
     "Being successful and influencing others",
@@ -19,17 +18,21 @@ function ValueRatingsQuestion({ selectedValues, handleSliderChange }) {
       {values.map((value) => (
         <Box key={value} mt={2}>
           <Typography variant="subtitle1">{value}</Typography>
-          <Slider
-            value={selectedValues[value] || 4}
-            onChange={(e, val) => handleSliderChange("valueRatings", { [value]: val })}
-            min={1}
-            max={7}
-            step={1}
-            marks={[
-              { value: 1, label: "1" },
-              { value: 7, label: "7" },
-            ]}
-          />
+          <RadioGroup
+            row
+            value={selectedValues[value] || '4'} // Use string '4' to match RadioGroup values
+            onChange={(e) => handleRadioChange(value, e.target.value)}
+          >
+            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+              <FormControlLabel
+                key={num}
+                value={num.toString()}
+                control={<Radio />}
+                label={num}
+                labelPlacement="top"
+              />
+            ))}
+          </RadioGroup>
         </Box>
       ))}
     </Box>
