@@ -20,16 +20,16 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange }) {
           <Typography variant="subtitle1">{value}</Typography>
           <RadioGroup
             row
-            value={selectedValues[value] || '4'} // Use string '4' to match RadioGroup values
-            onChange={(e) => handleRadioChange(value, e.target.value)}
+            value={selectedValues[value] || '4'}
+            onChange={(e) => handleRadioChange("valueRatings", value, e.target.value)}
           >
-            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+            {[1, 2, 3, 4, 5, 6, 7].map(val => (
               <FormControlLabel
-                key={num}
-                value={num.toString()}
+                key={val}
+                value={val.toString()}
                 control={<Radio />}
-                label={num}
-                labelPlacement="top"
+                label={val}
+                labelPlacement='top'
               />
             ))}
           </RadioGroup>

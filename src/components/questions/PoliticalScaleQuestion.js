@@ -10,8 +10,7 @@ function PoliticalScaleQuestion({ selectedValue, handleRadioChange }) {
       <RadioGroup
         row
         value={selectedValue || '4'}
-        onChange={(e) => handleRadioChange("politicalScale", e.target.value)}
-        sx={{ mt: 2 }}
+        onChange={(e) => handleRadioChange("politicalScale", null, e.target.value)}
       >
         {[1, 2, 3, 4, 5, 6, 7].map(value => (
           <FormControlLabel
@@ -19,8 +18,7 @@ function PoliticalScaleQuestion({ selectedValue, handleRadioChange }) {
             value={value.toString()}
             control={<Radio />}
             label={value}
-            labelPlacement="top"
-            sx={{ mx: 1 }} // Add horizontal margin for spacing
+            labelPlacement='top'
           />
         ))}
       </RadioGroup>

@@ -46,33 +46,37 @@ function Survey({ onSubmit }) {
     }))
   }
 
-  const handleRadioChange = (field, value) => {
+  const handleRadioChange = (field, key, value) => {
     setSelectedValues((prev) => {
       if (field === "politicalScale") {
         return {
           ...prev,
-          [field]: value,
-        }
+          politicalScale: value,
+        };
       }
       if (field === "statementRatings") {
         return {
           ...prev,
           statementRatings: {
             ...prev.statementRatings,
-            [value]: value,
+            [key]: value,
           },
-        }
+        };
       }
-      return {
-        ...prev,
-        valueRatings: {
-          ...prev.valueRatings,
-          [field]: value,
-        },
+      if (field === "valueRatings") {
+        return {
+          ...prev,
+          valueRatings: {
+            ...prev.valueRatings,
+            [key]: value,
+          },
+        };
       }
-    })
-  }
-
+      return prev;
+    });
+  };
+  
+  
   const handleSliderChange = (field, value) => {
     setSelectedValues((prev) => ({
       ...prev,
@@ -164,11 +168,6 @@ function Survey({ onSubmit }) {
     />,
     <HouseholdCompositionQuestion
       key="Q13"
-      selectedValues={selectedValues}
-      handleInputChange={handleInputChange}
-    />,
-    <HouseholdCompositionQuestion
-      key="Q14"
       selectedValues={selectedValues}
       handleInputChange={handleInputChange}
     />,

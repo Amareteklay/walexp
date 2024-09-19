@@ -72,7 +72,7 @@ const screens = {
     <Survey {...props} onSubmit={() => props.onProceed("thankyou")} />
   ),
   thankyou: ThankYou,
-  welcome: Survey,
+  welcome: Welcome,
 }
 
 function ScreenManager({ screen, currentStep, overlayText, onProceed }) {

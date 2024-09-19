@@ -20,15 +20,15 @@ function StatementRatingsQuestion({ selectedValues, handleRadioChange }) {
           <RadioGroup
             row
             value={selectedValues[statement] || '4'}
-            onChange={(e) => handleRadioChange(statement, e.target.value)}
+            onChange={(e) => handleRadioChange("statementRatings", statement, e.target.value)}
           >
-            {[1, 2, 3, 4, 5, 6, 7].map(num => (
+            {[1, 2, 3, 4, 5, 6, 7].map(val => (
               <FormControlLabel
-                key={num}
-                value={num.toString()}
+                key={val}
+                value={val.toString()}
                 control={<Radio />}
-                label={num}
-                labelPlacement="top"
+                label={val}
+                labelPlacement='top'
               />
             ))}
           </RadioGroup>
