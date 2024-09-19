@@ -1,4 +1,5 @@
 import React from "react"
+import { useState } from "react"
 import AudioCheck from "../screens/AudioCheck"
 import Feedback from "../screens/Feedback"
 import EmotionsScale from "../screens/EmotionsScale"
@@ -75,8 +76,16 @@ const screens = {
   welcome: Welcome,
 }
 
-function ScreenManager({ screen, currentStep, overlayText, onProceed }) {
+function ScreenManager({ screen, currentStep, overlayText, onProceed, onQuestionChange }) {
   const ScreenComponent = screens[screen] || Welcome
+
+  // State to manage questionIndex
+  const [questionIndex, setQuestionIndex] = useState(0)
+
+  const handleQuestionChange = (index) => {
+    setQuestionIndex(index) // Update local state
+    onQuestionChange(index) // Propagate change to parent (App)
+  }
 
   return (
     <ScreenComponent
@@ -84,6 +93,8 @@ function ScreenManager({ screen, currentStep, overlayText, onProceed }) {
       overlayText={overlayText}
       onProceed={onProceed}
       onStart={onProceed}
+      questionIndex={questionIndex}
+      onQuestionChange={handleQuestionChange} // Pass the handler to Survey
     />
   )
 }

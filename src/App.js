@@ -13,15 +13,25 @@ function App() {
   const [videoSeriesStarted, setVideoSeriesStarted] = useState(false)
   const { overlayText } = useFraming(currentStep)
 
-  const totalSteps = 24
+  const [questionIndex, setQuestionIndex] = useState(0) // Track the survey question index
+  const totalSteps = 36
+  // Function to update the page index
+  const updatePageIndex = (newIndex) => {
+    setPageIndex(newIndex);
+  };
+
+  const handleQuestionChange = (index) => {
+    setQuestionIndex(index)
+  }
 
   const handleScreenTransition = (nextScreen) => {
-    setOverallProgress((prevProgress) => prevProgress + 1);
+    setOverallProgress((prevProgress) => Math.min(prevProgress + 1, 36)); // Ensure it does not exceed total steps
+    //setOverallProgress((prevProgress) => prevProgress + 1);
     if (nextScreen === "videoSeries" && !videoSeriesStarted) {
       setCurrentStep(0)
       setVideoSeriesStarted(true)
     } else if (nextScreen === "videoSeries" || nextScreen === "nextVideo") {
-      setCurrentStep((prevStep) => prevStep + 1)
+      setCurrentStep((prevStep) => Math.min(prevStep + 1, 36)); // Ensure it does not exceed total steps
     }
 
     setScreen(nextScreen)
@@ -32,12 +42,13 @@ function App() {
     <FullScreenContainer>
       <Background>
         <ContentContainer>
-          <CustomProgressBar currentStep={overallProgress} totalSteps={totalSteps} />
+          <CustomProgressBar currentStep={overallProgress  + questionIndex} totalSteps={totalSteps} />
           <ScreenManager
             screen={screen}
             currentStep={currentStep}
             overlayText={overlayText}
             onProceed={handleScreenTransition}
+            onQuestionChange={handleQuestionChange}
           />
         </ContentContainer>
       </Background>

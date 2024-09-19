@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Container, Box, Button } from "@mui/material"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
@@ -17,7 +17,7 @@ import EducationQuestion from "../components/questions/EducationQuestion"
 import HouseholdCompositionQuestion from "../components/questions/HouseholdCompositionQuestion"
 import CustomButton from "../components/CustomButton"
 
-function Survey({ onSubmit }) {
+function Survey({ onSubmit, onQuestionChange }) {
   const [selectedValues, setSelectedValues] = useState({
     socialMedia: [],
     frequency: "",
@@ -36,6 +36,12 @@ function Survey({ onSubmit }) {
   })
 
   const [pageIndex, setPageIndex] = useState(0) // State to track the current question index
+
+  useEffect(() => {
+    if (onQuestionChange) {
+      onQuestionChange(pageIndex) // Notify parent component of the current question index
+    }
+  }, [pageIndex, onQuestionChange])
 
   const handleCheckboxChange = (field, value) => {
     setSelectedValues((prev) => ({
