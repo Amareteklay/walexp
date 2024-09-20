@@ -15,7 +15,7 @@ function Welcome({ onStart }) {
     // Event listener function to handle incoming messages
     function handleMessage(event) {
       // Ensure the message is from the expected origin
-      //if (event.origin !== 'https://run.pavlovia.org') return;
+      if (event.origin !== 'https://run.pavlovia.org') return;
 
       // Check for group assignment data in the message
       if (event.data.type === 'group_assignment') {
