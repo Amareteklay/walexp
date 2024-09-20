@@ -1,24 +1,45 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react";
 import {
   Typography,
   Box,
   Radio,
   RadioGroup,
   FormControlLabel,
-} from "@mui/material"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import CustomButton from "../components/CustomButton"
+  Button,
+} from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CustomButton from "../components/CustomButton";
 
 function AudioCheck({ onProceed }) {
-  const [selectedOption, setSelectedOption] = useState("")
+  const [selectedOption, setSelectedOption] = useState("");
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    // Function to play the video for audio only and handle potential errors
+    const playAudioOnly = async () => {
+      const videoElement = videoRef.current;
+      if (videoElement) {
+        try {
+          await videoElement.play();
+          console.log("Audio playback started");
+        } catch (error) {
+          console.error("Autoplay was prevented or another error occurred:", error);
+        }
+      }
+    };
+
+    // Delay to ensure video is fully rendered
+    const timeoutId = setTimeout(playAudioOnly, 100);
+
+    return () => clearTimeout(timeoutId); // Clean up timeout on component unmount
+  }, []);
 
   const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value)
-  }
+    setSelectedOption(event.target.value);
+  };
 
   const handleContinue = () => {
     if (selectedOption === "birds") {
-      // Proceed only if "Birds" is selected
       window.parent.postMessage(
         {
           type: "audio_check",
@@ -26,16 +47,27 @@ function AudioCheck({ onProceed }) {
           timestamp: Date.now(),
         },
         "*"
-      )
-      onProceed("feedback")
+      );
+      onProceed("feedback");
     } else {
-      // Show alert for "Train" or "Waves"
-      alert("Please check your audio system and try again.")
+      alert("Please check your audio system and try again.");
     }
-  }
+  };
 
   return (
     <>
+      {/* Video element for background audio */}
+      <video
+        ref={videoRef}
+        style={{ display: "none" }}
+        autoPlay
+        loop
+        preload="auto"
+        src={`${process.env.PUBLIC_URL}/videos/birds.mp4`}    type="video/mp4"
+      >
+        Your browser does not support the video tag.
+      </video>
+      
       <Typography
         variant="h5"
         sx={{ fontWeight: "bold", padding: 2 }}
@@ -58,7 +90,9 @@ function AudioCheck({ onProceed }) {
         <FormControlLabel value="train" control={<Radio />} label="Train" />
         <FormControlLabel value="waves" control={<Radio />} label="Waves" />
       </RadioGroup>
-      <Box mt={2}>
+
+      {/* Button to show video if needed */}
+        <Box mt={2}>
         <CustomButton
           text={"Continue"}
           onClick={handleContinue}
@@ -67,7 +101,7 @@ function AudioCheck({ onProceed }) {
         />
       </Box>
     </>
-  )
+  );
 }
 
-export default AudioCheck
+export default AudioCheck;
