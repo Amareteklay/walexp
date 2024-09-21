@@ -73,10 +73,20 @@ const screens = {
     <Survey {...props} onSubmit={() => props.onProceed("thankyou")} />
   ),
   thankyou: ThankYou,
-  welcome: Welcome,
+  welcome: (props) => (
+    <Welcome {...props} framingType={props.framingType} emojiType={props.emojiType} /> // Pass the props
+  ),
 }
 
-function ScreenManager({ screen, currentStep, overlayText, onProceed, onQuestionChange }) {
+function ScreenManager({
+  screen,
+  currentStep,
+  overlayText,
+  framingType,
+  emojiType,
+  onProceed,
+  onQuestionChange,
+}) {
   const ScreenComponent = screens[screen] || Welcome
 
   // State to manage questionIndex
@@ -91,6 +101,8 @@ function ScreenManager({ screen, currentStep, overlayText, onProceed, onQuestion
     <ScreenComponent
       currentStep={currentStep}
       overlayText={overlayText}
+      framingType={framingType}
+      emojiType={emojiType}
       onProceed={onProceed}
       onStart={onProceed}
       questionIndex={questionIndex}

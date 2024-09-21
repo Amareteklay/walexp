@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Typography } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import CustomButton from "../components/CustomButton";
+import React, { useEffect, useState } from "react"
+import { Typography } from "@mui/material"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CustomButton from "../components/CustomButton"
 
-function Welcome({ onStart }) {
-  // State to hold the group assignment
+function Welcome({ onStart, framingType, emojiType }) {
+  /* // State to hold the group assignment
   const [groupAssignment, setGroupAssignment] = useState({
     framingType: null,
     emojiType: null,
@@ -34,7 +34,7 @@ function Welcome({ onStart }) {
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, []);
+  }, []); */
 
   return (
     <>
@@ -58,7 +58,7 @@ function Welcome({ onStart }) {
       </Typography>
 
       {/* Display the assigned group values for testing */}
-      {groupAssignment.framingType && groupAssignment.emojiType && (
+      {framingType && emojiType && (
         <div>
           <Typography
             variant="h6"
@@ -68,10 +68,10 @@ function Welcome({ onStart }) {
             Assigned Group:
           </Typography>
           <Typography variant="body1" sx={{ padding: 2 }}>
-            <strong>Framing Type:</strong> {groupAssignment.framingType}
+            <strong>Framing Type:</strong> {framingType}
           </Typography>
           <Typography variant="body1" sx={{ padding: 2 }}>
-            <strong>Emoji Type:</strong> {groupAssignment.emojiType}
+            <strong>Emoji Type:</strong> {emojiType}
           </Typography>
         </div>
       )}
@@ -89,7 +89,7 @@ function Welcome({ onStart }) {
         endIcon={<ArrowForwardIcon />}
       />
     </>
-  );
+  )
 }
 
-export default Welcome;
+export default Welcome
