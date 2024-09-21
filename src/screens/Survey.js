@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Container, Box, Button } from "@mui/material"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import SocialMediaQuestion from "../components/questions/SocialMediaQuestion"
 import FrequencyQuestion from "../components/questions/FrequencyQuestion"
 import MediaUseQuestion from "../components/questions/MediaUseQuestion"
@@ -186,30 +185,20 @@ function Survey({ onSubmit, onQuestionChange }) {
     }
   }
 
-  // Handle Back Button Click
-  const handleBack = () => {
-    if (pageIndex > 0) {
-      setPageIndex(pageIndex - 1)
-    }
-  }
-
   return (
     <Container>
       {questions[pageIndex]}
-      <Box display="flex" justifyContent="space-between" mt={2}>
-        <CustomButton
-          onClick={handleBack}
-          startIcon={<ArrowBackIcon />}
-          disabled={pageIndex === 0}
-          label="Back"
-        />
+      
+      {/* Show Next button if not on the last question */}
+      {pageIndex < questions.length - 1 && (
         <CustomButton
           onClick={handleNext}
           endIcon={<ArrowForwardIcon />}
-          disabled={pageIndex === questions.length - 1}
-          label="Next"
+          text={"Next"}
         />
-      </Box>
+      )}
+  
+      {/* Show Submit Survey button if on the last question */}
       {pageIndex === questions.length - 1 && (
         <Box mt={2}>
           <Button variant="contained" onClick={handleSubmit}>
@@ -218,7 +207,7 @@ function Survey({ onSubmit, onQuestionChange }) {
         </Box>
       )}
     </Container>
-  )
-}
+  );
+}  
 
 export default Survey
