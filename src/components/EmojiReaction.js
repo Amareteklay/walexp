@@ -64,7 +64,7 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
               onClick={interactive ? () => onReaction(emoji.name) : undefined}
             >
               <img
-                src={`/emojis/${emoji.symbol}`} // Path to the emoji image in the public folder
+                src={`${process.env.PUBLIC_URL}/emojis/${emoji.symbol}`} // Path to the emoji image in the public folder
                 alt={emoji.label}
                 style={{ width: "30px", height: "30px" }} // Adjust size as needed
               />
