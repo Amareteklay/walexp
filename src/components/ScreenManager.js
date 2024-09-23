@@ -36,33 +36,43 @@ const screens = {
   ),
   transitionOne: TransitionScreen,
   videoSeries: (props) => {
-    const { currentStep, onProceed, framingType, emojiType } = props
+    const { currentStep, onProceed, framingType, emojiType } = props;
 
     const handleNextScreen = () => {
-      const nextStep = currentStep + 1
+      const nextStep = currentStep + 1;
 
       if ([2, 5, videoData.length - 1].includes(currentStep)) {
-        onProceed("emotions")
+        onProceed("emotions");
       } else if (nextStep < videoData.length) {
-        onProceed("videoSeries") // Move to the next video
+        onProceed("videoSeries");
       } else {
-        onProceed("survey") // After the last video, show the survey
+        onProceed("survey");
       }
+    };
+
+    const videoIndex = currentStep < videoData.length ? currentStep : 0;
+    
+    // Determine the textKey based on currentStep and framingType
+    let textKey = "neutral"; // Default to neutral for the first three videos
+
+    if (currentStep >= 3) {
+      textKey = framingType === "Positive" ? "positive" :
+                 framingType === "Negative" ? "negative" :
+                 framingType === "Neutral" ? "neutral" : "neutral";
     }
 
-    const videoIndex = currentStep < videoData.length ? currentStep : 0
     return (
       <VideoScreen
-        key={videoIndex} // This ensures the component re-renders with the new video
+        key={videoIndex}
         videoSrc={`${process.env.PUBLIC_URL}/videos/${videoData[videoIndex].video}`}
-        overlayText={videoData[videoIndex].texts.positive} // Choose the specific text
-        videoId={videoData[videoIndex].videoId} // Ensure videoId is passed
+        overlayText={videoData[videoIndex].texts[textKey]} // Use the determined textKey
+        videoId={videoData[videoIndex].videoId}
         onProceed={handleNextScreen}
-        nextScreen="videoSeries" // Pass the next screen to VideoScreen
-        framingType={framingType}
+        nextScreen="videoSeries"
         emojiType={emojiType}
+        factInfo={videoData[videoIndex].texts.factInfo} // Pass factInfo too
       />
-    )
+    );
   },
   emotions: (props) => {
     const { currentStep, onProceed } = props

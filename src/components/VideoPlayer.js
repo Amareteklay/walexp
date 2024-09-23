@@ -13,9 +13,9 @@ const VideoContainer = styled(Box)({
   margin: "0 auto", // Center horizontally within parent container
 })
 
-const OverlayText = styled(Typography)({
+const FactualText = styled(Typography)({
   position: "absolute",
-  top: "50%",
+  top: "25%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   color: "white",
@@ -24,13 +24,24 @@ const OverlayText = styled(Typography)({
   borderRadius: "5px",
 })
 
-const VideoPlayer = forwardRef(({ videoSrc, overlayText, framingType }, ref) => (
+const FramingText = styled(Typography)({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  color: "red",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  padding: "5px 10px",
+  borderRadius: "5px",
+})
+const VideoPlayer = forwardRef(({ videoSrc, overlayText, factInfo }, ref) => (
   <VideoContainer>
     <video ref={ref} id="video" width="100%" height="100%" autoPlay loop preload="auto">
       <source src={videoSrc} type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-    {overlayText && <OverlayText>{overlayText}</OverlayText>}
+    {factInfo && <FactualText>{factInfo}</FactualText>}
+    {overlayText && <FramingText>{overlayText}</FramingText>}
   </VideoContainer>
 ))
 

@@ -31,11 +31,11 @@ const EmojiIcon = styled(Box)(({ selected, interactive }) => ({
 function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiType }) {
   // Define the two emoji sets
   const genEmojis = [
-    { name: "happy", label: "Happy", symbol: "😊" },
-    { name: "neutral", label: "Neutral", symbol: "😐" },
     { name: "sad", label: "Sad", symbol: "😢" },
     { name: "slightly sad", label: "Slightly Sad", symbol: "😟" },
+    { name: "neutral", label: "Neutral", symbol: "😐" },
     { name: "slightly happy", label: "Slightly Happy", symbol: "🙂" },
+    { name: "happy", label: "Happy", symbol: "😊" },
   ];
 
   // Assuming the images are in the public/emojis folder

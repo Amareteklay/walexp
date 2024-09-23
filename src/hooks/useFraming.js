@@ -1,30 +1,31 @@
 // useFraming.js
-import { useState, useEffect } from "react"
-import { getRandomFraming } from "../utils/utils"
-import { videoData } from "../data"
+import { useState, useEffect } from "react";
+import { videoData } from "../data";
 
-export function useFraming(currentStep) {
-  const [framing, setFraming] = useState(null)
-  const [overlayText, setOverlayText] = useState("")
+export function useFraming(currentStep, framingType = "Neutral") {
+  const [overlayText, setOverlayText] = useState("");
+  const [factInfo, setFactInfo] = useState("");
 
   useEffect(() => {
-    if (!framing) {
-      setFraming(getRandomFraming())
+    let textKey = "neutral"; // Default text key is neutral
+
+    // Determine the textKey based on the currentStep and framingType
+    if (currentStep >= 3) {
+      // Use framingType after the first three videos
+      if (framingType === "Positive") {
+        textKey = "positive";
+      } else if (framingType === "Negative") {
+        textKey = "negative";
+      }
     }
 
-    let textKey = "neutral"
-
-    if (currentStep >= 3 && currentStep < 6) {
-      textKey = framing
-    } else if (currentStep >= 6) {
-      textKey = framing
-    }
-
+    // Set overlay text based on the current video and textKey
     if (videoData[currentStep]) {
-      const currentVideo = videoData[currentStep]
-      setOverlayText(currentVideo.texts[textKey])
+      const currentVideo = videoData[currentStep];
+      setFactInfo(currentVideo.texts.factInfo); // Set factInfo text
+      setOverlayText(currentVideo.texts[textKey]); // Set overlay text based on framing type
     }
-  }, [currentStep, framing])
+  }, [currentStep, framingType]); // Add framingType as a dependency
 
-  return { overlayText }
+  return { overlayText, factInfo };
 }

@@ -13,7 +13,7 @@ function VideoScreen({
   videoId,
   onProceed,
   nextScreen,
-  framingType,
+  factInfo,
   emojiType,
 }) {
   const [selectedEmoji, setSelectedEmoji] = useState(null)
@@ -77,7 +77,7 @@ function VideoScreen({
       <VideoPlayer
         videoSrc={videoSrc}
         overlayText={overlayText}
-        framingType={framingType}
+        factInfo={factInfo}
         ref={videoRef}
       />
       <Box
