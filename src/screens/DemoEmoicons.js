@@ -30,6 +30,7 @@ function DemoEmoicons({ onProceed, emojiType }) {
       <EmojiReaction
         selectedEmoji={selectedEmoji}
         onReaction={handleReaction}
+        emojiType={emojiType}
       />
 <Typography variant="body1" sx={{ padding: 2 }}>
             <strong>Emoji Type:</strong> {emojiType}
