@@ -52,6 +52,7 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
 
   // Select the appropriate emoji set based on the emojiType prop
  const emojis = emojiType === "Facebook" ? fbEmojis : genEmojis;
+ console.log(emojiType)
 
   return (
     <EmojiContainer>
