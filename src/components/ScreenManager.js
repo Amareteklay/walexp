@@ -36,7 +36,7 @@ const screens = {
   ),
   transitionOne: TransitionScreen,
   videoSeries: (props) => {
-    const { currentStep, onProceed } = props
+    const { currentStep, onProceed, framingType, emojiType } = props
 
     const handleNextScreen = () => {
       const nextStep = currentStep + 1
