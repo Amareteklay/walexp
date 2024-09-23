@@ -32,9 +32,6 @@ function DemoEmoicons({ onProceed, emojiType }) {
         onReaction={handleReaction}
         emojiType={emojiType}
       />
-<Typography variant="body1" sx={{ padding: 2 }}>
-            <strong>Emoji Type:</strong> {emojiType}
-          </Typography>
       <Typography variant="body1" sx={{ fontWeight: "bold", padding: 4, mt: 2 }}>
         Please click 'Continue' to continue reading instructions on the next
         screen.

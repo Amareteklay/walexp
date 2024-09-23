@@ -31,7 +31,6 @@ const VideoPlayer = forwardRef(({ videoSrc, overlayText, framingType }, ref) => 
       Your browser does not support the video tag.
     </video>
     {overlayText && <OverlayText>{overlayText}</OverlayText>}
-    <Typography>Framing: {framingType}</Typography>
   </VideoContainer>
 ))
 

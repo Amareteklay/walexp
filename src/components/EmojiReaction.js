@@ -40,13 +40,13 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
 
   // Assuming the images are in the public/emojis folder
   const fbEmojis = [
-    { name: "angry", label: "Angry", symbol: "fb_angry.png" },
-    { name: "hug", label: "Hug", symbol: "fb_hug.png" },
-    { name: "sad", label: "Sad", symbol: "fb_sad.png" },
-    { name: "laugh", label: "Laugh", symbol: "fb_laugh.png" },
     { name: "like", label: "Like", symbol: "fb_like.png" },
     { name: "love", label: "Love", symbol: "fb_love.png" },
+    { name: "care", label: "Care", symbol: "fb_care.png" },
+    { name: "haha", label: "Haha", symbol: "fb_haha.png" },
     { name: "wow", label: "Wow", symbol: "fb_wow.png" },
+    { name: "sad", label: "Sad", symbol: "fb_sad.png" },
+    { name: "angry", label: "Angry", symbol: "fb_angry.png" },
     // Add more if needed
   ];
 

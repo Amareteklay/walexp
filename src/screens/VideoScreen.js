@@ -88,12 +88,6 @@ function VideoScreen({
           gap: 2, // Add some space between the items
         }}
       >
-        <Typography variant="body1" sx={{ padding: 2}}>
-            <strong>Framing Type:</strong> {framingType}
-          </Typography>
-          <Typography variant="body1" sx={{ padding: 2 }}>
-            <strong>Emoji Type:</strong> {emojiType}
-          </Typography>
         <EmojiReaction
           selectedEmoji={selectedEmoji}
           onReaction={handleReaction}
