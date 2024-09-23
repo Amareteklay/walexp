@@ -22,13 +22,16 @@ const screens = {
     <EmotionsScale {...props} nextScreen="instructions" />
   ),
   instructions: Instructions,
-  demoicons: DemoEmoicons,
+  demoicons: (props) => (
+    <DemoEmoicons {...props} emojiType={props.emojiType} />
+  ),
   demoshare: DemoShare,
   videoOne: (props) => (
     <VideoScreen
       {...props}
       videoSrc={`${process.env.PUBLIC_URL}/videos/Floods1.mp4`}
       nextScreen="transitionOne"
+      emojiType={props.emojiType}
     />
   ),
   transitionOne: TransitionScreen,

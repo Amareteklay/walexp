@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { Container, Box } from "@mui/material"
+import { Container, Box, Typography } from "@mui/material"
 import VideoPlayer from "../components/VideoPlayer"
 import EmojiReaction from "../components/EmojiReaction"
 import CommentDialog from "../components/CommentDialog"
@@ -13,6 +13,7 @@ function VideoScreen({
   videoId,
   onProceed,
   nextScreen,
+  emojiType,
 }) {
   const [selectedEmoji, setSelectedEmoji] = useState(null)
   const [open, setOpen] = useState(false)
@@ -85,6 +86,9 @@ function VideoScreen({
           gap: 2, // Add some space between the items
         }}
       >
+        <Typography variant="body1" sx={{ padding: 2 }}>
+            <strong>Emoji Type:</strong> {emojiType}
+          </Typography>
         <EmojiReaction
           selectedEmoji={selectedEmoji}
           onReaction={handleReaction}
