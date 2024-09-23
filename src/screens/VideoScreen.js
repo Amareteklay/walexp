@@ -77,6 +77,7 @@ function VideoScreen({
       <VideoPlayer
         videoSrc={videoSrc}
         overlayText={overlayText}
+        framingType={framingType}
         ref={videoRef}
       />
       <Box
