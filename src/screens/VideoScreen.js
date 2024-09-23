@@ -13,6 +13,7 @@ function VideoScreen({
   videoId,
   onProceed,
   nextScreen,
+  framingType,
   emojiType,
 }) {
   const [selectedEmoji, setSelectedEmoji] = useState(null)
@@ -86,7 +87,10 @@ function VideoScreen({
           gap: 2, // Add some space between the items
         }}
       >
-        <Typography variant="body1" sx={{ padding: 2 }}>
+        <Typography variant="body1" sx={{ padding: 2}}>
+            <strong>Framing Type:</strong> {framingType}
+          </Typography>
+          <Typography variant="body1" sx={{ padding: 2 }}>
             <strong>Emoji Type:</strong> {emojiType}
           </Typography>
         <EmojiReaction

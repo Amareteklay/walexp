@@ -59,6 +59,8 @@ const screens = {
         videoId={videoData[videoIndex].videoId} // Ensure videoId is passed
         onProceed={handleNextScreen}
         nextScreen="videoSeries" // Pass the next screen to VideoScreen
+        framingType={framingType}
+        emojiType={emojiType}
       />
     )
   },
