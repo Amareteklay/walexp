@@ -38,12 +38,16 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
     { name: "slightly happy", label: "Slightly Happy", symbol: "🙂" },
   ];
 
+  // Assuming the images are in the public/emojis folder
   const fbEmojis = [
-    { name: "happy", label: "Happy", symbol: "😄" }, // Replace with actual Facebook emojis
-    { name: "neutral", label: "Neutral", symbol: "😶" },
-    { name: "sad", label: "Sad", symbol: "😥" },
-    { name: "slightly sad", label: "Slightly Sad", symbol: "🙁" },
-    { name: "slightly happy", label: "Slightly Happy", symbol: "☺️" },
+    { name: "angry", label: "Angry", symbol: "fb_angry.png" },
+    { name: "hug", label: "Hug", symbol: "fb_hug.png" },
+    { name: "sad", label: "Sad", symbol: "fb_sad.png" },
+    { name: "laugh", label: "Laugh", symbol: "fb_laugh.png" },
+    { name: "like", label: "Like", symbol: "fb_like.png" },
+    { name: "love", label: "Love", symbol: "fb_love.png" },
+    { name: "wow", label: "Wow", symbol: "fb_wow.png" },
+    // Add more if needed
   ];
 
   // Select the appropriate emoji set based on the emojiType prop
@@ -53,13 +57,27 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
     <EmojiContainer>
       {emojis.map((emoji) => (
         <EmojiWrapper key={emoji.name}>
-          <EmojiIcon
-            selected={selectedEmoji === emoji.name}
-            interactive={interactive}
-            onClick={interactive ? () => onReaction(emoji.name) : undefined}
-          >
-            {emoji.symbol}
-          </EmojiIcon>
+          {emojiType === "Facebook" ? (
+            <EmojiIcon
+              selected={selectedEmoji === emoji.name}
+              interactive={interactive}
+              onClick={interactive ? () => onReaction(emoji.name) : undefined}
+            >
+              <img
+                src={`/emojis/${emoji.symbol}`} // Path to the emoji image in the public folder
+                alt={emoji.label}
+                style={{ width: "30px", height: "30px" }} // Adjust size as needed
+              />
+            </EmojiIcon>
+          ) : (
+            <EmojiIcon
+              selected={selectedEmoji === emoji.name}
+              interactive={interactive}
+              onClick={interactive ? () => onReaction(emoji.name) : undefined}
+            >
+              {emoji.symbol}
+            </EmojiIcon>
+          )}
           <Typography variant="body2" sx={{ fontSize: "10px" }}>
             {emoji.label}
           </Typography>
