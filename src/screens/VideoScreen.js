@@ -98,6 +98,7 @@ function VideoScreen({
           selectedEmoji={selectedEmoji}
           onReaction={handleReaction}
           interactive={true}
+          emojiType={emojiType}
         />
         <CustomButton
           text={"Comment"}
