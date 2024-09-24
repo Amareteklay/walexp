@@ -20,7 +20,7 @@ const EmojiWrapper = styled(Box)({
 
 const EmojiIcon = styled(Box)(({ selected, interactive }) => ({
   fontSize: "30px",
-  border: selected ? "2px blue solid" : "none",
+  border: selected ? "2px blue solid" : "2px transparent solid",
   borderRadius: "50%",
   transition: "border 0.2s ease-in-out",
   cursor: interactive ? "pointer" : "default",

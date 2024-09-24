@@ -5,11 +5,13 @@ import Feedback from "../screens/Feedback"
 import EmotionsScale from "../screens/EmotionsScale"
 import Instructions from "../screens/Instructions"
 import DemoEmoicons from "../screens/DemoEmoicons"
+import PracticePrompt from "../screens/PracticePrompt"
 import DemoShare from "../screens/DemoShare"
 import VideoScreen from "../screens/VideoScreen"
 import TransitionScreen from "../screens/TransitionScreen"
 import DonationPrompt from "../screens/DonationPrompt"
 import DonationForm from "../screens/DonationForm"
+import SurveyPrompt from "../screens/SurveyPrompt"
 import Survey from "../screens/Survey"
 import ThankYou from "../screens/ThankYou"
 import Welcome from "../screens/Welcome"
@@ -25,6 +27,7 @@ const screens = {
   demoicons: (props) => (
     <DemoEmoicons {...props} emojiType={props.emojiType} />
   ),
+  practicePrompt: PracticePrompt,
   demoshare: DemoShare,
   videoOne: (props) => (
     <VideoScreen
@@ -46,7 +49,7 @@ const screens = {
       } else if (nextStep < videoData.length) {
         onProceed("videoSeries");
       } else {
-        onProceed("survey");
+        onProceed("surveyPrompt");
       }
     };
 
@@ -84,6 +87,7 @@ const screens = {
   },
   donationPrompt: DonationPrompt,
   donationForm: DonationForm,
+  surveyPrompt: SurveyPrompt,
   survey: (props) => (
     <Survey {...props} onSubmit={() => props.onProceed("thankyou")} />
   ),

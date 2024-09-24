@@ -37,8 +37,8 @@ function DonationForm({ onProceed }) {
 
   return (
     <>
-      <Typography variant="body1" paragraph>
-        Please indicate how much you would like to donate.
+      <Typography variant="body1" sx={{mx: 8}}>
+        Please indicate how much of the 10 Euros/Dollars you would like to donate to an environmental charity.
       </Typography>
       <FormContainer>
         <FormControl component="fieldset">

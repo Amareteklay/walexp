@@ -35,6 +35,7 @@ function Survey({ onSubmit, onQuestionChange }) {
   })
 
   const [pageIndex, setPageIndex] = useState(0) // State to track the current question index
+  const [isAnswered, setIsAnswered] = useState(false) // State to track if the current question is answered
 
   useEffect(() => {
     if (onQuestionChange) {
@@ -49,6 +50,7 @@ function Survey({ onSubmit, onQuestionChange }) {
         ? prev[field].filter((item) => item !== value)
         : [...prev[field], value],
     }))
+    setIsAnswered(true) // Mark question as answered
   }
 
   const handleRadioChange = (field, key, value) => {
@@ -79,14 +81,15 @@ function Survey({ onSubmit, onQuestionChange }) {
       }
       return prev;
     });
-  };
-  
+    setIsAnswered(true) // Mark question as answered
+  }
   
   const handleSliderChange = (field, value) => {
     setSelectedValues((prev) => ({
       ...prev,
       [field]: value,
     }))
+    setIsAnswered(true) // Mark question as answered
   }
 
   const handleInputChange = (field, value) => {
@@ -94,6 +97,7 @@ function Survey({ onSubmit, onQuestionChange }) {
       ...prev,
       [field]: value,
     }))
+    setIsAnswered(true) // Mark question as answered
   }
 
   const handleSubmit = () => {
@@ -180,7 +184,8 @@ function Survey({ onSubmit, onQuestionChange }) {
 
   // Handle Next Button Click
   const handleNext = () => {
-    if (pageIndex < questions.length - 1) {
+    if (isAnswered && pageIndex < questions.length - 1) {
+      setIsAnswered(false) // Reset answered state for the next question
       setPageIndex(pageIndex + 1)
     }
   }
@@ -195,6 +200,7 @@ function Survey({ onSubmit, onQuestionChange }) {
           onClick={handleNext}
           endIcon={<ArrowForwardIcon />}
           text={"Next"}
+          disabled={!isAnswered} // Disable button if not answered
         />
       )}
   

@@ -3,9 +3,9 @@ import { Paper } from "@mui/material"
 import { styled } from "@mui/system"
 
 const CenteredContainer = styled(Paper)(({ theme }) => ({
-  height: "85vh",
+  height: "100%",
   width: "100%", // Set a fixed width as a percentage of the parent component's width
-  maxWidth: "650px", // Set a maximum width to ensure it fits within the tablet screen
+  //maxWidth: "650px", // Set a maximum width to ensure it fits within the tablet screen
   margin: "auto", // Centers the container horizontally
   padding: "20px", // Adjust padding as needed
   display: "flex",

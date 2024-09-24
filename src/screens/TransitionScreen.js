@@ -21,11 +21,10 @@ function TransitionScreen({ onProceed }) {
       </Typography>
       <FeedbackBox>
         <Typography variant="body1" paragraph>
-          You have successfully completed the practice round. Next, the actual
-          experiment will begin.
+          You have successfully completed the practice round. Next, the experiment will begin.
         </Typography>
         <Typography variant="body1" paragraph>
-          Please click 'Continue' to start the actual experiment.
+        Now that you know how it works, click 'Continue' to get started.
         </Typography>
       </FeedbackBox>
       <CustomButton

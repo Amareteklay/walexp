@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Container, Box, Typography } from "@mui/material"
 import VideoPlayer from "../components/VideoPlayer"
 import EmojiReaction from "../components/EmojiReaction"
@@ -20,6 +20,7 @@ function VideoScreen({
   const [open, setOpen] = useState(false)
   const [comment, setComment] = useState("")
   const [shareOption, setShareOption] = useState("")
+  const [isNextDisabled, setIsNextDisabled] = useState(true) // Initially disable the Next button
 
   // Create a ref for the video element
   const videoRef = useRef(null)
@@ -72,6 +73,16 @@ function VideoScreen({
     }
   }
 
+  useEffect(() => {
+    // Enable the Next button after 5 seconds
+    const timer = setTimeout(() => {
+      setIsNextDisabled(false)
+    }, 5000)
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <Container>
       <VideoPlayer
@@ -113,6 +124,7 @@ function VideoScreen({
           text={"Next"}
           onClick={handleNext}
           endIcon={<ArrowForwardIcon />}
+          disabled={isNextDisabled} // Disable button based on state
         />
       </Box>
 

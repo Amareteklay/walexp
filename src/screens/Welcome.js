@@ -12,7 +12,7 @@ function Welcome({ onStart }) {
       </Typography>
       <Typography
         variant="h6"
-        sx={{ fontWeight: "bold", padding: 2 }}
+        sx={{ fontWeight: "bold", padding: 2, mx: 4 }}
         gutterBottom
       >
         You will be asked to complete a series of tasks. For each task, you will

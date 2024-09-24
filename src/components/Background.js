@@ -15,10 +15,10 @@ const GradientBackground = styled(Box)(({ theme }) => ({
 // Tablet frame styling
 const TabletFrame = styled(Box)(({ theme }) => ({
   width: "100%",
-  maxWidth: "650px", // Tablet width
-  height: "100%",
+  maxWidth: "720px", // Tablet width
+  height: "92vh",
   maxHeight: "400vh", // Tablet height
-  border: "28px solid #333", // Border color for the tablet frame
+  border: "24px solid #333", // Border color for the tablet frame
   borderRadius: "36px", // Rounded corners to mimic a tablet
   background: "#000", // Background color inside the border (tablet frame color)
   boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)", // Shadow to give a 3D effect
@@ -41,7 +41,7 @@ const TabletScreen = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "center", // Center content vertically
   alignItems: "center", // Center content horizontally
-  padding: "10px", // Padding inside the tablet screen
+  //padding: "10px", // Padding inside the tablet screen
   boxSizing: "border-box",
 }))
 

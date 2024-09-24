@@ -19,7 +19,7 @@ function DemoShare({ onProceed }) {
   }
 
   const handleContinue = () => {
-    onProceed("videoOne")
+    onProceed("practicePrompt")
   }
 
   return (

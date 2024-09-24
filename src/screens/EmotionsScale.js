@@ -33,7 +33,7 @@ function EmotionsScale({ onProceed, nextScreen }) {
       >
         How are you feeling right now?
       </Typography>
-      <Typography variant="body1" paragraph>
+      <Typography variant="body1"  sx={{ mx: 8 }} paragraph>
         Think about how you're feeling at this moment. Use the scale below to
         describe your emotions.
       </Typography>
