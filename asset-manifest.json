@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/walexp/static/css/main.fed8436b.css",
-    "main.js": "/walexp/static/js/main.42985041.js",
+    "main.js": "/walexp/static/js/main.e4dc67db.js",
     "index.html": "/walexp/index.html",
     "main.fed8436b.css.map": "/walexp/static/css/main.fed8436b.css.map",
-    "main.42985041.js.map": "/walexp/static/js/main.42985041.js.map"
+    "main.e4dc67db.js.map": "/walexp/static/js/main.e4dc67db.js.map"
   },
   "entrypoints": [
     "static/css/main.fed8436b.css",
-    "static/js/main.42985041.js"
+    "static/js/main.e4dc67db.js"
   ]
 }
