@@ -17,7 +17,7 @@ const ProgressBarContainer = styled(Box)({
 const ProgressBarFiller = styled(Box)(({ progress }) => ({
   width: `${progress}%`,
   height: "100%",
-  backgroundColor: "#5E5DF0",
+  backgroundColor: "#32e85d",
   transition: "width 0.5s ease-in-out", // Smooth transition effect
 }))
 

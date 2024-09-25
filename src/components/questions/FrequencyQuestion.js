@@ -14,7 +14,7 @@ function FrequencyQuestion({ selectedValue, handleRadioChange }) {
 
   return (
     <Box>
-      <Typography variant="body1">
+      <Typography sx={{mt: 4, mb: 2}} variant="body1">
         Q2. How often do you use social media platforms? Mark the alternative most relevant for you.
       </Typography>
       <FormControl component="fieldset">

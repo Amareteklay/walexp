@@ -13,8 +13,8 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange }) {
 
   return (
     <div>
-      <Typography variant="body1">
-        What do you typically use these platforms for? You can mark several
+      <Typography sx={{mt: 4, mb: 2}} variant="body1">
+        Q3. What do you typically use these platforms for? You can mark several
         alternatives.
       </Typography>
       <FormGroup sx={{ paddingLeft: "20px" }}>

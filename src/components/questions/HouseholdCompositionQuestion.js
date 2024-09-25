@@ -27,7 +27,7 @@ function HouseholdCompositionQuestion({ adults, children, handleInputChange }) {
 
   return (
     <Box>
-      <Typography variant="body1">
+      <Typography sx={{mb: 4}} variant="body1">
         Q13. How many adults and children live in your household?
       </Typography>
       <TextField

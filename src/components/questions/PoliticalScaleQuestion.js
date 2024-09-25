@@ -4,12 +4,12 @@ import { Box, RadioGroup, FormControlLabel, Radio, Typography } from '@mui/mater
 function PoliticalScaleQuestion({ selectedValue, handleRadioChange }) {
   return (
     <Box>
-      <Typography variant="body1">
+      <Typography sx={{mt: 4, mb: 4}} variant="body1">
         Q5. Where would you place yourself politically on a left-to-right scale?
       </Typography>
       <RadioGroup
         row
-        value={selectedValue || '4'}
+        value={selectedValue}
         onChange={(e) => handleRadioChange("politicalScale", null, e.target.value)}
       >
         {[1, 2, 3, 4, 5, 6, 7].map(value => (

@@ -14,7 +14,7 @@ function AreaQuestion({ selectedValue, handleInputChange }) {
 
   return (
     <Box>
-      <Typography variant="body1">
+      <Typography sx={{mt: 4, mb: 4}} variant="body1">
         Q10. How would you describe the area where you live?
       </Typography>
       <FormControl component="fieldset">

@@ -13,7 +13,7 @@ function EducationQuestion({ selectedValue, handleInputChange }) {
 
   return (
     <Box>
-      <Typography variant="body1">
+      <Typography sx={{mt: 4, mb: 2}} variant="body1">
         Q12. What is your highest level of education?
       </Typography>
       <FormControl component="fieldset">

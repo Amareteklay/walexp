@@ -17,8 +17,8 @@ function SocialMediaQuestion({ selectedValues, handleCheckboxChange }) {
   return (
     <div>
       <Typography variant= "h5">Part I: Social Media Experience</Typography>
-      <Typography variant="body1">
-        What social media platforms do you use frequently? (You can mark
+      <Typography sx={{mt: 4, mb: 2}} variant="body1">
+        Q1. What social media platforms do you use frequently? (You can mark
         several alternatives.)
       </Typography>
       <FormGroup sx={{ paddingLeft: "20px" }}>

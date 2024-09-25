@@ -12,7 +12,7 @@ function IncomeQuestion({ selectedValue, handleInputChange }) {
 
   return (
     <Box>
-      <Typography variant="body1">
+      <Typography sx={{mt: 4, mb: 4}} variant="body1">
         Q9. How would you describe your income level?
       </Typography>
       <FormControl component="fieldset">

@@ -92,9 +92,7 @@ const screens = {
     <Survey {...props} onSubmit={() => props.onProceed("thankyou")} />
   ),
   thankyou: ThankYou,
-  welcome: (props) => (
-    <Welcome {...props} framingType={props.framingType} emojiType={props.emojiType} /> // Pass the props
-  ),
+  welcome: Welcome,
 }
 
 function ScreenManager({

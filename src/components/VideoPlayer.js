@@ -6,7 +6,6 @@ const VideoContainer = styled(Box)( {
   position: "relative",
   width: "85%",
   height: "360px",
-  border: "1px red solid",
   backgroundColor: "#282828",
   display: "flex",
   justifyContent: "center",

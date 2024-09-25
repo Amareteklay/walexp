@@ -5,7 +5,7 @@ import { FormControl, RadioGroup, FormControlLabel, Radio, Typography, Box } fro
 function GenderQuestion({ selectedValue, handleRadioChange }) {
   return (
     <Box>
-      <Typography variant="body1">
+      <Typography sx={{mt: 4, mb: 4}} variant="body1">
         Q8. What is your gender?
       </Typography>
       <FormControl component="fieldset">

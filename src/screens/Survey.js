@@ -22,7 +22,7 @@ function Survey({ onSubmit, onQuestionChange }) {
     frequency: "",
     mediaUse: [],
     mediaType: [],
-    politicalScale: 4,
+    politicalScale: '',
     valueRatings: {},
     statementRatings: {},
     gender: "",
@@ -201,16 +201,23 @@ function Survey({ onSubmit, onQuestionChange }) {
           endIcon={<ArrowForwardIcon />}
           text={"Next"}
           disabled={!isAnswered} // Disable button if not answered
+          sx={{
+            marginTop: '80px',   // Add top margin
+            marginLeft: '250px',  // Add left margin
+          }}
         />
       )}
   
       {/* Show Submit Survey button if on the last question */}
       {pageIndex === questions.length - 1 && (
-        <Box mt={2}>
-          <Button variant="contained" onClick={handleSubmit}>
-            Submit Survey
-          </Button>
-        </Box>
+          <CustomButton 
+          onClick={handleSubmit} 
+          text={"Submit"} 
+          disabled={!isAnswered} // Disable button if not answered
+            sx={{
+            marginTop: '80px',   // Add top margin
+            marginLeft: '250px',  // Add left margin
+          }}/>
       )}
     </Container>
   );
