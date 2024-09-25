@@ -20,13 +20,21 @@ const EmojiWrapper = styled(Box)({
 
 const EmojiIcon = styled(Box)(({ selected, interactive }) => ({
   fontSize: "30px",
-  border: selected ? "2px blue solid" : "2px transparent solid",
+  border: selected ? "2px #5937ce solid" : "2px transparent solid",
+  backgroundColor: selected ? "#5937ce": "none",
   borderRadius: "50%",
   transition: "border 0.2s ease-in-out",
   cursor: interactive ? "pointer" : "default",
-  transition: "transform 0.3s ease",
-  "&:hover": interactive ? { transform: "scale(1.5)" } : {},
+  transition: "transform 0.3s ease, box-shadow 0.3s ease", // Add transition for shadow
+  "&:hover": interactive 
+    ? { 
+        transform: "scale(1.5)", 
+        boxShadow: "0px 4px 10px #32e85d",  // Add shadow on hover
+        backgroundColor: "#32e85d"
+      } 
+    : {},
 }));
+
 
 function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiType }) {
   // Define the two emoji sets
