@@ -19,9 +19,9 @@ function CommentDialog({ open, comment, shareOption, onClose, onCommentChange, o
       onClose={onClose}
       maxWidth="sm"
       fullWidth={true}
-      sx={{ "& .MuiDialog-paper": { width: "100%", maxWidth: "400px" } }}
+      sx={{ "& .MuiDialog-paper": {marginLeft: "300px", width: "100%", maxWidth: "360px", padding: "10px" } }}
     >
-      <DialogTitle sx={{fontWeight: "bold"}}>Adding Comment</DialogTitle>
+      <DialogTitle sx={{fontWeight: "bold"}}>Add Comment</DialogTitle>
       <DialogContent>
         <Typography variant="body1" gutterBottom>
           What would you comment if you saw this video on your social media?
@@ -36,17 +36,9 @@ function CommentDialog({ open, comment, shareOption, onClose, onCommentChange, o
           variant="outlined"
           value={comment}
           onChange={(e) => onCommentChange(e.target.value)}
+          multiline
+          minRows={3}
         />
-        <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
-          Would you normally share this video on your social media?
-        </Typography>
-        <RadioGroup
-          value={shareOption}
-          onChange={(e) => onShareOptionChange(e.target.value)}
-        >
-          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-          <FormControlLabel value="no" control={<Radio />} label="No" />
-        </RadioGroup>
       </DialogContent>
       <DialogActions>
         <CustomButton text={"Submit"} onClick={onClose} />

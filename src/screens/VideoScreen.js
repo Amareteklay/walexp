@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Container, Box, Typography } from "@mui/material"
+import { Container, Box, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material"
 import VideoPlayer from "../components/VideoPlayer"
 import EmojiReaction from "../components/EmojiReaction"
 import CommentDialog from "../components/CommentDialog"
@@ -21,6 +21,7 @@ function VideoScreen({
   const [comment, setComment] = useState("")
   const [shareOption, setShareOption] = useState("")
   const [isNextDisabled, setIsNextDisabled] = useState(true) // Initially disable the Next button
+  const [commentSubmitted, setCommentSubmitted] = useState(false) // Track if the comment is submitted
 
   // Create a ref for the video element
   const videoRef = useRef(null)
@@ -58,6 +59,7 @@ function VideoScreen({
       "*"
     )
     setOpen(false)
+    setCommentSubmitted(true) // Mark the comment as submitted
   }
 
   const handleNext = () => {
@@ -71,6 +73,10 @@ function VideoScreen({
     } else {
       console.error("onProceed or nextScreen is not defined.")
     }
+  }
+
+  const handleShareOptionChange = (value) => {
+    setShareOption(value) // Update the shareOption when radio is selected
   }
 
   useEffect(() => {
@@ -109,7 +115,21 @@ function VideoScreen({
           text={"Comment"}
           onClick={handleAddComment}
           startIcon={<AddCommentIcon />}
+          disabled={commentSubmitted} // Disable button once comment is submitted
         />
+      </Box>
+      <Box sx={{marginTop: 4, marginLeft: 8}}>
+        <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
+          Would you normally share this video on your social media?
+        </Typography>
+        <RadioGroup
+        row
+          value={shareOption}
+          onChange={(e) => handleShareOptionChange(e.target.value)} // Corrected onChange handler
+        >
+          <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+          <FormControlLabel value="no" control={<Radio />} label="No" />
+        </RadioGroup>
       </Box>
       <Box
         sx={{
@@ -117,6 +137,7 @@ function VideoScreen({
           alignItems: "center", // Vertically center the items
           justifyContent: "center",
           gap: 2, // Add some space between the items
+          marginTop: 8,
         }}
       >
         <CustomButton

@@ -196,28 +196,40 @@ function Survey({ onSubmit, onQuestionChange }) {
       
       {/* Show Next button if not on the last question */}
       {pageIndex < questions.length - 1 && (
+        <Box
+        sx={{
+          display: "flex",
+          alignItems: "center", // Vertically center the items
+          justifyContent: "center",
+          gap: 2, // Add some space between the items
+          marginTop: 12,
+        }}
+      >
         <CustomButton
           onClick={handleNext}
           endIcon={<ArrowForwardIcon />}
           text={"Next"}
           disabled={!isAnswered} // Disable button if not answered
-          sx={{
-            marginTop: '80px',   // Add top margin
-            marginLeft: '250px',  // Add left margin
-          }}
-        />
+        /> </Box>
       )}
   
       {/* Show Submit Survey button if on the last question */}
       {pageIndex === questions.length - 1 && (
+        <Box
+        sx={{
+          display: "flex",
+          alignItems: "center", // Vertically center the items
+          justifyContent: "center",
+          gap: 2, // Add some space between the items
+          marginTop: 12,
+        }}
+      >
           <CustomButton 
           onClick={handleSubmit} 
           text={"Submit"} 
-          disabled={!isAnswered} // Disable button if not answered
-            sx={{
-            marginTop: '80px',   // Add top margin
-            marginLeft: '250px',  // Add left margin
-          }}/>
+          disabled={!isAnswered}
+          />
+          </Box>
       )}
     </Container>
   );

@@ -2,7 +2,7 @@
 import React from "react";
 import { Typography, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
-function MediaTypeQuestion({ selectedValues, handleCheckboxChange }) {
+function MediaTypeQuestion({ selectedValues, handleCheckboxChange, selectedValue }) {
   const options = [
     "I don’t stay updated on current events",
     "Television",

@@ -7,6 +7,7 @@ import Instructions from "../screens/Instructions"
 import DemoEmoicons from "../screens/DemoEmoicons"
 import PracticePrompt from "../screens/PracticePrompt"
 import DemoShare from "../screens/DemoShare"
+import SampleVideo from "../screens/SampleVideo"
 import VideoScreen from "../screens/VideoScreen"
 import TransitionScreen from "../screens/TransitionScreen"
 import DonationPrompt from "../screens/DonationPrompt"
@@ -27,14 +28,17 @@ const screens = {
   demoicons: (props) => (
     <DemoEmoicons {...props} emojiType={props.emojiType} />
   ),
+  sampleVideo: SampleVideo,
   practicePrompt: PracticePrompt,
   demoshare: DemoShare,
   videoOne: (props) => (
     <VideoScreen
       {...props}
-      videoSrc={`${process.env.PUBLIC_URL}/videos/Floods1.mp4`}
+      videoSrc={`${process.env.PUBLIC_URL}/videos/sampleVideo.mp4`}
       nextScreen="transitionOne"
       emojiType={props.emojiType}
+      overlayText="Sample Video"
+      factInfo="Sample Text"
     />
   ),
   transitionOne: TransitionScreen,
