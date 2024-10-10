@@ -26,6 +26,7 @@ const screens = {
     <EmotionsScale {...props} nextScreen="instructions" />
   ),
   instructions: Instructions,
+  demoScreen: DemoScreen,
   demoicons: (props) => (
     <DemoEmoicons {...props} emojiType={props.emojiType} />
   ),
@@ -97,7 +98,7 @@ const screens = {
     <Survey {...props} onSubmit={() => props.onProceed("thankyou")} />
   ),
   thankyou: ThankYou,
-  welcome: DemoScreen,
+  welcome: Welcome,
 }
 
 function ScreenManager({

@@ -6,7 +6,7 @@ import CustomButton from "../components/CustomButton"
 
 function Instructions({ onProceed }) {
   const handleContinue = () => {
-    onProceed("demoicons")
+    onProceed("demoScreen")
   }
 
   return (
