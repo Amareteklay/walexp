@@ -17,6 +17,7 @@ import Survey from "../screens/Survey"
 import ThankYou from "../screens/ThankYou"
 import Welcome from "../screens/Welcome"
 import { videoData } from "../data"
+import DemoScreen from "../screens/DemoScreen"
 
 const screens = {
   audioCheck: AudioCheck,
@@ -96,7 +97,7 @@ const screens = {
     <Survey {...props} onSubmit={() => props.onProceed("thankyou")} />
   ),
   thankyou: ThankYou,
-  welcome: Welcome,
+  welcome: DemoScreen,
 }
 
 function ScreenManager({
