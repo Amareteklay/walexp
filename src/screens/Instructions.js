@@ -1,34 +1,57 @@
-import React from "react"
-import { Typography } from "@mui/material"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import CustomButton from "../components/CustomButton"
-
+import React from "react";
+import { Typography, Box, Card, CardContent } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import CommentIcon from "@mui/icons-material/Comment";
+import ShareIcon from "@mui/icons-material/Share";
+import CustomButton from "../components/CustomButton";
 
 function Instructions({ onProceed }) {
   const handleContinue = () => {
-    onProceed("demoScreen")
-  }
+    onProceed("demoScreen");
+  };
 
   return (
     <>
-      <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }} gutterBottom>
+      <Typography variant="h3" sx={{ fontWeight: "bold", mb: 4 }} gutterBottom>
         Instructions
       </Typography>
-      <Typography variant="body1" sx={{ mx: 4 }}>
+      <Typography variant="h6" sx={{ fontWeight: "bold", mx: 4, mt: 2 }}>
         In the next task, you will watch a number of different videos about various
         environmental phenomena such as flooding, forest fires, storms, and
         migration.
       </Typography>
-      <Typography variant="body1" sx={{ mx: 4, mt: 2 }}>
-      For each video we ask you: 
-      </Typography>
-      <ul>
-        <li>to indicate your reaction towards the video
-        using one of the given emojis.</li>
-        <li>to comment on the video the same way you would if you saw it on your social media.</li>
-        <li>to tell us if you would share the video on your social media. </li>
-      </ul>
-      <Typography variant="body1" sx={{ fontWeight: "bold", padding: 4 }}>
+
+      <Box sx={{ mx: 4, mt: 4, display: 'grid', gap: 2 }}>
+        <Card sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+          <EmojiEmotionsIcon sx={{ mr: 2, color: "blue" }} />
+          <CardContent>
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              To indicate your reaction towards the videos, you will use emojis.
+            </Typography>
+          </CardContent>
+        </Card>
+
+        <Card sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+          <CommentIcon sx={{ mr: 2, color: "blue" }} />
+          <CardContent>
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              To comment on the video the same way you would if you saw it on your social media, you will use a comment button.
+            </Typography>
+          </CardContent>
+        </Card>
+
+        <Card sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+          <ShareIcon sx={{ mr: 2, color: "blue" }} />
+          <CardContent>
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              To tell us if you would share the video on your social media, you will select 'Yes' or 'No'.
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
+
+      <Typography variant="h5" sx={{ fontWeight: "bold", padding: 4 }}>
         Click 'Next' to see a demo.
       </Typography>
       <CustomButton
@@ -37,7 +60,7 @@ function Instructions({ onProceed }) {
         endIcon={<ArrowForwardIcon />}
       />
     </>
-  )
+  );
 }
 
-export default Instructions
+export default Instructions;

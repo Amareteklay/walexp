@@ -1,8 +1,7 @@
-import React from "react"
-import Button from "@mui/material/Button"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import React from "react";
+import Button from "@mui/material/Button";
 
-const CustomButton = ({ text, onClick, startIcon, endIcon, disabled, ...props }) => {
+const CustomButton = ({ text, onClick, startIcon, endIcon, disabled, fontSize = "12px", fontWeight = 400, padding = "6px 12px", ...props }) => {
   return (
     <Button
       variant="contained"
@@ -15,15 +14,15 @@ const CustomButton = ({ text, onClick, startIcon, endIcon, disabled, ...props })
         borderRadius: "999px",
         boxShadow: "#5E5DF0 0 10px 20px -10px",
         boxSizing: "border-box",
-        fontSize: "16px",
-        fontWeight: 700,
-        lineHeight: "24px",
+        lineHeight: "20px",
         opacity: 1,
         outline: "0 solid transparent",
-        padding: "8px 18px",
         width: "fit-content",
         wordBreak: "break-word",
         border: 0,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        padding: padding,
       }}
       startIcon={startIcon}
       endIcon={endIcon}
@@ -32,7 +31,7 @@ const CustomButton = ({ text, onClick, startIcon, endIcon, disabled, ...props })
     >
       {text}
     </Button>
-  )
-}
+  );
+};
 
-export default CustomButton
+export default CustomButton;

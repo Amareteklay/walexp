@@ -16,15 +16,16 @@ function TransitionScreen({ onProceed }) {
 
   return (
     <>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" sx={{ fontWeight: "bold", mb: 4 }} gutterBottom>
         Practice Round Complete
       </Typography>
       <FeedbackBox>
-        <Typography variant="body1" paragraph>
-          You have successfully completed the practice round. Next, the experiment will begin.
+        <Typography variant="h6" sx={{ mx: 4, mt: 2 }}>
+          Great job! You've successfully completed the practice round. You're
+          now ready to begin the experiment.
         </Typography>
-        <Typography variant="body1" paragraph>
-        Now that you know how it works, click 'Continue' to get started.
+        <Typography variant="h6" sx={{ mx: 4, mt: 4, mb: 8 }}>
+         Click 'Continue' to start the experiment.
         </Typography>
       </FeedbackBox>
       <CustomButton

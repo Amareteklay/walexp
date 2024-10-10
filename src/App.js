@@ -18,7 +18,7 @@ function App() {
   // State to hold the group assignment
   const [groupAssignment, setGroupAssignment] = useState({
     framingType: null,
-    emojiType: null,
+    emojiType: Math.random() < 0.5 ? "Facebook" : "Generic", // Assign emojiType randomly
   });
 
   // Use effect to listen for messages from the parent window (PsychoJS)

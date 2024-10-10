@@ -27,13 +27,13 @@ function EmotionsScale({ onProceed, nextScreen }) {
   return (
     <>
       <Typography
-        variant="h5"
-        sx={{ fontWeight: "bold", marginBottom: 4 }}
+        variant="h4"
+        sx={{ fontWeight: "bold", marginBottom: 8 }}
         gutterBottom
       >
         How are you feeling right now?
       </Typography>
-      <Typography variant="body1"  sx={{ mx: 8 }} paragraph>
+      <Typography variant="h5"  sx={{ mx: 8 }}>
         Think about how you're feeling at this moment. Use the scale below to
         describe your emotions.
       </Typography>
@@ -48,7 +48,7 @@ function EmotionsScale({ onProceed, nextScreen }) {
         min={-2}
         max={2}
         valueLabelDisplay="auto"
-        sx={{ mb: 8, mt: 4, width: "80%" }}
+        sx={{ mb: 12, mt: 8, width: "80%" }}
       />
 
       <CustomButton

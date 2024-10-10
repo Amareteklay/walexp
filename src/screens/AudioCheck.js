@@ -12,6 +12,7 @@ import CustomButton from "../components/CustomButton";
 
 function AudioCheck({ onProceed }) {
   const [selectedOption, setSelectedOption] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ function AudioCheck({ onProceed }) {
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+    setErrorMessage(""); // Clear error message when the user selects an option
   };
 
   const handleContinue = () => {
@@ -50,7 +52,7 @@ function AudioCheck({ onProceed }) {
       );
       onProceed("feedback");
     } else {
-      alert("Please check your audio system and try again.");
+      setErrorMessage("Please check your audio system and try again.");
     }
   };
 
@@ -91,8 +93,14 @@ function AudioCheck({ onProceed }) {
         <FormControlLabel value="waves" control={<Radio />} label="Waves" />
       </RadioGroup>
 
+      {errorMessage && (
+        <Typography variant="body2" color="error" sx={{ marginBottom: 2 }}>
+          {errorMessage}
+        </Typography>
+      )}
+
       {/* Button to show video if needed */}
-        <Box mt={2}>
+      <Box mt={2}>
         <CustomButton
           text={"Continue"}
           onClick={handleContinue}

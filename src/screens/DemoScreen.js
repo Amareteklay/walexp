@@ -8,8 +8,8 @@ function DemoScreen({ onProceed, emojiType }) {
 
   const getVideoSource = () => {
     const videoData = {
-      Facebook: "walkthrough_facebook.mp4",
-      Generic: "walkthrough_generic.mp4",
+      Facebook: "FacebookDemo.mp4",
+      Generic: "GenericDemo.mp4",
     }
     return `${process.env.PUBLIC_URL}/videos/${videoData[emojiType]}`
   }
@@ -21,18 +21,18 @@ function DemoScreen({ onProceed, emojiType }) {
   return (
     <>
       <Typography
-        variant="body1"
-        sx={{ fontWeight: "bold", padding: 4 }}
+        variant="h5"
+        sx={{ fontWeight: "bold", padding: 4, color: "#175676" }}
         gutterBottom
       >
-        Please watch the following walkthrough video.
+        To help you understand the task, please watch the walkthrough video below.
       </Typography>
 
       <video
         ref={videoRef}
         id="video"
-        width="100%"
-        height="100%"
+        width="80%"
+        height="80%"
         autoPlay
         loop
         preload="auto"
@@ -43,10 +43,10 @@ function DemoScreen({ onProceed, emojiType }) {
       </video>
 
       <Typography
-        variant="body1"
-        sx={{ fontWeight: "bold", padding: 4, mt: 2 }}
+        variant="h5"
+        sx={{ fontWeight: "bold", padding: 2, mt: 2 }}
       >
-        Please click 'Continue' to proceed to the next screen.
+        Click 'Continue' to proceed to the next screen.
       </Typography>
       <CustomButton
         text={"Continue"}
