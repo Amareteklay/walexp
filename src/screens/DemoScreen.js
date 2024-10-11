@@ -31,12 +31,10 @@ function DemoScreen({ onProceed, emojiType }) {
       <video
         ref={videoRef}
         id="video"
-        width="80%"
-        height="80%"
+        width="100%"
+        height="100%"
         autoPlay
-        loop
         preload="auto"
-        controls
       >
         <source src={getVideoSource()} type="video/mp4" />
         Your browser does not support the video tag.

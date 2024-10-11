@@ -20,7 +20,7 @@ function PracticePrompt({ onProceed }) {
         To make sure that you understand the different parts of the experiment, you will do one practice round.
       </Typography>
       <Typography variant="h6" sx={{ mx: 4, mt: 4 }}>
-        After watching the video on the next screen,
+        After watching the video on the next screen, try the following.
       </Typography>
 
       <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2 }}>
@@ -46,7 +46,7 @@ function PracticePrompt({ onProceed }) {
           <ShareIcon sx={{ mr: 1, color: 'blue' }} />
           <CardContent>
             <Typography variant="body1">
-              Select 'Yes' or 'No' to tell us if you would share the video
+              Click the 'Share' button and select 'Yes' or 'No' to tell us if you would share the video
             </Typography>
           </CardContent>
         </Card>
