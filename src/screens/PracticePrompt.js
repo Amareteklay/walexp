@@ -24,7 +24,7 @@ function PracticePrompt({ onProceed }) {
       </Typography>
 
       <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2 }}>
-        <Card sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
+        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <EmojiEmotionsIcon sx={{ mr: 1, color: 'blue' }} />
           <CardContent>
             <Typography variant="body1">
@@ -33,7 +33,7 @@ function PracticePrompt({ onProceed }) {
           </CardContent>
         </Card>
 
-        <Card sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
+        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <CommentIcon sx={{ mr: 1, color: 'blue' }} />
           <CardContent>
             <Typography variant="body1">
@@ -42,7 +42,7 @@ function PracticePrompt({ onProceed }) {
           </CardContent>
         </Card>
 
-        <Card sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
+        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <ShareIcon sx={{ mr: 1, color: 'blue' }} />
           <CardContent>
             <Typography variant="body1">

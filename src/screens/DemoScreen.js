@@ -21,7 +21,7 @@ function DemoScreen({ onProceed, emojiType }) {
   return (
     <>
       <Typography
-        variant="h5"
+        variant="h6"
         sx={{ fontWeight: "bold", padding: 4, color: "#175676" }}
         gutterBottom
       >
@@ -32,7 +32,7 @@ function DemoScreen({ onProceed, emojiType }) {
         ref={videoRef}
         id="video"
         width="100%"
-        height="100%"
+        height="60%"
         autoPlay
         preload="auto"
       >
@@ -42,7 +42,7 @@ function DemoScreen({ onProceed, emojiType }) {
 
       <Typography
         variant="h5"
-        sx={{ fontWeight: "bold", padding: 2, mt: 2 }}
+        sx={{ fontWeight: "bold", padding: 2 }}
       >
         Click 'Continue' to proceed to the next screen.
       </Typography>

@@ -13,17 +13,17 @@ function Instructions({ onProceed }) {
 
   return (
     <>
-      <Typography variant="h3" sx={{ fontWeight: "bold", mb: 4 }} gutterBottom>
+      <Typography variant="h3" sx={{ fontWeight: "bold", mb: 2 }} gutterBottom>
         Instructions
       </Typography>
-      <Typography variant="h6" sx={{ fontWeight: "bold", mx: 4, mt: 2 }}>
+      <Typography variant="h6" sx={{ fontWeight: "bold", mx: 4 }}>
         In the next task, you will watch a number of different videos about various
         environmental phenomena such as flooding, forest fires, storms, and
         migration.
       </Typography>
 
-      <Box sx={{ mx: 4, mt: 4, display: 'grid', gap: 2 }}>
-        <Card sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+      <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2 }}>
+        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <EmojiEmotionsIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
@@ -32,7 +32,7 @@ function Instructions({ onProceed }) {
           </CardContent>
         </Card>
 
-        <Card sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <CommentIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
@@ -41,7 +41,7 @@ function Instructions({ onProceed }) {
           </CardContent>
         </Card>
 
-        <Card sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <ShareIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
