@@ -1,4 +1,5 @@
-import React from "react";
+// New CommentDialog Component
+import React, { useState } from "react"
 import {
   Dialog,
   DialogActions,
@@ -6,22 +7,48 @@ import {
   DialogTitle,
   Typography,
   TextField,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from "@mui/material";
-import CustomButton from "./CustomButton";
+} from "@mui/material"
+import CustomButton from "./CustomButton"
 
-function CommentDialog({ open, comment, shareOption, onClose, onCommentChange, onShareOptionChange }) {
+function CommentDialog({
+  open,
+  comment,
+  shareOption,
+  onClose,
+  onCommentChange,
+  onShareOptionChange,
+  onSubmit,
+}) {
+  const [isCommentValid, setIsCommentValid] = useState(false)
+
+  // Handle comment change and validate input
+  const handleCommentChange = (value) => {
+    onCommentChange(value)
+    const hasValidText = value.trim().length > 5 && /[a-zA-Z]/.test(value)
+    setIsCommentValid(hasValidText)
+  }
+
+  const handleSubmit = () => {
+    onSubmit() // Call the submit handler passed from the parent
+    onClose() // Close the dialog
+  }
+
   return (
     <Dialog
       open={open}
       onClose={onClose}
       maxWidth="sm"
       fullWidth={true}
-      sx={{ "& .MuiDialog-paper": {marginLeft: "300px", width: "100%", maxWidth: "360px", padding: "10px" } }}
+      sx={{
+        "& .MuiDialog-paper": {
+          marginLeft: "300px",
+          width: "100%",
+          maxWidth: "360px",
+          padding: "10px",
+        },
+      }}
     >
-      <DialogTitle sx={{fontWeight: "bold"}}>Add Comment</DialogTitle>
+      <DialogTitle sx={{ fontWeight: "bold" }}>Add Comment</DialogTitle>
       <DialogContent>
         <Typography variant="body1" gutterBottom>
           What would you comment if you saw this video on your social media?
@@ -35,16 +62,20 @@ function CommentDialog({ open, comment, shareOption, onClose, onCommentChange, o
           fullWidth
           variant="outlined"
           value={comment}
-          onChange={(e) => onCommentChange(e.target.value)}
+          onChange={(e) => handleCommentChange(e.target.value)}
           multiline
           minRows={3}
         />
       </DialogContent>
       <DialogActions>
-        <CustomButton text={"Submit"} onClick={onClose} />
+        <CustomButton
+          text={"Submit"}
+          onClick={handleSubmit}
+          disabled={!isCommentValid}
+        />
       </DialogActions>
     </Dialog>
-  );
+  )
 }
 
-export default CommentDialog;
+export default CommentDialog

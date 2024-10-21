@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField, Typography, Box } from '@mui/material';
 
-function AgeQuestion({ selectedValue, handleInputChange }) {
+function AgeQuestion({ age, handleInputChange }) {
   // Handle the change event for the age input
   const handleAgeChange = (e) => {
     const value = e.target.value;
@@ -22,7 +22,7 @@ function AgeQuestion({ selectedValue, handleInputChange }) {
       </Typography>
       <TextField
         type="number"
-        value={selectedValue}
+        value={age}
         onChange={handleAgeChange} // Use the new handle change function
         label="Age"
         variant="outlined"

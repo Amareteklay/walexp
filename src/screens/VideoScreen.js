@@ -1,3 +1,4 @@
+// Updated VideoScreen Component
 import React, { useRef, useState, useEffect } from "react";
 import { Container, Box, Typography, RadioGroup, FormControlLabel, Radio, Modal } from "@mui/material";
 import VideoPlayer from "../components/VideoPlayer";
@@ -47,7 +48,7 @@ function VideoScreen({
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleSubmitComment = () => {
     const timestamp = new Date().toISOString();
 
     // Send comment and share option data to PsychoJS
@@ -63,6 +64,11 @@ function VideoScreen({
     );
     setOpen(false);
     setCommentSubmitted(true); // Mark the comment as submitted
+  };
+
+  const handleCancelComment = () => {
+    setOpen(false);
+    // Do not mark comment as submitted if the dialog is simply closed
   };
 
   const handleNext = () => {
@@ -95,7 +101,7 @@ function VideoScreen({
     // Enable the Next button after 5 seconds
     const timer = setTimeout(() => {
       setIsNextDisabled(false);
-    }, 5000);
+    }, 1000);
 
     // Cleanup timer on unmount
     return () => clearTimeout(timer);
@@ -166,7 +172,7 @@ function VideoScreen({
             Would you normally share this video on your social media?
           </Typography>
           <RadioGroup
-          sx={{mb: 2}}
+            sx={{mb: 2}}
             row
             value={shareOption}
             onChange={(e) => handleShareOptionChange(e.target.value)} // Corrected onChange handler
@@ -204,9 +210,10 @@ function VideoScreen({
         open={open}
         comment={comment}
         shareOption={shareOption}
-        onClose={handleClose}
+        onClose={handleCancelComment} // Handle close without submission
         onCommentChange={setComment}
         onShareOptionChange={setShareOption}
+        onSubmit={handleSubmitComment} // Handle actual submission
       />
     </Container>
   );
