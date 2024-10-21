@@ -1,6 +1,6 @@
-import React from "react"
-import { Box, Typography } from "@mui/material"
-import { styled } from "@mui/system"
+import React from "react";
+import { Box, Typography } from "@mui/material";
+import { styled } from "@mui/system";
 
 // Styled components
 const EmojiContainer = styled(Box)({
@@ -19,22 +19,23 @@ const EmojiWrapper = styled(Box)({
 });
 
 const EmojiIcon = styled(Box)(({ selected, interactive }) => ({
-  fontSize: "30px",
+  width: "30px",
+  height: "30px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   border: selected ? "2px #5937ce solid" : "2px transparent solid",
-  backgroundColor: selected ? "#5937ce": "none",
+  backgroundColor: selected ? "#5937ce" : "none",
   borderRadius: "50%",
-  transition: "border 0.2s ease-in-out",
+  transition: "border 0.2s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease",
   cursor: interactive ? "pointer" : "default",
-  transition: "transform 0.3s ease, box-shadow 0.3s ease", // Add transition for shadow
-  "&:hover": interactive 
-    ? { 
-        transform: "scale(1.5)", 
-        boxShadow: "0px 4px 10px #32e85d",  // Add shadow on hover
-        backgroundColor: "#32e85d"
-      } 
+  "&:hover": interactive
+    ? {
+        transform: "scale(1.5)",
+        backgroundColor: "rgba(173, 216, 230, 0.9)",
+      }
     : {},
 }));
-
 
 function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiType }) {
   // Define the two emoji sets
@@ -59,8 +60,8 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
   ];
 
   // Select the appropriate emoji set based on the emojiType prop
- const emojis = emojiType === "Facebook" ? fbEmojis : genEmojis;
- console.log(emojiType)
+  const emojis = emojiType === "Facebook" ? fbEmojis : genEmojis;
+  console.log(emojiType);
 
   return (
     <EmojiContainer>
@@ -75,7 +76,7 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
               <img
                 src={`${process.env.PUBLIC_URL}/emojis/${emoji.symbol}`} // Path to the emoji image in the public folder
                 alt={emoji.label}
-                style={{ width: "30px", height: "30px" }} // Adjust size as needed
+                style={{ width: "30px", height: "30px", borderRadius: "50%" }} // Ensuring a consistent size and shape
               />
             </EmojiIcon>
           ) : (
@@ -83,6 +84,7 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
               selected={selectedEmoji === emoji.name}
               interactive={interactive}
               onClick={interactive ? () => onReaction(emoji.name) : undefined}
+              style={{ fontSize: "24px" }}
             >
               {emoji.symbol}
             </EmojiIcon>
