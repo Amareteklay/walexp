@@ -23,13 +23,15 @@ const screens = {
   audioCheck: AudioCheck,
   feedback: Feedback,
   emotionsOne: (props) => (
-    <EmotionsScale {...props} nextScreen="instructions" emotionId="emotionsOne" />
+    <EmotionsScale
+      {...props}
+      nextScreen="instructions"
+      emotionId="emotionsOne"
+    />
   ),
   instructions: Instructions,
   demoScreen: DemoScreen,
-  demoicons: (props) => (
-    <DemoEmoicons {...props} emojiType={props.emojiType} />
-  ),
+  demoicons: (props) => <DemoEmoicons {...props} emojiType={props.emojiType} />,
   sampleVideo: SampleVideo,
   practicePrompt: PracticePrompt,
   demoshare: DemoShare,
@@ -45,29 +47,34 @@ const screens = {
   ),
   transitionOne: TransitionScreen,
   videoSeries: (props) => {
-    const { currentStep, onProceed, framingType, emojiType } = props;
+    const { currentStep, onProceed, framingType, emojiType } = props
 
     const handleNextScreen = () => {
-      const nextStep = currentStep + 1;
+      const nextStep = currentStep + 1
 
       if ([2, 5, videoData.length - 1].includes(currentStep)) {
-        onProceed("emotions");
+        onProceed("emotions")
       } else if (nextStep < videoData.length) {
-        onProceed("videoSeries");
+        onProceed("videoSeries")
       } else {
-        onProceed("surveyPrompt");
+        onProceed("surveyPrompt")
       }
-    };
+    }
 
-    const videoIndex = currentStep < videoData.length ? currentStep : 0;
-    
+    const videoIndex = currentStep < videoData.length ? currentStep : 0
+
     // Determine the textKey based on currentStep and framingType
-    let textKey = "neutral"; // Default to neutral for the first three videos
+    let textKey = "neutral" // Default to neutral for the first three videos
 
     if (currentStep >= 3) {
-      textKey = framingType === "Positive" ? "positive" :
-                 framingType === "Negative" ? "negative" :
-                 framingType === "Neutral" ? "neutral" : "neutral";
+      textKey =
+        framingType === "Positive"
+          ? "positive"
+          : framingType === "Negative"
+          ? "negative"
+          : framingType === "Neutral"
+          ? "neutral"
+          : "neutral"
     }
 
     return (
@@ -81,7 +88,7 @@ const screens = {
         emojiType={emojiType}
         factInfo={videoData[videoIndex].texts.factInfo} // Pass factInfo too
       />
-    );
+    )
   },
   emotions: (props) => {
     const { currentStep, onProceed } = props
@@ -89,7 +96,13 @@ const screens = {
     const nextScreen =
       currentStep >= videoData.length - 1 ? "donationPrompt" : "videoSeries"
 
-    return <EmotionsScale {...props} nextScreen={nextScreen} emotionId={`emotions_${currentStep}`} />
+    return (
+      <EmotionsScale
+        {...props}
+        nextScreen={nextScreen}
+        emotionId={`emotions_${currentStep}`}
+      />
+    )
   },
   donationPrompt: DonationPrompt,
   donationForm: DonationForm,
@@ -115,9 +128,29 @@ function ScreenManager({
   // State to manage questionIndex
   const [questionIndex, setQuestionIndex] = useState(0)
 
+  // State to manage emotion responses
+  const [emotionResponses, setEmotionResponses] = useState({})
+
   const handleQuestionChange = (index) => {
     setQuestionIndex(index) // Update local state
     onQuestionChange(index) // Propagate change to parent (App)
+  }
+
+  const handleEmotionSave = (emotionId, value, timestamp) => {
+    setEmotionResponses((prev) => ({
+      ...prev,
+      [emotionId]: { emotionId, emotion: value, timestamp },
+    }))
+  }
+
+  const handlePostAllEmotions = () => {
+    window.parent.postMessage(
+      {
+        type: "all_emotion_data",
+        data: Object.values(emotionResponses),
+      },
+      "*"
+    )
   }
 
   return (
@@ -126,10 +159,17 @@ function ScreenManager({
       overlayText={overlayText}
       framingType={framingType}
       emojiType={emojiType}
-      onProceed={onProceed}
+      onProceed={(nextScreen) => {
+        onProceed(nextScreen)
+        // Post all emotion responses once we reach the donation prompt or thank you screen
+        if (nextScreen === "donationPrompt" || nextScreen === "thankyou") {
+          handlePostAllEmotions()
+        }
+      }}
       onStart={onProceed}
       questionIndex={questionIndex}
       onQuestionChange={handleQuestionChange} // Pass the handler to Survey
+      saveEmotionResponse={handleEmotionSave} // Pass the handler to EmotionsScale
     />
   )
 }

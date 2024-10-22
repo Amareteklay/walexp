@@ -11,7 +11,7 @@ const marks = [
   { value: 2, label: "Very Positive" },
 ]
 
-function EmotionsScale({ onProceed, nextScreen, emotionId }) {
+function EmotionsScale({ onProceed, nextScreen, emotionId, saveEmotionResponse }) {
   const [value, setValue] = useState(null)
 
   const handleChange = (event, newValue) => {
@@ -22,16 +22,8 @@ function EmotionsScale({ onProceed, nextScreen, emotionId }) {
     if (value !== null) {
       const currentTimestamp = new Date().toISOString()
 
-      // Send data via postMessage with consistent format including emotionId
-      window.parent.postMessage(
-        {
-          type: "emotion_scale",
-          emotionId: emotionId,
-          emotion: value,
-          timestamp: currentTimestamp,
-        },
-        "*"
-      )
+      // Save the emotion response to the centralized state
+      saveEmotionResponse(emotionId, value, currentTimestamp)
 
       // Proceed to the next screen
       onProceed(nextScreen)
