@@ -20,7 +20,18 @@ function EmotionsScale({ onProceed, nextScreen }) {
 
   const handleConfirm = () => {
     if (value !== null) {
-      onProceed(nextScreen) // Proceed to the next screen when a value is selected
+      // Send data via postMessage with consistent format
+      window.parent.postMessage(
+        {
+          type: "emotion_scale",
+          emotion: value,
+          timestamp: Date.now(),
+        },
+        "*"
+      )
+
+      // Proceed to the next screen
+      onProceed(nextScreen)
     }
   }
 
@@ -33,7 +44,7 @@ function EmotionsScale({ onProceed, nextScreen }) {
       >
         How are you feeling right now?
       </Typography>
-      <Typography variant="h5"  sx={{ mx: 8 }}>
+      <Typography variant="h5" sx={{ mx: 8 }}>
         Think about how you're feeling at this moment. Use the scale below to
         describe your emotions.
       </Typography>
