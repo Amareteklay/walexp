@@ -5,7 +5,6 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
-  Button,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CustomButton from "../components/CustomButton";
@@ -13,6 +12,8 @@ import CustomButton from "../components/CustomButton";
 function AudioCheck({ onProceed }) {
   const [selectedOption, setSelectedOption] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [attempts, setAttempts] = useState(0);
+  const [attemptDetails, setAttemptDetails] = useState([]);
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -41,12 +42,20 @@ function AudioCheck({ onProceed }) {
   };
 
   const handleContinue = () => {
+    const currentTimestamp = Date.now();
+    
+    // Increment the number of attempts and save the timestamp along with the selected option
+    setAttempts((prev) => prev + 1);
+    setAttemptDetails((prev) => [...prev, { option: selectedOption, timestamp: currentTimestamp }]);
+
     if (selectedOption === "birds") {
       window.parent.postMessage(
         {
           type: "audio_check",
           buttonName: "birds",
-          timestamp: Date.now(),
+          timestamp: currentTimestamp,
+          attempts: attempts + 1, // Since the state update is asynchronous, we use attempts + 1
+          attemptDetails: [...attemptDetails, { option: selectedOption, timestamp: currentTimestamp }],
         },
         "*"
       );
