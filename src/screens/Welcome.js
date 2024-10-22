@@ -5,15 +5,11 @@ import CustomButton from "../components/CustomButton";
 
 function Welcome({ onStart }) {
   const handleContinueClick = () => {
-    const timestamp = new Date().toISOString();
-    
     // Send message to parent window for PsychoJS
     window.parent.postMessage({
       type: "welcome_continue_button",
-      data: { 
-        timestamp,
-        buttonName: "welcomeContinueButton"
-      }
+      buttonName: "welcomeContinueButton",
+      timestamp: Date.now(),
     }, "*");
     
     onStart("audioCheck");
