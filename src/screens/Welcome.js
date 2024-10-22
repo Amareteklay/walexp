@@ -6,18 +6,17 @@ import CustomButton from "../components/CustomButton";
 function Welcome({ onStart }) {
   const handleContinueClick = () => {
     const timestamp = new Date().toISOString();
-    onStart("audioCheck", timestamp);
     
     // Send message to parent window for PsychoJS
-    if (window.parent) {
-      window.parent.postMessage({
-        type: "welcome_continue_button",
-        data: { 
-          timestamp, 
-          buttonName: "welcomeContinueButton"
-        }
-      }, "*");
-    }
+    window.parent.postMessage({
+      type: "welcome_continue_button",
+      data: { 
+        timestamp,
+        buttonName: "welcomeContinueButton"
+      }
+    }, "*");
+    
+    onStart("audioCheck");
   };
 
   return (
@@ -34,11 +33,13 @@ function Welcome({ onStart }) {
       <Typography variant="h6" fontWeight="bold" padding={2} marginBottom={12} gutterBottom>
         When you're ready, click 'Continue'.
       </Typography>
-      <CustomButton
-        text="Continue"
-        onClick={handleContinueClick}
-        endIcon={<ArrowForwardIcon />}
-      />
+      <Box display="flex" justifyContent="center">
+        <CustomButton
+          text="Continue"
+          onClick={handleContinueClick}
+          endIcon={<ArrowForwardIcon />}
+        />
+      </Box>
     </Box>
   );
 }
