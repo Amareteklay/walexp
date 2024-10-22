@@ -23,15 +23,13 @@ const screens = {
   audioCheck: AudioCheck,
   feedback: Feedback,
   emotionsOne: (props) => (
-    <EmotionsScale
-      {...props}
-      nextScreen="instructions"
-      emotionId="emotionsOne"
-    />
+    <EmotionsScale {...props} nextScreen="instructions" emotionId="emotionsOne" />
   ),
   instructions: Instructions,
   demoScreen: DemoScreen,
-  demoicons: (props) => <DemoEmoicons {...props} emojiType={props.emojiType} />,
+  demoicons: (props) => (
+    <DemoEmoicons {...props} emojiType={props.emojiType} />
+  ),
   sampleVideo: SampleVideo,
   practicePrompt: PracticePrompt,
   demoshare: DemoShare,
@@ -47,34 +45,29 @@ const screens = {
   ),
   transitionOne: TransitionScreen,
   videoSeries: (props) => {
-    const { currentStep, onProceed, framingType, emojiType } = props
+    const { currentStep, onProceed, framingType, emojiType } = props;
 
     const handleNextScreen = () => {
-      const nextStep = currentStep + 1
+      const nextStep = currentStep + 1;
 
       if ([2, 5, videoData.length - 1].includes(currentStep)) {
-        onProceed("emotions")
+        onProceed("emotions");
       } else if (nextStep < videoData.length) {
-        onProceed("videoSeries")
+        onProceed("videoSeries");
       } else {
-        onProceed("surveyPrompt")
+        onProceed("surveyPrompt");
       }
-    }
+    };
 
-    const videoIndex = currentStep < videoData.length ? currentStep : 0
-
+    const videoIndex = currentStep < videoData.length ? currentStep : 0;
+    
     // Determine the textKey based on currentStep and framingType
-    let textKey = "neutral" // Default to neutral for the first three videos
+    let textKey = "neutral"; // Default to neutral for the first three videos
 
     if (currentStep >= 3) {
-      textKey =
-        framingType === "Positive"
-          ? "positive"
-          : framingType === "Negative"
-          ? "negative"
-          : framingType === "Neutral"
-          ? "neutral"
-          : "neutral"
+      textKey = framingType === "Positive" ? "positive" :
+                 framingType === "Negative" ? "negative" :
+                 framingType === "Neutral" ? "neutral" : "neutral";
     }
 
     return (
@@ -88,7 +81,7 @@ const screens = {
         emojiType={emojiType}
         factInfo={videoData[videoIndex].texts.factInfo} // Pass factInfo too
       />
-    )
+    );
   },
   emotions: (props) => {
     const { currentStep, onProceed } = props
@@ -96,13 +89,7 @@ const screens = {
     const nextScreen =
       currentStep >= videoData.length - 1 ? "donationPrompt" : "videoSeries"
 
-    return (
-      <EmotionsScale
-        {...props}
-        nextScreen={nextScreen}
-        emotionId={`emotions_${currentStep}`}
-      />
-    )
+    return <EmotionsScale {...props} nextScreen={nextScreen} emotionId={`emotions_${currentStep}`} />
   },
   donationPrompt: DonationPrompt,
   donationForm: DonationForm,
@@ -141,13 +128,15 @@ function ScreenManager({
       ...prev,
       [emotionId]: { emotionId, emotion: value, timestamp },
     }))
+    console.log(`Emotion Response Saved: ${emotionId}, Emotion: ${value}, Timestamp: ${timestamp}`)
   }
 
   const handlePostAllEmotions = () => {
+    console.log("Posting All Emotion Responses: ", emotionResponses)
     window.parent.postMessage(
       {
         type: "all_emotion_data",
-        data: Object.values(emotionResponses),
+        emotionResponsesArray: Object.values(emotionResponses),
       },
       "*"
     )

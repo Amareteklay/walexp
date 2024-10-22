@@ -25,6 +25,9 @@ function EmotionsScale({ onProceed, nextScreen, emotionId, saveEmotionResponse }
       // Save the emotion response to the centralized state
       saveEmotionResponse(emotionId, value, currentTimestamp)
 
+      // Log the data for debugging purposes
+      console.log(`Emotion Saved: ${emotionId}, Value: ${value}, Timestamp: ${currentTimestamp}`)
+
       // Proceed to the next screen
       onProceed(nextScreen)
     }
