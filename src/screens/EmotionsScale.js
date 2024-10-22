@@ -11,7 +11,7 @@ const marks = [
   { value: 2, label: "Very Positive" },
 ]
 
-function EmotionsScale({ onProceed, nextScreen }) {
+function EmotionsScale({ onProceed, nextScreen, emotionId }) {
   const [value, setValue] = useState(null)
 
   const handleChange = (event, newValue) => {
@@ -20,12 +20,15 @@ function EmotionsScale({ onProceed, nextScreen }) {
 
   const handleConfirm = () => {
     if (value !== null) {
-      // Send data via postMessage with consistent format
+      const currentTimestamp = new Date().toISOString()
+
+      // Send data via postMessage with consistent format including emotionId
       window.parent.postMessage(
         {
           type: "emotion_scale",
+          emotionId: emotionId,
           emotion: value,
-          timestamp: Date.now(),
+          timestamp: currentTimestamp,
         },
         "*"
       )

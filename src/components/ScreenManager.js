@@ -23,7 +23,7 @@ const screens = {
   audioCheck: AudioCheck,
   feedback: Feedback,
   emotionsOne: (props) => (
-    <EmotionsScale {...props} nextScreen="instructions" />
+    <EmotionsScale {...props} nextScreen="instructions" emotionId="emotionsOne" />
   ),
   instructions: Instructions,
   demoScreen: DemoScreen,
@@ -89,7 +89,7 @@ const screens = {
     const nextScreen =
       currentStep >= videoData.length - 1 ? "donationPrompt" : "videoSeries"
 
-    return <EmotionsScale {...props} nextScreen={nextScreen} />
+    return <EmotionsScale {...props} nextScreen={nextScreen} emotionId={`emotions_${currentStep}`} />
   },
   donationPrompt: DonationPrompt,
   donationForm: DonationForm,
