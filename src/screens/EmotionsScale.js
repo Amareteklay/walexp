@@ -1,7 +1,8 @@
-import React, { useState } from "react"
-import { Typography, Slider } from "@mui/material"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import CustomButton from "../components/CustomButton"
+import React, { useState } from "react";
+import { Typography, Slider } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CustomButton from "../components/CustomButton";
+import { useData } from "../contexts/DataContext";
 
 const marks = [
   { value: -2, label: "Very Negative" },
@@ -9,29 +10,38 @@ const marks = [
   { value: 0, label: "Neutral" },
   { value: 1, label: "Positive" },
   { value: 2, label: "Very Positive" },
-]
+];
 
-function EmotionsScale({ onProceed, nextScreen, emotionId, saveEmotionResponse }) {
-  const [value, setValue] = useState(null)
+function EmotionsScale({ onProceed, nextScreen, emotionId }) {
+  const [value, setValue] = useState(null);
+  const { dispatch } = useData();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+    setValue(newValue);
+  };
 
   const handleConfirm = () => {
     if (value !== null) {
-      const currentTimestamp = new Date().toISOString()
+      const currentTimestamp = new Date().toISOString();
 
-      // Save the emotion response to the centralized state
-      saveEmotionResponse(emotionId, value, currentTimestamp)
+      // Save the emotion response to the centralized state with a unique key for each instance
+      dispatch({
+        type: "SET_DATA",
+        key: `emotionResponse_${emotionId}`,
+        value: {
+          emotionId: emotionId,
+          emotionValue: value,
+          timestamp: currentTimestamp,
+        },
+      });
 
       // Log the data for debugging purposes
-      console.log(`Emotion Saved: ${emotionId}, Value: ${value}, Timestamp: ${currentTimestamp}`)
+      console.log(`Emotion Saved: ${emotionId}, Value: ${value}, Timestamp: ${currentTimestamp}`);
 
       // Proceed to the next screen
-      onProceed(nextScreen)
+      onProceed(nextScreen);
     }
-  }
+  };
 
   return (
     <>
@@ -67,7 +77,7 @@ function EmotionsScale({ onProceed, nextScreen, emotionId, saveEmotionResponse }
         endIcon={<ArrowForwardIcon />}
       />
     </>
-  )
+  );
 }
 
-export default EmotionsScale
+export default EmotionsScale;

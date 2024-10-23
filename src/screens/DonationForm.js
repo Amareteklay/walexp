@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import {
   Typography,
   Box,
@@ -6,38 +6,45 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-} from "@mui/material"
-import { styled } from "@mui/system"
-import CustomButton from "../components/CustomButton"
-
+} from "@mui/material";
+import { styled } from "@mui/system";
+import CustomButton from "../components/CustomButton";
+import { useData } from "../contexts/DataContext";
 
 const FormContainer = styled(Box)({
   marginTop: "20px",
   textAlign: "left",
   display: "inline-block",
-})
+});
 
 function DonationForm({ onProceed }) {
-  const [selectedValue, setSelectedValue] = useState("")
+  const [selectedValue, setSelectedValue] = useState("");
+  const { dispatch } = useData();
 
   const handleChange = (event) => {
-    setSelectedValue(event.target.value)
-  }
+    setSelectedValue(event.target.value);
+  };
 
   const handleContinue = () => {
-    // Send the selected donation value to the parent (PsychoJS)
-    window.parent.postMessage(
-      { type: "donation_selected", value: selectedValue },
-      "*"
-    )
+    const currentTimestamp = new Date().toISOString();
+
+    // Save the selected donation value and timestamp to the centralized state
+    dispatch({
+      type: "SET_DATA",
+      key: "donationFormSubmission",
+      value: {
+        selectedValue,
+        timestamp: currentTimestamp,
+      },
+    });
 
     // Proceed to the next part of the experiment
-    onProceed("survey")
-  }
+    onProceed("surveyPrompt");
+  };
 
   return (
     <>
-      <Typography variant="body1" sx={{mx: 8}}>
+      <Typography variant="body1" sx={{ mx: 8 }}>
         Please indicate how much of the 10 Euros/Dollars you would like to donate to an environmental charity.
       </Typography>
       <FormContainer>
@@ -89,7 +96,7 @@ function DonationForm({ onProceed }) {
         />
       </Box>
     </>
-  )
+  );
 }
 
-export default DonationForm
+export default DonationForm;

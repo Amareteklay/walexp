@@ -1,29 +1,17 @@
-import React from 'react';
-import { TextField, Typography, Box } from '@mui/material';
+// AgeQuestion.jsx
+import React from "react";
+import { TextField, Typography, Box } from "@mui/material";
 
-function AgeQuestion({ age, handleInputChange }) {
-  // Handle the change event for the age input
-  const handleAgeChange = (e) => {
-    const value = e.target.value;
-
-    // Check if the value is a valid number and within the specified range
-    if (value === '' || (value >= 18 && value <= 70)) {
-      handleInputChange("age", value);
-    } else {
-      // Optional: You can provide feedback to the user if desired
-      console.warn("Age must be between 18 and 70.");
-    }
-  };
-
+function AgeQuestion({ selectedValue, handleInputChange }) {
   return (
     <Box>
-      <Typography sx={{mt: 4, mb: 4}} variant="body1">
+      <Typography sx={{ mt: 4, mb: 4 }} variant="body1">
         Q11. What is your age?
       </Typography>
       <TextField
         type="number"
-        value={age}
-        onChange={handleAgeChange} // Use the new handle change function
+        value={selectedValue}
+        onChange={(e) => handleInputChange(e.target.value)} // Pass the input to the parent handler
         label="Age"
         variant="outlined"
         fullWidth

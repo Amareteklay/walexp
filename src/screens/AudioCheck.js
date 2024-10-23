@@ -8,13 +8,14 @@ import {
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CustomButton from "../components/CustomButton";
+import { useData } from "../contexts/DataContext";
 
 function AudioCheck({ onProceed }) {
   const [selectedOption, setSelectedOption] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [attempts, setAttempts] = useState(0);
-  const [attemptDetails, setAttemptDetails] = useState([]);
   const videoRef = useRef(null);
+  const { dispatch } = useData();
 
   useEffect(() => {
     // Function to play the video for audio only and handle potential errors
@@ -43,22 +44,33 @@ function AudioCheck({ onProceed }) {
 
   const handleContinue = () => {
     const currentTimestamp = Date.now();
-    
+    const newAttempts = attempts + 1;
+
     // Increment the number of attempts and save the timestamp along with the selected option
-    setAttempts((prev) => prev + 1);
-    setAttemptDetails((prev) => [...prev, { option: selectedOption, timestamp: currentTimestamp }]);
+    setAttempts(newAttempts);
+
+    // Store the attempt details in the centralized data store
+    dispatch({
+      type: "SET_DATA",
+      key: "audioCheckAttempts",
+      value: {
+        attempts: newAttempts,
+        attemptDetails: { option: selectedOption, timestamp: currentTimestamp },
+      },
+    });
 
     if (selectedOption === "birds") {
-      window.parent.postMessage(
-        {
-          type: "audio_check",
+      // Store the successful audio check result
+      dispatch({
+        type: "SET_DATA",
+        key: "audioCheckResult",
+        value: {
           buttonName: "birds",
           timestamp: currentTimestamp,
-          attempts: attempts + 1, // Since the state update is asynchronous, we use attempts + 1
-          attemptDetails: [...attemptDetails, { option: selectedOption, timestamp: currentTimestamp }],
+          attempts: newAttempts,
         },
-        "*"
-      );
+      });
+
       onProceed("feedback");
     } else {
       setErrorMessage("Please check your audio system and try again.");
@@ -74,11 +86,12 @@ function AudioCheck({ onProceed }) {
         autoPlay
         loop
         preload="auto"
-        src={`${process.env.PUBLIC_URL}/videos/birds.mp4`}    type="video/mp4"
+        src={`${process.env.PUBLIC_URL}/videos/birds.mp4`}
+        type="video/mp4"
       >
         Your browser does not support the video tag.
       </video>
-      
+
       <Typography
         variant="h5"
         sx={{ fontWeight: "bold", padding: 2 }}

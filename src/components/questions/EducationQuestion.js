@@ -2,7 +2,7 @@
 import React from 'react';
 import { FormControl, RadioGroup, FormControlLabel, Radio, Typography, Box } from '@mui/material';
 
-function EducationQuestion({ selectedValue, handleInputChange }) {
+function EducationQuestion({ selectedValue, handleRadioChange }) {
   const options = [
     "No formal education",
     "Primary education",
@@ -13,14 +13,11 @@ function EducationQuestion({ selectedValue, handleInputChange }) {
 
   return (
     <Box>
-      <Typography sx={{mt: 4, mb: 2}} variant="body1">
+      <Typography sx={{ mt: 4, mb: 2 }} variant="body1">
         Q12. What is your highest level of education?
       </Typography>
       <FormControl component="fieldset">
-        <RadioGroup
-          value={selectedValue}
-          onChange={(e) => handleInputChange("education", e.target.value)}
-        >
+        <RadioGroup value={selectedValue} onChange={(e) => handleRadioChange(e.target.value)}>
           {options.map((option) => (
             <FormControlLabel
               key={option}

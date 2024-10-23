@@ -2,16 +2,24 @@ import React from "react";
 import { Typography, Box } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CustomButton from "../components/CustomButton";
+import { useData } from "../contexts/DataContext";
 
 function Welcome({ onStart }) {
+  // Get the dispatch function from the DataContext
+  const { dispatch } = useData();
+
   const handleContinueClick = () => {
-    // Send message to parent window for PsychoJS
-    window.parent.postMessage({
-      type: "welcome_continue_button",
-      buttonName: "welcomeContinueButton",
-      timestamp: Date.now(),
-    }, "*");
-    
+    // Use the dispatch function to add the welcome screen data to the centralized store
+    dispatch({
+      type: "SET_DATA",
+      key: "welcomeContinueButton",
+      value: {
+        timestamp: Date.now(),
+        buttonName: "welcomeContinueButton",
+      },
+    });
+
+    // Trigger the next screen (e.g., audio check screen)
     onStart("audioCheck");
   };
 

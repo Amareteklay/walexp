@@ -1,16 +1,9 @@
 // GenderQuestion.jsx
-import React from "react"
-import {
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Typography,
-  Box,
-} from "@mui/material"
+import React from "react";
+import { FormControl, RadioGroup, FormControlLabel, Radio, Typography, Box } from "@mui/material";
 
-function GenderQuestion({ gender, handleRadioChange }) {
-  const options = ["Male", "Female", "Other"]
+function GenderQuestion({ selectedValue, handleRadioChange }) {
+  const options = ["Male", "Female", "Other"];
 
   return (
     <Box>
@@ -19,8 +12,8 @@ function GenderQuestion({ gender, handleRadioChange }) {
       </Typography>
       <FormControl component="fieldset">
         <RadioGroup
-          value={gender}
-          onChange={(e) => handleRadioChange("gender", null, e.target.value)}
+          value={selectedValue}
+          onChange={(e) => handleRadioChange(e.target.value)}
         >
           {options.map((option) => (
             <FormControlLabel
@@ -33,7 +26,7 @@ function GenderQuestion({ gender, handleRadioChange }) {
         </RadioGroup>
       </FormControl>
     </Box>
-  )
+  );
 }
 
-export default GenderQuestion
+export default GenderQuestion;

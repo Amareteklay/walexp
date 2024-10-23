@@ -3,10 +3,13 @@ import { Typography, IconButton } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ReplayIcon from "@mui/icons-material/Replay";
 import CustomButton from "../components/CustomButton";
+import { useData } from "../contexts/DataContext";
 
 function DemoScreen({ onProceed, emojiType }) {
   const videoRef = useRef(null);
   const [showReplayButton, setShowReplayButton] = useState(false);
+  const [replayCount, setReplayCount] = useState(0);
+  const { dispatch } = useData();
 
   // Determines the appropriate video source based on the emojiType prop
   const getVideoSource = () => {
@@ -19,6 +22,17 @@ function DemoScreen({ onProceed, emojiType }) {
 
   // Handler for when the user clicks the 'Continue' button
   const handleContinue = () => {
+    const currentTimestamp = new Date().toISOString();
+
+    // Save the timestamp when the Continue button is clicked
+    dispatch({
+      type: "SET_DATA",
+      key: "demoScreenContinueTimestamp",
+      value: {
+        timestamp: currentTimestamp,
+      },
+    });
+
     onProceed("practicePrompt");
   };
 
@@ -30,9 +44,21 @@ function DemoScreen({ onProceed, emojiType }) {
   // Handler for replay button click
   const handleReplay = () => {
     if (videoRef.current) {
+      const currentTimestamp = new Date().toISOString();
       videoRef.current.currentTime = 0;
       videoRef.current.play();
       setShowReplayButton(false);
+      setReplayCount(prevCount => prevCount + 1);
+
+      // Save the replay click timestamp and count
+      dispatch({
+        type: "SET_DATA",
+        key: `demoScreenReplay_${replayCount + 1}`,
+        value: {
+          replayCount: replayCount + 1,
+          timestamp: currentTimestamp,
+        },
+      });
     }
   };
 

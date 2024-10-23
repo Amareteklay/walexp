@@ -1,9 +1,10 @@
-// Survey
 import React, { useState, useEffect } from "react";
-import { Container, Box, Button } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import SocialMediaQuestion from "../components/questions/SocialMediaQuestion";
+
+// Import all question components
 import FrequencyQuestion from "../components/questions/FrequencyQuestion";
+import SocialMediaQuestion from "../components/questions/SocialMediaQuestion";
 import MediaUseQuestion from "../components/questions/MediaUseQuestion";
 import MediaTypeQuestion from "../components/questions/MediaTypeQuestion";
 import PoliticalScaleQuestion from "../components/questions/PoliticalScaleQuestion";
@@ -15,7 +16,9 @@ import AreaQuestion from "../components/questions/AreaQuestion";
 import AgeQuestion from "../components/questions/AgeQuestion";
 import EducationQuestion from "../components/questions/EducationQuestion";
 import HouseholdCompositionQuestion from "../components/questions/HouseholdCompositionQuestion";
+
 import CustomButton from "../components/CustomButton";
+import { useData } from "../contexts/DataContext";
 
 function Survey({ onSubmit, onQuestionChange }) {
   const [selectedValues, setSelectedValues] = useState({
@@ -23,7 +26,7 @@ function Survey({ onSubmit, onQuestionChange }) {
     frequency: "",
     mediaUse: [],
     mediaType: [],
-    politicalScale: '',
+    politicalScale: "",
     valueRatings: {
       "1. Living in secure surroundings": "",
       "2. Being successful and influencing others": "",
@@ -43,6 +46,7 @@ function Survey({ onSubmit, onQuestionChange }) {
 
   const [pageIndex, setPageIndex] = useState(0);
   const [isAnswered, setIsAnswered] = useState(false);
+  const { dispatch } = useData();
 
   useEffect(() => {
     if (onQuestionChange) {
@@ -50,72 +54,101 @@ function Survey({ onSubmit, onQuestionChange }) {
     }
 
     // Determine if the current question has been answered
-    if (pageIndex === 0) { // SocialMediaQuestion index
-      setIsAnswered(selectedValues.socialMedia.length > 0);
-    } else if (pageIndex === 2) { // MediaUseQuestion index
-      setIsAnswered(selectedValues.mediaUse.length > 0);
-    } else if (pageIndex === 3) { // MediaTypeQuestion index
-      setIsAnswered(selectedValues.mediaType.length > 0);
-    } else if (pageIndex === 4) { // PoliticalScaleQuestion index
-      setIsAnswered(selectedValues.politicalScale !== '');
-    } else if (pageIndex === 5) { // ValueRatingsQuestion index
-      const allValuesAnswered = Object.values(selectedValues.valueRatings).every((val) => val !== "");
-      setIsAnswered(allValuesAnswered);
-    } else if (pageIndex === 1) { // FrequencyQuestion index
-      setIsAnswered(selectedValues.frequency !== "");
-    } else if (pageIndex === 7) { // GenderQuestion index
-      setIsAnswered(selectedValues.gender !== "");
-    } else if (pageIndex === 8) { // IncomeQuestion index
-      setIsAnswered(selectedValues.income !== "");
-    } else if (pageIndex === 9) { // AreaQuestion index
-      setIsAnswered(selectedValues.area !== "");
-    } else if (pageIndex === 10) { // AgeQuestion index
-      setIsAnswered(selectedValues.age !== "");
-    } else if (pageIndex === 11) { // EducationQuestion index
-      setIsAnswered(selectedValues.education !== "");
-    } else {
-      // For other questions, you can implement similar logic or adapt as needed
-      setIsAnswered(checkIfQuestionIsAnswered(pageIndex));
+    switch (pageIndex) {
+      case 0: // SocialMediaQuestion index
+        setIsAnswered(selectedValues.socialMedia.length > 0);
+        break;
+      case 1: // FrequencyQuestion index
+        setIsAnswered(selectedValues.frequency !== "");
+        break;
+      case 2: // MediaUseQuestion index
+        setIsAnswered(selectedValues.mediaUse.length > 0);
+        break;
+      case 3: // MediaTypeQuestion index
+        setIsAnswered(selectedValues.mediaType.length > 0);
+        break;
+      case 4: // PoliticalScaleQuestion index
+        setIsAnswered(selectedValues.politicalScale !== "");
+        break;
+      case 5: // ValueRatingsQuestion index
+        setIsAnswered(
+          Object.values(selectedValues.valueRatings).every((val) => val !== "")
+        );
+        break;
+        case 6: // StatementRatingsQuestion index
+        setIsAnswered(
+          Object.keys(selectedValues.statementRatings).length > 0 &&
+            Object.values(selectedValues.statementRatings).every(
+              (val) => val !== ''
+            )
+        );
+        break;
+      case 7: // GenderQuestion index
+        setIsAnswered(selectedValues.gender !== "");
+        break;
+      case 8: // IncomeQuestion index
+        setIsAnswered(selectedValues.income !== "");
+        break;
+      case 9: // AreaQuestion index
+        setIsAnswered(selectedValues.area !== "");
+        break;
+      case 10: // AgeQuestion index
+        setIsAnswered(selectedValues.age !== "");
+        break;
+      case 11: // EducationQuestion index
+        setIsAnswered(selectedValues.education !== "");
+        break;
+      case 12: // HouseholdCompositionQuestion index
+        setIsAnswered(
+          selectedValues.adults !== "" || selectedValues.children !== ""
+        );
+        break;
+      default:
+        setIsAnswered(false);
+        break;
     }
   }, [pageIndex, onQuestionChange, selectedValues]);
 
-  const checkIfQuestionIsAnswered = (pageIndex) => {
-    // Implement specific validation for each question here
-    switch (pageIndex) {
-      case 0: // SocialMediaQuestion
-        return selectedValues.socialMedia.length > 0;
-      case 1: // FrequencyQuestion
-        return selectedValues.frequency !== "";
-      case 2: // MediaUseQuestion
-        return selectedValues.mediaUse.length > 0;
-      case 3: // MediaTypeQuestion
-        return selectedValues.mediaType.length > 0;
-      case 4: // PoliticalScaleQuestion
-        return selectedValues.politicalScale !== '';
-      case 7: // GenderQuestion
-        return selectedValues.gender !== "";
-      case 8: // IncomeQuestion
-        return selectedValues.income !== "";
-      case 9: // AreaQuestion
-        return selectedValues.area !== "";
-      case 10: // AgeQuestion
-        return selectedValues.age !== "";
-      case 11: // EducationQuestion
-        return selectedValues.education !== "";
-      default:
-        return true; // Default to true for questions that do not need strict validation
+  const handleSubmit = () => {
+    if (onSubmit) {
+      onSubmit(selectedValues);
+    }
+  };
+  
+  const handleNext = () => {
+    if (isAnswered && pageIndex < questions.length - 1) {
+      const currentTimestamp = new Date().toISOString();
+
+      // Save the current question data and timestamp when Next is clicked
+      dispatch({
+        type: "SET_DATA",
+        key: `surveyQuestion_${pageIndex}`,
+        value: {
+          questionData: selectedValues,
+          timestamp: currentTimestamp,
+        },
+      });
+
+      setIsAnswered(false);
+      setPageIndex(pageIndex + 1);
     }
   };
 
   const handleRadioChange = (field, key, value) => {
     setSelectedValues((prev) => {
+      if (field === "frequency") {
+        return {
+          ...prev,
+          frequency: value,
+        };
+      }
       if (field === "politicalScale") {
         return {
           ...prev,
           politicalScale: value,
         };
       }
-      if (field === "statementRatings") {
+      if (field === 'statementRatings') {
         return {
           ...prev,
           statementRatings: {
@@ -133,45 +166,51 @@ function Survey({ onSubmit, onQuestionChange }) {
           },
         };
       }
-      if (field === "frequency") {
-        return {
-          ...prev,
-          frequency: value,
-        };
-      }
       if (field === "gender") {
         return {
           ...prev,
           gender: value,
         };
       }
+      if (field === "income") {
+        return {
+          ...prev,
+          income: value,
+        };
+      }
+      if (field === "area") {
+        return {
+          ...prev,
+          area: value,
+        };
+      }
+      if (field === "age") {
+        return {
+          ...prev,
+          age: value,
+        };
+      }
+      if (field === "education") {
+        return {
+          ...prev,
+          education: value,
+        };
+      }
+      if (field === "adults") {
+        return {
+          ...prev,
+          adults: value,
+        };
+      }
+      if (field === "children") {
+        return {
+          ...prev,
+          children: value,
+        };
+      }
       return prev;
     });
-    // Set isAnswered to true when one item is selected
-    if (field === "politicalScale" && value !== '') {
-      setIsAnswered(true);
-    }
-    if (field === "gender" && value !== '') {
-      setIsAnswered(true);
-    }
-  };
-
-  const handleCheckboxChange = (field, value) => {
-    setSelectedValues((prev) => ({
-      ...prev,
-      [field]: prev[field].includes(value)
-        ? prev[field].filter((item) => item !== value)
-        : [...prev[field], value],
-    }));
-    if (field === "socialMedia") {
-      setIsAnswered(selectedValues.socialMedia.length + 1 > 0);
-    }
-    if (field === "mediaUse") {
-      setIsAnswered(selectedValues.mediaUse.length + 1 > 0);
-    }
-    if (field === "mediaType") {
-      setIsAnswered(selectedValues.mediaType.length + 1 > 0);
-    }
+    setIsAnswered(true); // Mark question as answered
   };
 
   const handleInputChange = (field, value) => {
@@ -182,54 +221,69 @@ function Survey({ onSubmit, onQuestionChange }) {
     setIsAnswered(true); // Mark question as answered
   };
 
-  const handleSubmit = () => {
-    if (onSubmit) {
-      onSubmit(selectedValues);
-    }
-  };
+  const handleCheckboxChange = (field, updatedValues) => {
+    setSelectedValues((prev) => ({
+      ...prev,
+      [field]: updatedValues,
+    }));
 
-  const handleNext = () => {
-    if (isAnswered && pageIndex < questions.length - 1) {
-      setIsAnswered(false);
-      setPageIndex(pageIndex + 1);
-    }
+    dispatch({
+      type: "SET_DATA",
+      key: field,
+      value: updatedValues,
+    });
+
+    setIsAnswered(true); // Mark question as answered
   };
 
   const questions = [
     <SocialMediaQuestion
       key="Q1"
-      selectedValues={selectedValues}
-      handleCheckboxChange={handleCheckboxChange}
-    />, 
+      selectedValues={selectedValues.socialMedia}
+      handleCheckboxChange={(updatedValues) =>
+        handleCheckboxChange("socialMedia", updatedValues)
+      }
+      setNextEnabled={setIsAnswered}
+    />,
     <FrequencyQuestion
       key="Q2"
-      selectedValues={selectedValues}
+      selectedValue={selectedValues.frequency}
       handleRadioChange={(value) => handleRadioChange("frequency", null, value)}
-    />, 
+    />,
     <MediaUseQuestion
       key="Q3"
-      selectedValues={selectedValues}
-      handleCheckboxChange={handleCheckboxChange}
-    />, 
+      selectedValues={selectedValues.mediaUse}
+      handleCheckboxChange={(updatedValues) =>
+        handleCheckboxChange("mediaUse", updatedValues)
+      }
+      setNextEnabled={setIsAnswered}
+    />,
     <MediaTypeQuestion
       key="Q4"
-      selectedValues={selectedValues}
-      handleCheckboxChange={handleCheckboxChange}
-    />, 
+      selectedValues={selectedValues.mediaType}
+      handleCheckboxChange={(updatedValues) =>
+        handleCheckboxChange("mediaType", updatedValues)
+      }
+      setNextEnabled={setIsAnswered}
+    />,
     <PoliticalScaleQuestion
       key="Q5"
       selectedValue={selectedValues.politicalScale}
-      handleRadioChange={handleRadioChange}
-    />, 
+      handleRadioChange={(value) =>
+        handleRadioChange("politicalScale", null, value)
+      }
+    />,
     <ValueRatingsQuestion
       key="Q6"
       selectedValues={selectedValues.valueRatings}
-      handleRadioChange={handleRadioChange}
+      handleRadioChange={(key, value) =>
+        handleRadioChange("valueRatings", key, value)
+      }
     />,
     <StatementRatingsQuestion
       key="Q7"
       selectedValues={selectedValues.statementRatings}
-      handleRadioChange={handleRadioChange}
+      handleRadioChange={(key, value) => handleRadioChange('statementRatings', key, value)}
     />,
     <GenderQuestion
       key="Q8"
@@ -237,14 +291,14 @@ function Survey({ onSubmit, onQuestionChange }) {
       handleRadioChange={(value) => handleRadioChange("gender", null, value)}
     />,
     <IncomeQuestion
-      key="Q9"
-      selectedValues={selectedValues}
-      handleInputChange={handleInputChange}
-    />,
+    key="Q9"
+    selectedValue={selectedValues.income}
+    handleRadioChange={(value) => handleRadioChange('income', null, value)}
+  />,
     <AreaQuestion
       key="Q10"
-      selectedValues={selectedValues}
-      handleInputChange={handleInputChange}
+      selectedValue={selectedValues.area}
+      handleRadioChange={(value) => handleRadioChange("area", null, value )}
     />,
     <AgeQuestion
       key="Q11"
@@ -254,12 +308,15 @@ function Survey({ onSubmit, onQuestionChange }) {
     <EducationQuestion
       key="Q12"
       selectedValue={selectedValues.education}
-      handleInputChange={handleInputChange}
+      handleRadioChange={(value) => handleRadioChange("education", null, value)}
     />,
     <HouseholdCompositionQuestion
       key="Q13"
-      selectedValues={selectedValues}
-      handleInputChange={handleInputChange}
+      selectedValues={{
+        adults: selectedValues.adults,
+        children: selectedValues.children,
+      }}
+      handleInputChange={(field, value) => handleInputChange(field, value)}
     />,
   ];
 

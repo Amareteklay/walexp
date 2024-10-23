@@ -1,13 +1,8 @@
 // SocialMediaQuestion.js
-import React from "react"
-import {
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-} from "@mui/material"
+import React, { useEffect } from "react";
+import { Typography, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
-function SocialMediaQuestion({ selectedValues, handleCheckboxChange }) {
+function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNextEnabled }) {
   const options = [
     "I am not on social media",
     "Instagram",
@@ -15,16 +10,26 @@ function SocialMediaQuestion({ selectedValues, handleCheckboxChange }) {
     "Facebook",
     "TikTok",
     "Snapchat",
-    "Youtube",
-    "Other(s) specify",
-  ]
+    "YouTube",
+    "Other(s), specify",
+  ];
+
+  useEffect(() => {
+    setNextEnabled(selectedValues.length > 0);
+  }, [selectedValues, setNextEnabled]);
+
+  const handleChange = (option) => {
+    const updatedSocialMedia = selectedValues.includes(option)
+      ? selectedValues.filter((value) => value !== option)
+      : [...selectedValues, option];
+
+    handleCheckboxChange(updatedSocialMedia);
+  };
 
   return (
     <div>
-      <Typography variant="h5">Part I: Social Media Experience</Typography>
       <Typography sx={{ mt: 4, mb: 2 }} variant="body1">
-        Q1. What social media platforms do you use frequently? (You can mark
-        several alternatives.)
+        Q1. What social media platforms do you use frequently? (You can mark several alternatives.)
       </Typography>
       <FormGroup sx={{ paddingLeft: "20px" }}>
         {options.map((option) => (
@@ -32,16 +37,16 @@ function SocialMediaQuestion({ selectedValues, handleCheckboxChange }) {
             key={option}
             control={
               <Checkbox
-                checked={selectedValues.socialMedia.includes(option)}
-                onChange={() => handleCheckboxChange("socialMedia", option)}
+                checked={selectedValues.includes(option)}
+                onChange={() => handleChange(option)}
               />
             }
-            label={<span style={{ fontSize: "0.875rem" }}>{option}</span>}
+            label={option}
           />
         ))}
       </FormGroup>
     </div>
-  )
+  );
 }
 
-export default SocialMediaQuestion
+export default SocialMediaQuestion;

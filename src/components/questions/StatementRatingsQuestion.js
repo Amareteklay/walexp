@@ -1,8 +1,9 @@
+// StatementRatingsQuestion.js
 import React from 'react';
 import { Typography, Box, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
 function StatementRatingsQuestion({ selectedValues, handleRadioChange }) {
-  // Extract the questions into a configuration to simplify iteration and maintainability
+  // Statements configuration for easier iteration
   const statements = [
     {
       id: 'equalitySocialJustice',
@@ -49,7 +50,7 @@ function StatementRatingsQuestion({ selectedValues, handleRadioChange }) {
               <Box display="flex" justifyContent="center">
                 <RadioGroup
                   value={selectedValues[id] || ''}
-                  onChange={(e) => handleRadioChange("statementRatings", id, e.target.value)}
+                  onChange={(e) => handleRadioChange(id, e.target.value)}
                 >
                   <FormControlLabel
                     value={val.toString()}

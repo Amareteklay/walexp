@@ -8,6 +8,7 @@ import AddCommentIcon from "@mui/icons-material/AddComment";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ShareIcon from "@mui/icons-material/Share";
 import CustomButton from "../components/CustomButton";
+import { useData } from "../contexts/DataContext";
 
 function VideoScreen({
   videoSrc,
@@ -29,16 +30,22 @@ function VideoScreen({
 
   // Create a ref for the video element
   const videoRef = useRef(null);
+  const { dispatch } = useData();
 
   const handleReaction = (reaction) => {
     if (videoRef.current) {
       const timestamp = videoRef.current.currentTime;
       setSelectedEmoji(reaction);
-      // Send emoji reaction data to PsychoJS
-      window.parent.postMessage(
-        { type: "emoji_reaction", reaction, videoId, timestamp },
-        "*"
-      );
+      // Save emoji reaction data to the centralized state
+      dispatch({
+        type: "SET_DATA",
+        key: `emojiReaction_${videoId}`,
+        value: {
+          reaction,
+          videoId,
+          timestamp,
+        },
+      });
     } else {
       console.error("Video element not found or not loaded yet.");
     }
@@ -51,17 +58,17 @@ function VideoScreen({
   const handleSubmitComment = () => {
     const timestamp = new Date().toISOString();
 
-    // Send comment and share option data to PsychoJS
-    window.parent.postMessage(
-      {
-        type: "comment_submitted",
+    // Save comment and share option data to the centralized state
+    dispatch({
+      type: "SET_DATA",
+      key: `comment_${videoId}`,
+      value: {
         comment,
         shareOption,
         videoId,
         timestamp,
       },
-      "*"
-    );
+    });
     setOpen(false);
     setCommentSubmitted(true); // Mark the comment as submitted
   };
@@ -74,8 +81,15 @@ function VideoScreen({
   const handleNext = () => {
     const timestamp = new Date().toISOString();
 
-    // Send next button click event to PsychoJS
-    window.parent.postMessage({ type: "next_click", videoId, timestamp }, "*");
+    // Save next button click event to the centralized state
+    dispatch({
+      type: "SET_DATA",
+      key: `nextClick_${videoId}`,
+      value: {
+        videoId,
+        timestamp,
+      },
+    });
 
     if (onProceed && nextScreen) {
       onProceed(nextScreen);

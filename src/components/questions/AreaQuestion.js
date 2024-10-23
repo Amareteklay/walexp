@@ -1,27 +1,17 @@
 // AreaQuestion.jsx
-import React from "react"
-import {
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Typography,
-  Box,
-} from "@mui/material"
+import React from "react";
+import { FormControl, RadioGroup, FormControlLabel, Radio, Typography, Box } from "@mui/material";
 
-function AreaQuestion({ selectedValue, handleInputChange }) {
-  const options = ["Urban", "Suburban", "Rural", "Prefer not to say"]
+function AreaQuestion({ selectedValue, handleRadioChange }) {
+  const options = ["Urban", "Suburban", "Rural", "Prefer not to say"];
 
   return (
     <Box>
-      <Typography sx={{mt: 4, mb: 4}} variant="body1">
+      <Typography sx={{ mt: 4, mb: 4 }} variant="body1">
         Q10. How would you describe the area where you live?
       </Typography>
       <FormControl component="fieldset">
-        <RadioGroup
-          value={selectedValue}
-          onChange={(e) => handleInputChange("area", e.target.value)}
-        >
+        <RadioGroup value={selectedValue} onChange={(e) => handleRadioChange(e.target.value)}>
           {options.map((option) => (
             <FormControlLabel
               key={option}
@@ -33,7 +23,7 @@ function AreaQuestion({ selectedValue, handleInputChange }) {
         </RadioGroup>
       </FormControl>
     </Box>
-  )
+  );
 }
 
-export default AreaQuestion
+export default AreaQuestion;
