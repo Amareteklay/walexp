@@ -1,8 +1,10 @@
 // SocialMediaQuestion.js
-import React, { useEffect } from "react";
-import { Typography, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Typography, FormGroup, FormControlLabel, Checkbox, TextField } from "@mui/material";
 
 function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNextEnabled }) {
+  const [otherText, setOtherText] = useState("");
+
   const options = [
     "I am not on social media",
     "Instagram",
@@ -11,7 +13,7 @@ function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNex
     "TikTok",
     "Snapchat",
     "YouTube",
-    "Other(s), specify",
+    "Other(s)",
   ];
 
   useEffect(() => {
@@ -24,6 +26,13 @@ function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNex
       : [...selectedValues, option];
 
     handleCheckboxChange(updatedSocialMedia);
+  };
+
+  const handleOtherTextChange = (event) => {
+    setOtherText(event.target.value);
+    if (!selectedValues.includes("Other(s)")) {
+      handleChange("Other(s)");
+    }
   };
 
   return (
@@ -44,6 +53,14 @@ function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNex
             label={option}
           />
         ))}
+        {selectedValues.includes("Other(s)") && (
+          <TextField
+            sx={{ mt: 2, ml: 4 }}
+            label="Please specify"
+            value={otherText}
+            onChange={handleOtherTextChange}
+          />
+        )}
       </FormGroup>
     </div>
   );

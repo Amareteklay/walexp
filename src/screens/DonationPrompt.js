@@ -24,7 +24,7 @@ function DonationPrompt({ onProceed }) {
   return (
     <>
       <Typography variant="h5" gutterBottom>
-        You will receive an additional 10 Euro/Dollar.
+        You will receive an additional 3 Euro/Dollar.
       </Typography>
       <Typography variant="body1" sx={{ mx: 8 }} paragraph>
         You have the opportunity to donate some of this money to an

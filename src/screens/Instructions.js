@@ -51,7 +51,7 @@ function Instructions({ onProceed }) {
           <CommentIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              To comment on the video the same way you would if you saw it on your social media, you will use a comment button.
+              To comment on the video, you will use a comment button.
             </Typography>
           </CardContent>
         </Card>
@@ -60,14 +60,14 @@ function Instructions({ onProceed }) {
           <ShareIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              To tell us if you would share the video on your social media, you will select 'Yes' or 'No'.
+              To tell us if you would share the video, you will use a 'Share' button and select 'Yes' or 'No'.
             </Typography>
           </CardContent>
         </Card>
       </Box>
 
       <Typography variant="h5" sx={{ fontWeight: "bold", padding: 4 }}>
-        Click 'Next' to see a demo.
+        Click 'Next' when you're ready.
       </Typography>
       <CustomButton
         text={"Next"}

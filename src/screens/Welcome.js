@@ -35,7 +35,7 @@ function Welcome({ onStart }) {
         Please read the instructions carefully.
       </Typography>
       <Typography variant="h6" fontWeight="bold" padding={2} marginBottom={12} gutterBottom>
-        When you're ready, click 'Continue'.
+        Click 'Continue' when you're ready.
       </Typography>
       <Box display="flex" justifyContent="center">
         <CustomButton

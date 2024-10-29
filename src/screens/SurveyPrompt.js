@@ -31,7 +31,7 @@ function SurveyPrompt({ onProceed }) {
         Now we will ask you a few questions about your social media experience, demographic information and values.
       </Typography>
       <Typography variant="body1" sx={{ mx: 4, mt: 2 }}>
-        The information you will provide will be used for scientific research only and it will be kept confidential. We don't ask you for any sensitive or personal information.
+        The information you will provide will be used for scientific research only and it will be kept confidential.
       </Typography>
       <Typography variant="body1" sx={{ fontWeight: "bold", padding: 4 }}>
         Click 'Next' to start the practice.

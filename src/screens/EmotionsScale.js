@@ -6,9 +6,13 @@ import { useData } from "../contexts/DataContext";
 
 const marks = [
   { value: -2, label: "Very Negative" },
+  { value: -1.5, label: "" },
   { value: -1, label: "Negative" },
+  { value: -0.5, label: "" },
   { value: 0, label: "Neutral" },
+  { value: 0.5, label: "" },
   { value: 1, label: "Positive" },
+  { value: 1.5, label: "" },
   { value: 2, label: "Very Positive" },
 ];
 
@@ -62,12 +66,16 @@ function EmotionsScale({ onProceed, nextScreen, emotionId }) {
         onChange={handleChange}
         aria-labelledby="emotion-scale-slider"
         aria-valuetext={value !== null ? `Emotion level ${value}` : "No emotion selected"}
-        step={1}
+        step={0.01}
+        defaultValue={0}
         marks={marks}
         min={-2}
         max={2}
         valueLabelDisplay="auto"
-        sx={{ mb: 12, mt: 8, width: "80%" }}
+        sx={{ mb: 12, mt: 8, width: "80%",
+          "& .MuiSlider-thumb": {
+            display: value === null ? "none" : "block",
+          }, }}
       />
 
       <CustomButton

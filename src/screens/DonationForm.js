@@ -45,7 +45,7 @@ function DonationForm({ onProceed }) {
   return (
     <>
       <Typography variant="body1" sx={{ mx: 8 }}>
-        Please indicate how much of the 10 Euros/Dollars you would like to donate to an environmental charity.
+        Please indicate how much of the 3 Euros/Dollars you would like to donate to an environmental charity.
       </Typography>
       <FormContainer>
         <FormControl component="fieldset">
@@ -56,34 +56,34 @@ function DonationForm({ onProceed }) {
               label="0 Euro/Dollar"
             />
             <FormControlLabel
+              value="0.5"
+              control={<Radio />}
+              label="0.5 Euro/Dollar (10%)"
+            />
+            <FormControlLabel
               value="1"
               control={<Radio />}
-              label="1 Euro/Dollar (10%)"
+              label="1 Euro/Dollar (25%)"
+            />
+            <FormControlLabel
+              value="1.5"
+              control={<Radio />}
+              label="1.5 Euro/Dollar (50%)"
+            />
+            <FormControlLabel
+              value="2"
+              control={<Radio />}
+              label="2 Euro/Dollar (75%)"
             />
             <FormControlLabel
               value="2.5"
               control={<Radio />}
-              label="2.5 Euro/Dollar (25%)"
+              label="2.5 Euro/Dollar (90%)"
             />
             <FormControlLabel
-              value="5"
+              value="3"
               control={<Radio />}
-              label="5 Euro/Dollar (50%)"
-            />
-            <FormControlLabel
-              value="7.5"
-              control={<Radio />}
-              label="7.5 Euro/Dollar (75%)"
-            />
-            <FormControlLabel
-              value="9"
-              control={<Radio />}
-              label="9 Euro/Dollar (90%)"
-            />
-            <FormControlLabel
-              value="10"
-              control={<Radio />}
-              label="10 Euro/Dollar (100%)"
+              label="3 Euro/Dollar (100%)"
             />
           </RadioGroup>
         </FormControl>

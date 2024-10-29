@@ -1,0 +1,352 @@
+{
+    "welcomeContinueButton": {
+        "timestamp": 1729838711359,
+        "buttonName": "welcomeContinueButton"
+    },
+    "audioCheckAttempts": {
+        "attempts": 3,
+        "attemptDetails": {
+            "option": "birds",
+            "timestamp": 1729838721537
+        }
+    },
+    "audioCheckResult": {
+        "buttonName": "birds",
+        "timestamp": 1729838721537,
+        "attempts": 3
+    },
+    "emotionResponse_emotionsOne": {
+        "emotionId": "emotionsOne",
+        "emotionValue": 1,
+        "timestamp": "2024-10-25T06:45:30.577Z"
+    },
+    "instructionsTimestamp": {
+        "timestamp": "2024-10-25T06:45:33.025Z"
+    },
+    "demoScreenReplay_1": {
+        "replayCount": 1,
+        "timestamp": "2024-10-25T06:46:36.342Z"
+    },
+    "demoScreenContinueTimestamp": {
+        "timestamp": "2024-10-25T06:46:52.496Z"
+    },
+    "practicePromptNextTimestamp": {
+        "timestamp": "2024-10-25T06:46:55.570Z"
+    },
+    "emojiReaction_undefined": {
+        "reaction": "like",
+        "timestamp": 2.408086
+    },
+    "comment_undefined": {
+        "comment": "Likedit",
+        "shareOption": "",
+        "timestamp": "2024-10-25T06:47:06.631Z"
+    },
+    "nextClick_undefined": {
+        "timestamp": "2024-10-25T06:47:10.549Z"
+    },
+    "transitionScreenContinueTimestamp": {
+        "timestamp": "2024-10-25T06:47:11.974Z"
+    },
+    "emojiReaction_video1": {
+        "reaction": "love",
+        "videoId": "video1",
+        "timestamp": 1.831497
+    },
+    "comment_video1": {
+        "comment": "Lovedit",
+        "shareOption": "",
+        "videoId": "video1",
+        "timestamp": "2024-10-25T06:47:19.679Z"
+    },
+    "nextClick_video1": {
+        "videoId": "video1",
+        "timestamp": "2024-10-25T06:47:24.070Z"
+    },
+    "emojiReaction_video2": {
+        "reaction": "care",
+        "videoId": "video2",
+        "timestamp": 1.201276
+    },
+    "comment_video2": {
+        "comment": "Caredfor",
+        "shareOption": "",
+        "videoId": "video2",
+        "timestamp": "2024-10-25T06:47:31.408Z"
+    },
+    "nextClick_video2": {
+        "videoId": "video2",
+        "timestamp": "2024-10-25T06:47:35.334Z"
+    },
+    "emojiReaction_video3": {
+        "reaction": "haha",
+        "videoId": "video3",
+        "timestamp": 1.58388
+    },
+    "comment_video3": {
+        "comment": "hahaedit",
+        "shareOption": "",
+        "videoId": "video3",
+        "timestamp": "2024-10-25T06:47:42.575Z"
+    },
+    "nextClick_video3": {
+        "videoId": "video3",
+        "timestamp": "2024-10-25T06:47:45.824Z"
+    },
+    "emotionResponse_emotions_2": {
+        "emotionId": "emotions_2",
+        "emotionValue": 1,
+        "timestamp": "2024-10-25T06:47:48.918Z"
+    },
+    "emojiReaction_video4": {
+        "reaction": "wow",
+        "videoId": "video4",
+        "timestamp": 1.050642
+    },
+    "comment_video4": {
+        "comment": "wowedit",
+        "shareOption": "",
+        "videoId": "video4",
+        "timestamp": "2024-10-25T06:47:56.535Z"
+    },
+    "nextClick_video4": {
+        "videoId": "video4",
+        "timestamp": "2024-10-25T06:47:59.677Z"
+    },
+    "emojiReaction_video5": {
+        "reaction": "sad",
+        "videoId": "video5",
+        "timestamp": 1.462661
+    },
+    "comment_video5": {
+        "comment": "sadedit",
+        "shareOption": "",
+        "videoId": "video5",
+        "timestamp": "2024-10-25T06:48:09.447Z"
+    },
+    "nextClick_video5": {
+        "videoId": "video5",
+        "timestamp": "2024-10-25T06:48:12.983Z"
+    },
+    "emojiReaction_video6": {
+        "reaction": "angry",
+        "videoId": "video6",
+        "timestamp": 1.602717
+    },
+    "comment_video6": {
+        "comment": "angryit",
+        "shareOption": "",
+        "videoId": "video6",
+        "timestamp": "2024-10-25T06:48:20.352Z"
+    },
+    "nextClick_video6": {
+        "videoId": "video6",
+        "timestamp": "2024-10-25T06:48:23.342Z"
+    },
+    "emotionResponse_emotions_5": {
+        "emotionId": "emotions_5",
+        "emotionValue": 1,
+        "timestamp": "2024-10-25T06:48:25.838Z"
+    },
+    "emojiReaction_video7": {
+        "reaction": "like",
+        "videoId": "video7",
+        "timestamp": 2.192413
+    },
+    "comment_video7": {
+        "comment": "likedagain",
+        "shareOption": "",
+        "videoId": "video7",
+        "timestamp": "2024-10-25T06:48:34.072Z"
+    },
+    "nextClick_video7": {
+        "videoId": "video7",
+        "timestamp": "2024-10-25T06:48:37.486Z"
+    },
+    "emojiReaction_video8": {
+        "reaction": "love",
+        "videoId": "video8",
+        "timestamp": 0.910817
+    },
+    "comment_video8": {
+        "comment": "lovedagain",
+        "shareOption": "",
+        "videoId": "video8",
+        "timestamp": "2024-10-25T06:48:44.310Z"
+    },
+    "nextClick_video8": {
+        "videoId": "video8",
+        "timestamp": "2024-10-25T06:48:47.950Z"
+    },
+    "emojiReaction_video9": {
+        "reaction": "care",
+        "videoId": "video9",
+        "timestamp": 1.471172
+    },
+    "comment_video9": {
+        "comment": "caredagain",
+        "shareOption": "",
+        "videoId": "video9",
+        "timestamp": "2024-10-25T06:48:55.086Z"
+    },
+    "nextClick_video9": {
+        "videoId": "video9",
+        "timestamp": "2024-10-25T06:48:57.886Z"
+    },
+    "emotionResponse_emotions_8": {
+        "emotionId": "emotions_8",
+        "emotionValue": 1,
+        "timestamp": "2024-10-25T06:49:00.107Z"
+    },
+    "donationPromptNextTimestamp": {
+        "timestamp": "2024-10-25T06:49:01.631Z"
+    },
+    "donationFormSubmission": {
+        "selectedValue": "9",
+        "timestamp": "2024-10-25T06:49:03.998Z"
+    },
+    "surveyPromptNextTimestamp": {
+        "timestamp": "2024-10-25T06:49:06.134Z"
+    },
+    "socialMedia": [
+        "I am not on social media",
+        "Instagram",
+        "Facebook"
+    ],
+    "surveyQuestion_0": {
+        "questionData": {
+            "socialMedia": [
+                "I am not on social media",
+                "Instagram",
+                "Facebook"
+            ]
+        },
+        "timestamp": "2024-10-25T06:49:12.998Z"
+    },
+    "surveyQuestion_1": {
+        "questionData": {
+            "frequency": "A few times per day"
+        },
+        "timestamp": "2024-10-25T06:49:16.166Z"
+    },
+    "mediaUse": [
+        "I only use it to catch up on content posted by others"
+    ],
+    "surveyQuestion_2": {
+        "questionData": {
+            "mediaUse": [
+                "I only use it to catch up on content posted by others"
+            ]
+        },
+        "timestamp": "2024-10-25T06:49:19.510Z"
+    },
+    "mediaType": [
+        "Newspapers",
+        "Radio"
+    ],
+    "surveyQuestion_3": {
+        "questionData": {
+            "mediaType": [
+                "Newspapers",
+                "Radio"
+            ]
+        },
+        "timestamp": "2024-10-25T06:49:22.686Z"
+    },
+    "surveyQuestion_4": {
+        "questionData": {
+            "politicalScale": "4"
+        },
+        "timestamp": "2024-10-25T06:49:24.870Z"
+    },
+    "surveyQuestion_5": {
+        "questionData": {
+            "valueRatings": {
+                "1. Living in secure surroundings": "1",
+                "2. Being successful and influencing others": "2",
+                "3. Freedom of choice and opportunities": "3",
+                "4. Being loyal to friends and family": "4",
+                "5. Protecting the environment": "5"
+            }
+        },
+        "timestamp": "2024-10-25T06:49:30.786Z"
+    },
+    "surveyQuestion_6": {
+        "questionData": {
+            "statementRatings": {
+                "equalitySocialJustice": "7",
+                "strongGovernment": "5",
+                "freeMarkets": "4",
+                "protectEnvironment": "3"
+            }
+        },
+        "timestamp": "2024-10-25T06:49:35.966Z"
+    },
+    "surveyQuestion_7": {
+        "questionData": {
+            "gender": "Male"
+        },
+        "timestamp": "2024-10-25T06:49:38.294Z"
+    },
+    "surveyQuestion_8": {
+        "questionData": {
+            "income": "Average income"
+        },
+        "timestamp": "2024-10-25T06:49:40.679Z"
+    },
+    "surveyQuestion_9": {
+        "questionData": {
+            "area": "Suburban"
+        },
+        "timestamp": "2024-10-25T06:49:42.665Z"
+    },
+    "surveyQuestion_10": {
+        "questionData": {
+            "age": "19"
+        },
+        "timestamp": "2024-10-25T06:49:45.826Z"
+    },
+    "surveyQuestion_11": {
+        "questionData": {
+            "education": "Secondary education"
+        },
+        "timestamp": "2024-10-25T06:49:48.102Z"
+    },
+    "finalSurveyData": {
+        "socialMedia": [
+            "I am not on social media",
+            "Instagram",
+            "Facebook"
+        ],
+        "frequency": "A few times per day",
+        "mediaUse": [
+            "I only use it to catch up on content posted by others"
+        ],
+        "mediaType": [
+            "Newspapers",
+            "Radio"
+        ],
+        "politicalScale": "4",
+        "valueRatings": {
+            "1. Living in secure surroundings": "1",
+            "2. Being successful and influencing others": "2",
+            "3. Freedom of choice and opportunities": "3",
+            "4. Being loyal to friends and family": "4",
+            "5. Protecting the environment": "5"
+        },
+        "statementRatings": {
+            "equalitySocialJustice": "7",
+            "strongGovernment": "5",
+            "freeMarkets": "4",
+            "protectEnvironment": "3"
+        },
+        "gender": "Male",
+        "income": "Average income",
+        "area": "Suburban",
+        "age": "19",
+        "education": "Secondary education",
+        "adults": "2",
+        "children": "2",
+        "timestamp": "2024-10-25T06:49:59.656Z"
+    }
+}

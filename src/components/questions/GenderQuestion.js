@@ -3,7 +3,7 @@ import React from "react";
 import { FormControl, RadioGroup, FormControlLabel, Radio, Typography, Box } from "@mui/material";
 
 function GenderQuestion({ selectedValue, handleRadioChange }) {
-  const options = ["Male", "Female", "Other"];
+  const options = ["Male", "Female", "Other", "Prefer not to say"];
 
   return (
     <Box>
