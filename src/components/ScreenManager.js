@@ -15,6 +15,7 @@ import DonationForm from "../screens/DonationForm"
 import SurveyPrompt from "../screens/SurveyPrompt"
 import Survey from "../screens/Survey"
 import ThankYou from "../screens/ThankYou"
+import OddOneOutTask from "../screens/OddOneOutTask"
 import Welcome from "../screens/Welcome"
 import { videoData } from "../data"
 import DemoScreen from "../screens/DemoScreen"
@@ -44,19 +45,23 @@ const screens = {
     />
   ),
   transitionOne: TransitionScreen,
+  oddOneOut: (props) => (
+    <OddOneOutTask {...props} nextScreen={"videoSeries"} />),
   videoSeries: (props) => {
     const { currentStep, onProceed, framingType, emojiType } = props;
 
     const handleNextScreen = () => {
-      const nextStep = currentStep + 1;
+        const nextStep = currentStep + 1;
 
-      if ([2, 5, videoData.length - 1].includes(currentStep)) {
-        onProceed("emotions");
-      } else if (nextStep < videoData.length) {
-        onProceed("videoSeries");
-      } else {
-        onProceed("surveyPrompt");
-      }
+        if ([2, 5, videoData.length - 1].includes(currentStep)) {
+            onProceed("emotions");
+        } else if (currentStep === 6) {
+            onProceed("oddOneOut");
+        } else if (nextStep < videoData.length) {
+            onProceed("videoSeries");
+        } else {
+            onProceed("surveyPrompt");
+        }
     };
 
     const videoIndex = currentStep < videoData.length ? currentStep : 0;
