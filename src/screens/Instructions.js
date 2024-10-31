@@ -42,7 +42,7 @@ function Instructions({ onProceed }) {
           <EmojiEmotionsIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              To indicate your reaction towards the videos, you will use emojis.
+              You will use emojis to indicate your reaction towards the videos.
             </Typography>
           </CardContent>
         </Card>
@@ -51,7 +51,7 @@ function Instructions({ onProceed }) {
           <CommentIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              To comment on the video, you will use a comment button.
+              You will have the chance to comment on some of the videos.
             </Typography>
           </CardContent>
         </Card>
@@ -60,7 +60,7 @@ function Instructions({ onProceed }) {
           <ShareIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              To tell us if you would share the video, you will use a 'Share' button and select 'Yes' or 'No'.
+              You will use a 'Share' button to indicate if you would share the video on social media.
             </Typography>
           </CardContent>
         </Card>

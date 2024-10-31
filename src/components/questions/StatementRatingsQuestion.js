@@ -1,69 +1,102 @@
-// StatementRatingsQuestion.js
-import React from 'react';
-import { Typography, Box, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Typography, Box, Grid, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 
-function StatementRatingsQuestion({ selectedValues, handleRadioChange }) {
-  // Statements configuration for easier iteration
+function StatementRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswered }) {
   const statements = [
-    {
-      id: 'equalitySocialJustice',
-      text: "1. People should always strive for equality and social justice.",
-    },
-    {
-      id: 'strongGovernment',
-      text: "2. It is important for the government to be strong and make decisions quickly.",
-    },
-    {
-      id: 'freeMarkets',
-      text: "3. Free markets are the best way to ensure economic growth.",
-    },
-    {
-      id: 'protectEnvironment',
-      text: "4. We should do more to protect the environment even if it limits our freedom.",
-    },
+    { id: 'stmt1', text: "Acting environmentally friendly is an important part of who I am." },
+    { id: 'stmt2', text: "I am the type of person who acts environmentally friendly." },
+    { id: 'stmt3', text: "I see myself as an environmentally friendly person." },
+    { id: 'stmt4', text: "I am worried about the consequences of climate change. I think they can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt5', text: "I am worried about geopolitical conflicts. I think they can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt6', text: "I am worried about increased migration. I think migration can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt7', text: "I am worried about global pandemics like the Covid-19 pandemic. I think they can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt8', text: "I am worried about global economic turmoil. I think it can have drastic negative effects on our ways of life in the future." }
   ];
+
+  const itemsPerPage = 1;
+  const [currentPage, setCurrentPage] = useState(0);
+  const totalPages = Math.ceil(statements.length / itemsPerPage);
+
+  useEffect(() => {
+    const allAnswered = Object.values(selectedValues).filter(Boolean).length === statements.length;
+    setAllAnswered(allAnswered);
+  }, [selectedValues, setAllAnswered]);
+
+  const currentStatements = statements.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
   return (
     <Box>
-      <Typography sx={{ mb: 4 }} variant="body1">
-        Q7. How much do you agree with the following statements on a scale of 1 to 7?
+      <Typography sx={{ mb: 2 }} variant="body1">
+        Q7. To what degree do you agree with the following statements? Indicate on a scale from 1 completely
+        disagree, to 7 completely agree, or select "Don't know" or "Prefer not to say".
       </Typography>
-      <Grid container spacing={0} alignItems="center" sx={{ backgroundColor: "#f7f7f7" }}>
-        <Grid item xs={5}></Grid>
-        {[1, 2, 3, 4, 5, 6, 7].map((val) => (
-          <Grid item xs={1} key={val}>
-            <Box display="flex" justifyContent="center">
-              <Typography variant="subtitle2" align="center">
-                {val}
-              </Typography>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-      {statements.map(({ id, text }) => (
-        <Grid container spacing={0} alignItems="center" key={id} mt={1}>
-          <Grid item xs={5}>
-            <Typography variant="subtitle1">{text}</Typography>
-          </Grid>
-          {[1, 2, 3, 4, 5, 6, 7].map((val) => (
-            <Grid item xs={1} key={val}>
-              <Box display="flex" justifyContent="center">
-                <RadioGroup
-                  value={selectedValues[id] || ''}
-                  onChange={(e) => handleRadioChange(id, e.target.value)}
-                >
-                  <FormControlLabel
-                    value={val.toString()}
-                    control={<Radio />}
-                    labelPlacement="top"
-                    label=""
-                  />
-                </RadioGroup>
-              </Box>
+      
+      {/* Loop through each statement */}
+      {currentStatements.map(({ id, text }, index) => (
+        <Box key={id} mb={2} sx={{ padding: 1, border: '1px solid #e0e0e0', borderRadius: 2 }}>
+          {/* Statement Row */}
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" sx={{ mb: 2 }}>{text}</Typography>
             </Grid>
-          ))}
-        </Grid>
+          </Grid>
+
+          {/* Header Row for Rating Options */}
+          <Grid container spacing={0} alignItems="center" sx={{ backgroundColor: '#d9d4d4', mb: 1 }}>
+            <Grid item xs={3}></Grid>
+            {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
+              <Grid item xs={1} key={val}>
+                <Box display="flex" justifyContent="center">
+                  <Typography variant="subtitle2" align="center">
+                    {val}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Row for Radio Buttons */}
+          <Grid container spacing={0} alignItems="center">
+            <Grid item xs={3}></Grid>
+            {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
+              <Grid item xs={1} key={val}>
+                <Box display="flex" justifyContent="center">
+                  <RadioGroup
+                    value={selectedValues[id] || ''}
+                    onChange={(e) => handleRadioChange(id, e.target.value)}
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <FormControlLabel
+                      value={val.toString()}
+                      control={<Radio />}
+                      label=""
+                      sx={{ margin: 0 }}
+                    />
+                  </RadioGroup>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       ))}
+
+      {/* Pagination Controls */}
+      <Box mt={4} display="flex" justifyContent="space-between">
+        <Button
+          variant="contained"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+          disabled={currentPage === 0}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
+          disabled={currentPage === totalPages - 1}
+        >
+          Next
+        </Button>
+      </Box>
     </Box>
   );
 }

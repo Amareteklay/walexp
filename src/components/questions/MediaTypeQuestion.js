@@ -1,8 +1,10 @@
 // MediaTypeQuestion.js
-import React, { useEffect } from 'react';
-import { Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, FormGroup, FormControlLabel, Checkbox, TextField } from '@mui/material';
 
 function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnabled }) {
+  const [otherText, setOtherText] = useState("");
+
   const options = [
     'I don’t stay updated on current events',
     'Television',
@@ -27,6 +29,14 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
     handleCheckboxChange(updatedMediaType);
   };
 
+  // Handle the change in "Others" text field
+  const handleOtherTextChange = (event) => {
+    setOtherText(event.target.value);
+    if (!selectedValues.includes("Others, specify")) {
+      handleChange("Others, specify");
+    }
+  };
+
   return (
     <div>
       <Typography sx={{ mt: 4, mb: 2 }} variant="body1">
@@ -45,6 +55,14 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
             label={<span style={{ fontSize: '0.875rem' }}>{option}</span>}
           />
         ))}
+        {selectedValues.includes("Others, specify") && (
+          <TextField
+            sx={{ mt: 2, ml: 4 }}
+            label="Please specify"
+            value={otherText}
+            onChange={handleOtherTextChange}
+          />
+        )}
       </FormGroup>
     </div>
   );

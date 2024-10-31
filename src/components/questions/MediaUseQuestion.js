@@ -1,8 +1,10 @@
 // MediaUseQuestion.js
-import React, { useEffect } from 'react';
-import { Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, FormGroup, FormControlLabel, Checkbox, TextField } from '@mui/material';
 
 function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled }) {
+  const [otherText, setOtherText] = useState("");
+
   const options = [
     'I am not on social media',
     'I only use it to catch up on content posted by others',
@@ -26,6 +28,14 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
     handleCheckboxChange(updatedMediaUse);
   };
 
+  // Handle the change in "Other" text field
+  const handleOtherTextChange = (event) => {
+    setOtherText(event.target.value);
+    if (!selectedValues.includes("Other reason, specify")) {
+      handleChange("Other reason, specify");
+    }
+  };
+
   return (
     <div>
       <Typography sx={{ mt: 4, mb: 2 }} variant="body1">
@@ -44,6 +54,14 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
             label={<span style={{ fontSize: '0.875rem' }}>{option}</span>}
           />
         ))}
+        {selectedValues.includes("Other reason, specify") && (
+          <TextField
+            sx={{ mt: 2, ml: 4 }}
+            label="Please specify"
+            value={otherText}
+            onChange={handleOtherTextChange}
+          />
+        )}
       </FormGroup>
     </div>
   );
