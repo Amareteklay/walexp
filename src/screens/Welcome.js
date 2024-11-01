@@ -9,16 +9,21 @@ function Welcome({ onStart }) {
   const { dispatch } = useData();
 
   const handleContinueClick = () => {
-    // Use the dispatch function to add the welcome screen data to the centralized store
-    dispatch({
+    // Define the action object
+    const action = {
       type: "SET_DATA",
       key: "welcomeContinueButton",
       value: {
         timestamp: Date.now(),
-        buttonName: "welcomeContinueButton",
       },
-    });
-
+    };
+  
+    // Log the action object to check its structure
+    // console.log("Dispatching action:", action);
+  
+    // Dispatch the action to the store
+    dispatch(action);
+  
     // Trigger the next screen (e.g., audio check screen)
     onStart("audioCheck");
   };

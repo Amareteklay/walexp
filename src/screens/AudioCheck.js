@@ -45,32 +45,30 @@ function AudioCheck({ onProceed }) {
   const handleContinue = () => {
     const currentTimestamp = Date.now();
     const newAttempts = attempts + 1;
-
-    // Increment the number of attempts and save the timestamp along with the selected option
+  
+    // Increment the number of attempts
     setAttempts(newAttempts);
-
-    // Store the attempt details in the centralized data store
+  
+    // Generate keys based on the attempt count
+    const attemptKey = `attempt${newAttempts}`;
+    const timestampKey = `timestampAttempt${newAttempts}`;
+  
+    // Dispatch the selected option with a unique key for this attempt
     dispatch({
       type: "SET_DATA",
-      key: "audioCheckAttempts",
-      value: {
-        attempts: newAttempts,
-        attemptDetails: { option: selectedOption, timestamp: currentTimestamp },
-      },
+      key: attemptKey,
+      value: selectedOption,
     });
-
+  
+    // Dispatch the timestamp with a unique key for this attempt
+    dispatch({
+      type: "SET_DATA",
+      key: timestampKey,
+      value: currentTimestamp,
+    });
+  
+    // Only proceed if the correct option is selected
     if (selectedOption === "birds") {
-      // Store the successful audio check result
-      dispatch({
-        type: "SET_DATA",
-        key: "audioCheckResult",
-        value: {
-          buttonName: "birds",
-          timestamp: currentTimestamp,
-          attempts: newAttempts,
-        },
-      });
-
       onProceed("feedback");
     } else {
       setErrorMessage("Please check your audio system and try again.");
