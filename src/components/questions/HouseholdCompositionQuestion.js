@@ -6,7 +6,7 @@ function HouseholdCompositionQuestion({ selectedValues, handleInputChange }) {
   return (
     <Box>
       <Typography sx={{ mb: 4 }} variant="body1">
-        Q13. How many adults and children live in your household?
+        Q13. How many adults are in your household?
       </Typography>
       <TextField
         type="number"
@@ -20,6 +20,9 @@ function HouseholdCompositionQuestion({ selectedValues, handleInputChange }) {
           min: 1, // Prevent user from entering a value below 1 for adults
         }}
       />
+      <Typography sx={{ mb: 4, mt: 8 }} variant="body1">
+        Q14. How many children (under 18) are in your household?
+      </Typography>
       <TextField
         type="number"
         value={selectedValues.children}

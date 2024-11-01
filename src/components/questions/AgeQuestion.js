@@ -6,7 +6,7 @@ function AgeQuestion({ selectedValue, handleInputChange }) {
   return (
     <Box>
       <Typography sx={{ mt: 4, mb: 4 }} variant="body1">
-        Q11. What is your age?
+        Q11. How old are you?
       </Typography>
       <TextField
         type="number"

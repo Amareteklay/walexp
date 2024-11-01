@@ -40,7 +40,7 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
   return (
     <div>
       <Typography sx={{ mt: 4, mb: 2 }} variant="body1">
-        Q4. What type of media do you typically use to get updated on current events? You can mark several alternatives.
+        Q4. What type of media do you typically use to get updated on current events? (You can mark several alternatives.)
       </Typography>
       <FormGroup sx={{ paddingLeft: '20px' }}>
         {options.map((option) => (

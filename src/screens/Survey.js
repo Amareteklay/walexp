@@ -61,6 +61,7 @@ function Survey({ onSubmit, onQuestionChange }) {
   const [isAnswered, setIsAnswered] = useState(false);
   const [allValuesAnswered, setAllValuesAnswered] = useState(false);
   const [allStatementsAnswered, setAllStatementsAnswered] = useState(false);
+  const [rankingComplete, setRankingComplete] = useState(false); 
   const { dispatch } = useData();
 
   // Helper function to check if all values are answered
@@ -73,7 +74,6 @@ function Survey({ onSubmit, onQuestionChange }) {
       onQuestionChange(pageIndex);
     }
 
-    // Determine if the current question has been answered
     switch (pageIndex) {
       case 0:
         setIsAnswered(selectedValues.socialMedia.length > 0);
@@ -97,10 +97,10 @@ function Survey({ onSubmit, onQuestionChange }) {
         setIsAnswered(allStatementsAnswered);
         break;
       case 7:
-        setIsAnswered(selectedValues.gender !== "");
+        setIsAnswered(rankingComplete); // Use rankingComplete to determine if answered
         break;
       case 8:
-        setIsAnswered(selectedValues.income !== "");
+        setIsAnswered(selectedValues.gender !== "");
         break;
       case 9:
         setIsAnswered(selectedValues.income !== "");
@@ -115,15 +115,13 @@ function Survey({ onSubmit, onQuestionChange }) {
         setIsAnswered(selectedValues.education !== "");
         break;
       case 13:
-        setIsAnswered(
-          selectedValues.adults !== "" || selectedValues.children !== ""
-        );
+        setIsAnswered(selectedValues.adults !== "" || selectedValues.children !== "");
         break;
       default:
         setIsAnswered(false);
         break;
     }
-  }, [pageIndex, onQuestionChange, selectedValues, allValuesAnswered, allStatementsAnswered]);
+  }, [pageIndex, onQuestionChange, selectedValues, allValuesAnswered, allStatementsAnswered, rankingComplete]);
 
   const handleNext = () => {
     if (isAnswered && pageIndex < questions.length - 1) {
@@ -190,6 +188,12 @@ function Survey({ onSubmit, onQuestionChange }) {
       },
     }));
   }; 
+  
+  // Define a function to update rankingComplete based on RankingQuestion completion
+  const handleRankingCompletion = (isComplete) => {
+    setRankingComplete(isComplete);
+  };
+
   const handleSubmit = () => {
     if (onSubmit) {
       const currentTimestamp = new Date().toISOString();
@@ -367,10 +371,11 @@ function Survey({ onSubmit, onQuestionChange }) {
   setAllAnswered={setAllStatementsAnswered}
     />, 
     <RankingQuestion
-    key="Q8"
-    selectedRanks={selectedValues.ranking}  // Pass selectedValues.ranking
-    handleRankChange={handleRankChange}     // Pass handleRankChange
-  />, 
+      key="Q8"
+      selectedRanks={selectedValues.ranking}
+      handleRankChange={handleRankChange}
+      notifyCompletion={handleRankingCompletion} // Pass the completion handler to RankingQuestion
+    />, 
     <GenderQuestion
       key="Q9"
       selectedValue={selectedValues.gender}

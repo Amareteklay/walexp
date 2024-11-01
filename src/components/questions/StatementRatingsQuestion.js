@@ -3,14 +3,14 @@ import { Typography, Box, Grid, RadioGroup, FormControlLabel, Radio, Button } fr
 
 function StatementRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswered }) {
   const statements = [
-    { id: 'stmt1', text: "Acting environmentally friendly is an important part of who I am." },
-    { id: 'stmt2', text: "I am the type of person who acts environmentally friendly." },
-    { id: 'stmt3', text: "I see myself as an environmentally friendly person." },
-    { id: 'stmt4', text: "I am worried about the consequences of climate change. I think they can have drastic negative effects on our ways of life in the future." },
-    { id: 'stmt5', text: "I am worried about geopolitical conflicts. I think they can have drastic negative effects on our ways of life in the future." },
-    { id: 'stmt6', text: "I am worried about increased migration. I think migration can have drastic negative effects on our ways of life in the future." },
-    { id: 'stmt7', text: "I am worried about global pandemics like the Covid-19 pandemic. I think they can have drastic negative effects on our ways of life in the future." },
-    { id: 'stmt8', text: "I am worried about global economic turmoil. I think it can have drastic negative effects on our ways of life in the future." }
+    { id: 'stmt1', text: "1. Acting environmentally friendly is an important part of who I am." },
+    { id: 'stmt2', text: "2. I am the type of person who acts environmentally friendly." },
+    { id: 'stmt3', text: "3. I see myself as an environmentally friendly person." },
+    { id: 'stmt4', text: "4. I am worried about the consequences of climate change. I think they can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt5', text: "5. I am worried about geopolitical conflicts. I think they can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt6', text: "6. I am worried about increased migration. I think migration can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt7', text: "7. I am worried about global pandemics like the Covid-19 pandemic. I think they can have drastic negative effects on our ways of life in the future." },
+    { id: 'stmt8', text: "8. I am worried about global economic turmoil. I think it can have drastic negative effects on our ways of life in the future." }
   ];
 
   const itemsPerPage = 1;

@@ -4,17 +4,17 @@ import { FormControl, RadioGroup, FormControlLabel, Radio, Typography, Box } fro
 
 function EducationQuestion({ selectedValue, handleRadioChange }) {
   const options = [
-    "No formal education",
-    "Primary education",
-    "Secondary education",
-    "Higher education",
-    "Prefer not to say"
+    "No completed education",
+    "Elementary school",
+    "Secondary school",
+    "Upper secondary school",
+    "University"
   ];
 
   return (
     <Box>
       <Typography sx={{ mt: 4, mb: 2 }} variant="body1">
-        Q12. What is your highest level of education?
+        Q12. What is your highest completed education level?
       </Typography>
       <FormControl component="fieldset">
         <RadioGroup value={selectedValue} onChange={(e) => handleRadioChange(e.target.value)}>
