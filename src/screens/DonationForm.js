@@ -11,18 +11,16 @@ import {
   IconButton
 } from "@mui/material";
 import { styled } from "@mui/system";
-import InfoIcon from "@mui/icons-material/Info"; // Info icon for tooltips
+import InfoIcon from "@mui/icons-material/Info";
 import CustomButton from "../components/CustomButton";
 import { useData } from "../contexts/DataContext";
 
-// Styled container for the form
 const FormContainer = styled(Box)({
   marginTop: "20px",
   textAlign: "left",
   display: "inline-block",
 });
 
-// Mission statements for the tooltips
 const charityInfo = {
   Greenpeace: "Greenpeace aims to ensure the ability of the Earth to nurture life in all its diversity through environmental activism.",
   WWF: "The World Wildlife Fund (WWF) works to conserve nature and reduce the most pressing threats to the diversity of life on Earth.",
@@ -32,31 +30,37 @@ const charityInfo = {
 function DonationForm({ onProceed }) {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedCharity, setSelectedCharity] = useState("");
+  const [valueTimestamp, setValueTimestamp] = useState(null);
+  const [charityTimestamp, setCharityTimestamp] = useState(null);
   const { dispatch } = useData();
 
   const handleDonationChange = (event) => {
     setSelectedValue(event.target.value);
+    setValueTimestamp(new Date().toISOString()); // Record the timestamp for donation selection
   };
 
   const handleCharityChange = (event) => {
     setSelectedCharity(event.target.value);
+    setCharityTimestamp(new Date().toISOString()); // Record the timestamp for charity selection
   };
 
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Save the selected donation value, selected charity, and timestamp to the centralized state
+    // Dispatch all relevant data to the centralized store
     dispatch({
       type: "SET_DATA",
       key: "donationFormSubmission",
       value: {
         selectedValue,
         selectedCharity,
-        timestamp: currentTimestamp,
+        valueTimestamp,
+        charityTimestamp,
+        submitTimestamp: currentTimestamp,
       },
     });
 
-    // Proceed to the next part of the experiment
+    // Proceed to the next screen
     onProceed("surveyPrompt");
   };
 
@@ -67,55 +71,25 @@ function DonationForm({ onProceed }) {
       </Typography>
 
       <Grid container spacing={2}>
-        {/* Donation Amount Selection Column */}
         <Grid item xs={6}>
-          <FormContainer sx={{marginLeft: 8}}>
+          <FormContainer sx={{ marginLeft: 8 }}>
             <Typography variant="h6">Donation Amount</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedValue} onChange={handleDonationChange}>
-                <FormControlLabel
-                  value="0"
-                  control={<Radio />}
-                  label="0 Euro/Dollar"
-                />
-                <FormControlLabel
-                  value="0.3"
-                  control={<Radio />}
-                  label="0.3 Euro/Dollar (10%)"
-                />
-                <FormControlLabel
-                  value="0.75"
-                  control={<Radio />}
-                  label="0.75 Euro/Dollar (25%)"
-                />
-                <FormControlLabel
-                  value="1.5"
-                  control={<Radio />}
-                  label="1.5 Euro/Dollar (50%)"
-                />
-                <FormControlLabel
-                  value="2.25"
-                  control={<Radio />}
-                  label="2.25 Euro/Dollar (75%)"
-                />
-                <FormControlLabel
-                  value="2.7"
-                  control={<Radio />}
-                  label="2.7 Euro/Dollar (90%)"
-                />
-                <FormControlLabel
-                  value="3"
-                  control={<Radio />}
-                  label="3 Euro/Dollar (100%)"
-                />
+                <FormControlLabel value="0" control={<Radio />} label="0 Euro/Dollar" />
+                <FormControlLabel value="0.3" control={<Radio />} label="0.3 Euro/Dollar (10%)" />
+                <FormControlLabel value="0.75" control={<Radio />} label="0.75 Euro/Dollar (25%)" />
+                <FormControlLabel value="1.5" control={<Radio />} label="1.5 Euro/Dollar (50%)" />
+                <FormControlLabel value="2.25" control={<Radio />} label="2.25 Euro/Dollar (75%)" />
+                <FormControlLabel value="2.7" control={<Radio />} label="2.7 Euro/Dollar (90%)" />
+                <FormControlLabel value="3" control={<Radio />} label="3 Euro/Dollar (100%)" />
               </RadioGroup>
             </FormControl>
           </FormContainer>
         </Grid>
 
-        {/* Charity Selection Column */}
         <Grid item xs={6}>
-          <FormContainer sx={{marginLeft: 4}}>
+          <FormContainer sx={{ marginLeft: 4 }}>
             <Typography variant="h6">Select Charity Organization</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedCharity} onChange={handleCharityChange}>
@@ -131,7 +105,7 @@ function DonationForm({ onProceed }) {
                         </Typography>
                         <Tooltip title={info} arrow>
                           <IconButton size="small">
-                            <InfoIcon fontSize="small" sx={{color: "#5E5DF0"}}/>
+                            <InfoIcon fontSize="small" sx={{ color: "#5E5DF0" }} />
                           </IconButton>
                         </Tooltip>
                       </Box>
@@ -144,12 +118,11 @@ function DonationForm({ onProceed }) {
         </Grid>
       </Grid>
 
-      {/* Submit Button */}
       <Box mt={4}>
         <CustomButton
           text={"Submit"}
           onClick={handleContinue}
-          disabled={!selectedValue || !selectedCharity} // Require both selections
+          disabled={!selectedValue || !selectedCharity}
         />
       </Box>
     </>

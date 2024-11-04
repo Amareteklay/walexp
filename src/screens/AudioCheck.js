@@ -24,7 +24,6 @@ function AudioCheck({ onProceed }) {
       if (videoElement) {
         try {
           await videoElement.play();
-          console.log("Audio playback started");
         } catch (error) {
           console.error("Autoplay was prevented or another error occurred:", error);
         }

@@ -24,7 +24,7 @@ const screens = {
   audioCheck: AudioCheck,
   feedback: Feedback,
   emotionsOne: (props) => (
-    <EmotionsScale {...props} nextScreen="instructions" emotionId="emotionsOne" />
+    <EmotionsScale {...props} nextScreen="instructions" emotionId="1" />
   ),
   instructions: Instructions,
   demoScreen: DemoScreen,
@@ -94,7 +94,7 @@ const screens = {
     const nextScreen =
       currentStep >= videoData.length - 1 ? "donationPrompt" : "videoSeries"
 
-    return <EmotionsScale {...props} nextScreen={nextScreen} emotionId={`emotions_${currentStep}`} />
+    return <EmotionsScale {...props} nextScreen={nextScreen} emotionId={currentStep} />
   },
   donationPrompt: DonationPrompt,
   donationForm: DonationForm,
@@ -103,7 +103,7 @@ const screens = {
     <Survey {...props} onSubmit={() => props.onProceed("thankyou")} />
   ),
   thankyou: ThankYou,
-  welcome: Welcome,
+  welcome: Survey,
 }
 
 function ScreenManager({

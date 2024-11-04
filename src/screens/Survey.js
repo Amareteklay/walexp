@@ -10,7 +10,7 @@ import MediaTypeQuestion from "../components/questions/MediaTypeQuestion";
 import PoliticalScaleQuestion from "../components/questions/PoliticalScaleQuestion";
 import ValueRatingsQuestion from "../components/questions/ValueRatingsQuestion";
 import StatementRatingsQuestion from "../components/questions/StatementRatingsQuestion";
-import RankingQuestion from "../components/questions/RankingQuestion"
+import RankingQuestion from "../components/questions/RankingQuestion";
 import GenderQuestion from "../components/questions/GenderQuestion";
 import IncomeQuestion from "../components/questions/IncomeQuestion";
 import AreaQuestion from "../components/questions/AreaQuestion";
@@ -19,7 +19,6 @@ import EducationQuestion from "../components/questions/EducationQuestion";
 import HouseholdCompositionQuestion from "../components/questions/HouseholdCompositionQuestion";
 
 import CustomButton from "../components/CustomButton";
-import { useData } from "../contexts/DataContext";
 
 function Survey({ onSubmit, onQuestionChange }) {
   const [selectedValues, setSelectedValues] = useState({
@@ -28,24 +27,7 @@ function Survey({ onSubmit, onQuestionChange }) {
     mediaUse: [],
     mediaType: [],
     politicalScale: "",
-    valueRatings: {
-      "1. Social power": "",
-      "2. Equality": "",
-      "3. Respecting the Earth": "",
-      "4. Enjoying life": "",
-      "5. Wealth": "",
-      "6. A world at peace": "",
-      "7. Unity with nature": "",
-      "8. Authority": "",
-      "9. Pleasure": "",
-      "10. Social justice": "",
-      "11. Protecting the environment": "",
-      "12. Influence": "",
-      "13. Be helpful": "",
-      "14. Prevent pollution": "",
-      "15. Ambitious": "",
-      "16. Gratification for oneself": ""
-    },
+    valueRatings: {},
     statementRatings: {},
     ranking: {},
     gender: "",
@@ -61,10 +43,8 @@ function Survey({ onSubmit, onQuestionChange }) {
   const [isAnswered, setIsAnswered] = useState(false);
   const [allValuesAnswered, setAllValuesAnswered] = useState(false);
   const [allStatementsAnswered, setAllStatementsAnswered] = useState(false);
-  const [rankingComplete, setRankingComplete] = useState(false); 
-  const { dispatch } = useData();
+  const [rankingComplete, setRankingComplete] = useState(false);
 
-  // Helper function to check if all values are answered
   const areAllValuesAnswered = (updatedValues) => {
     return Object.values(updatedValues).every((val) => val !== "");
   };
@@ -97,7 +77,7 @@ function Survey({ onSubmit, onQuestionChange }) {
         setIsAnswered(allStatementsAnswered);
         break;
       case 7:
-        setIsAnswered(rankingComplete); // Use rankingComplete to determine if answered
+        setIsAnswered(rankingComplete);
         break;
       case 8:
         setIsAnswered(selectedValues.gender !== "");
@@ -125,173 +105,71 @@ function Survey({ onSubmit, onQuestionChange }) {
 
   const handleNext = () => {
     if (isAnswered && pageIndex < questions.length - 1) {
-      const currentTimestamp = new Date().toISOString();
-
-      // Save the current question data and timestamp when Next is clicked
-      const questionData = getQuestionDataForPage(pageIndex);
-
-      dispatch({
-        type: "SET_DATA",
-        key: `surveyQuestion_${pageIndex}`,
-        value: {
-          questionData,
-          timestamp: currentTimestamp,
-        },
-      });
-
       setIsAnswered(false);
       setPageIndex(pageIndex + 1);
     }
   };
 
-  const getQuestionDataForPage = (pageIndex) => {
-    switch (pageIndex) {
-      case 0:
-        return { socialMedia: selectedValues.socialMedia };
-      case 1:
-        return { frequency: selectedValues.frequency };
-      case 2:
-        return { mediaUse: selectedValues.mediaUse };
-      case 3:
-        return { mediaType: selectedValues.mediaType };
-      case 4:
-        return { politicalScale: selectedValues.politicalScale };
-      case 5:
-        return { valueRatings: selectedValues.valueRatings };
-      case 6:
-        return { statementRatings: selectedValues.statementRatings };
-      case 7:
-        return { gender: selectedValues.gender };
-      case 8:
-        return { income: selectedValues.income };
-      case 9:
-          return { income: selectedValues.income };
-      case 10:
-        return { area: selectedValues.area };
-      case 11:
-        return { age: selectedValues.age };
-      case 12:
-        return { education: selectedValues.education };
-      case 13:
-        return { adults: selectedValues.adults, children: selectedValues.children };
-      default:
-        return {};
-    }
-  };
-
-  const handleRankChange = (factor, rank) => {
-    setSelectedValues((prev) => ({
-      ...prev,
-      ranking: {
-        ...prev.ranking,
-        [factor]: rank,
-      },
-    }));
-  }; 
-  
-  // Define a function to update rankingComplete based on RankingQuestion completion
-  const handleRankingCompletion = (isComplete) => {
-    setRankingComplete(isComplete);
-  };
-
   const handleSubmit = () => {
+    const finalTimestamp = new Date().toISOString();
+    const surveyData = {
+      ...selectedValues,
+      submitTimestamp: finalTimestamp,
+    };
+
+    // Send data to PsychoJS
+    window.parent.postMessage(
+      {
+        type: "survey_complete",
+        data: surveyData,
+      },
+      "*"
+    );
+
     if (onSubmit) {
-      const currentTimestamp = new Date().toISOString();
-
-      // Save the final collected data as a single object
-      dispatch({
-        type: "SET_DATA",
-        key: "finalSurveyData",
-        value: {
-          ...selectedValues, // Capture all the final selectedValues at once
-          timestamp: currentTimestamp,
-        },
-      });
-
-      onSubmit(selectedValues);
+      onSubmit(surveyData);
     }
-
   };
 
   const handleRadioChange = (field, key, value) => {
     setSelectedValues((prev) => {
       let updatedRatings;
       if (field === "frequency") {
-        return {
-          ...prev,
-          frequency: value,
-        };
+        return { ...prev, frequency: value };
       }
       if (field === "politicalScale") {
-        return {
-          ...prev,
-          politicalScale: value,
-        };
+        return { ...prev, politicalScale: value };
       }
       if (field === "statementRatings") {
-        updatedRatings = {
-          ...prev.statementRatings,
-          [key]: value,
-        };
+        updatedRatings = { ...prev.statementRatings, [key]: value };
         setAllStatementsAnswered(areAllValuesAnswered(updatedRatings));
-        return {
-          ...prev,
-          statementRatings: updatedRatings,
-        };
+        return { ...prev, statementRatings: updatedRatings };
       }
-  
       if (field === "valueRatings") {
-        updatedRatings = {
-          ...prev.valueRatings,
-          [key]: value,
-        };
+        updatedRatings = { ...prev.valueRatings, [key]: value };
         setAllValuesAnswered(areAllValuesAnswered(updatedRatings));
-        return {
-          ...prev,
-          valueRatings: updatedRatings,
-        };
+        return { ...prev, valueRatings: updatedRatings };
       }
       if (field === "gender") {
-        return {
-          ...prev,
-          gender: value,
-        };
+        return { ...prev, gender: value };
       }
       if (field === "income") {
-        return {
-          ...prev,
-          income: value,
-        };
+        return { ...prev, income: value };
       }
       if (field === "area") {
-        return {
-          ...prev,
-          area: value,
-        };
+        return { ...prev, area: value };
       }
       if (field === "age") {
-        return {
-          ...prev,
-          age: value,
-        };
+        return { ...prev, age: value };
       }
       if (field === "education") {
-        return {
-          ...prev,
-          education: value,
-        };
+        return { ...prev, education: value };
       }
       if (field === "adults") {
-        return {
-          ...prev,
-          adults: value,
-        };
+        return { ...prev, adults: value };
       }
       if (field === "children") {
-        return {
-          ...prev,
-          children: value,
-        };
+        return { ...prev, children: value };
       }
       return prev;
     });
@@ -311,13 +189,6 @@ function Survey({ onSubmit, onQuestionChange }) {
       ...prev,
       [field]: updatedValues,
     }));
-
-    dispatch({
-      type: "SET_DATA",
-      key: field,
-      value: updatedValues,
-    });
-
     setIsAnswered(true);
   };
 
@@ -329,12 +200,12 @@ function Survey({ onSubmit, onQuestionChange }) {
         handleCheckboxChange("socialMedia", updatedValues)
       }
       setNextEnabled={setIsAnswered}
-    />, 
+    />,
     <FrequencyQuestion
       key="Q2"
       selectedValue={selectedValues.frequency}
       handleRadioChange={(value) => handleRadioChange("frequency", null, value)}
-    />, 
+    />,
     <MediaUseQuestion
       key="Q3"
       selectedValues={selectedValues.mediaUse}
@@ -342,7 +213,7 @@ function Survey({ onSubmit, onQuestionChange }) {
         handleCheckboxChange("mediaUse", updatedValues)
       }
       setNextEnabled={setIsAnswered}
-    />, 
+    />,
     <MediaTypeQuestion
       key="Q4"
       selectedValues={selectedValues.mediaType}
@@ -350,59 +221,65 @@ function Survey({ onSubmit, onQuestionChange }) {
         handleCheckboxChange("mediaType", updatedValues)
       }
       setNextEnabled={setIsAnswered}
-    />, 
+    />,
     <PoliticalScaleQuestion
       key="Q5"
       selectedValue={selectedValues.politicalScale}
       handleRadioChange={(value) =>
         handleRadioChange("politicalScale", null, value)
       }
-    />, 
+    />,
     <ValueRatingsQuestion
       key="Q6"
       selectedValues={selectedValues.valueRatings}
-  handleRadioChange={(key, value) => handleRadioChange("valueRatings", key, value)}
-  setAllAnswered={setAllValuesAnswered}
-    />, 
+      handleRadioChange={(key, value) => handleRadioChange("valueRatings", key, value)}
+      setAllAnswered={setAllValuesAnswered}
+    />,
     <StatementRatingsQuestion
       key="Q7"
       selectedValues={selectedValues.statementRatings}
-  handleRadioChange={(key, value) => handleRadioChange("statementRatings", key, value)}
-  setAllAnswered={setAllStatementsAnswered}
-    />, 
+      handleRadioChange={(key, value) => handleRadioChange("statementRatings", key, value)}
+      setAllAnswered={setAllStatementsAnswered}
+    />,
     <RankingQuestion
       key="Q8"
       selectedRanks={selectedValues.ranking}
-      handleRankChange={handleRankChange}
-      notifyCompletion={handleRankingCompletion} // Pass the completion handler to RankingQuestion
-    />, 
+      handleRankChange={(factor, rank) => {
+        setSelectedValues((prev) => ({
+          ...prev,
+          ranking: {
+            ...prev.ranking,
+            [factor]: rank,
+          },
+        }));
+      }}
+      notifyCompletion={(isComplete) => setRankingComplete(isComplete)}
+    />,
     <GenderQuestion
       key="Q9"
       selectedValue={selectedValues.gender}
       handleRadioChange={(value) => handleRadioChange("gender", null, value)}
-    />, 
+    />,
     <IncomeQuestion
       key="Q10"
       selectedValue={selectedValues.income}
       handleRadioChange={(value) => handleRadioChange("income", null, value)}
-    />, 
+    />,
     <AreaQuestion
       key="Q11"
       selectedValue={selectedValues.area}
       handleRadioChange={(value) => handleRadioChange("area", null, value)}
-    />, 
+    />,
     <AgeQuestion
       key="Q12"
       selectedValue={selectedValues.age}
       handleInputChange={(value) => handleInputChange("age", value)}
-    />, 
+    />,
     <EducationQuestion
       key="Q13"
       selectedValue={selectedValues.education}
-      handleRadioChange={(value) =>
-        handleRadioChange("education", null, value)
-      }
-    />, 
+      handleRadioChange={(value) => handleRadioChange("education", null, value)}
+    />,
     <HouseholdCompositionQuestion
       key="Q14"
       selectedValues={{

@@ -91,6 +91,7 @@ function SampleVideo({
 
   return (
     <Container>
+      <Typography>Sample video</Typography>
       <VideoPlayer
         videoSrc={`${process.env.PUBLIC_URL}/videos/sampleVideo.mp4`}
         overlayText="Sample text on sample video"

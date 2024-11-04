@@ -28,9 +28,7 @@ function DemoScreen({ onProceed, emojiType }) {
     dispatch({
       type: "SET_DATA",
       key: "demoScreenContinueTimestamp",
-      value: {
-        timestamp: currentTimestamp,
-      },
+      value: currentTimestamp,
     });
 
     onProceed("practicePrompt");
@@ -48,16 +46,13 @@ function DemoScreen({ onProceed, emojiType }) {
       videoRef.current.currentTime = 0;
       videoRef.current.play();
       setShowReplayButton(false);
-      setReplayCount(prevCount => prevCount + 1);
+      setReplayCount((prevCount) => prevCount + 1);
 
-      // Save the replay click timestamp and count
+      // Save the replay click timestamp with a unique key for each replay count
       dispatch({
         type: "SET_DATA",
-        key: `demoScreenReplay_${replayCount + 1}`,
-        value: {
-          replayCount: replayCount + 1,
-          timestamp: currentTimestamp,
-        },
+        key: `demoScreenReplayTimestamp_${replayCount + 1}`,
+        value: currentTimestamp,
       });
     }
   };
@@ -112,10 +107,7 @@ function DemoScreen({ onProceed, emojiType }) {
         )}
       </div>
 
-      <Typography
-        variant="h5"
-        sx={{ fontWeight: "bold", padding: 2 }}
-      >
+      <Typography variant="h5" sx={{ fontWeight: "bold", padding: 2 }}>
         Click 'Continue' to proceed to the next screen.
       </Typography>
       <CustomButton
