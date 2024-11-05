@@ -13,10 +13,8 @@ import CustomButton from "./CustomButton"
 function CommentDialog({
   open,
   comment,
-  shareOption,
   onClose,
   onCommentChange,
-  onShareOptionChange,
   onSubmit,
 }) {
   const [isCommentValid, setIsCommentValid] = useState(false)

@@ -61,7 +61,7 @@ function VideoScreen({
 
   const handleSubmitComment = () => {
     const timestamp = new Date().toISOString();
-
+    console.log("Submitting comment:", comment, "Timestamp:", timestamp);
     // Dispatch comment data with timestamp
     dispatch({
       type: "SET_DATA",
@@ -201,10 +201,8 @@ function VideoScreen({
       <CommentDialog
         open={open}
         comment={comment}
-        shareOption={shareOption}
         onClose={handleCancelComment}
         onCommentChange={setComment}
-        onShareOptionChange={setShareOption}
         onSubmit={handleSubmitComment}
       />
     </Container>
