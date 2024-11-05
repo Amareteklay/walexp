@@ -19,7 +19,8 @@ function VideoScreen({
   emojiType,
 }) {
   const [videoData, setVideoData] = useState({
-    emojiReaction: null,
+    emojiReaction_reaction: null,
+    emojiReaction_timestamp: null,
     comment: "",
     commentTimestamp: null,
     commentDialogTimestamp: null,
@@ -37,11 +38,12 @@ function VideoScreen({
   const videoRef = useRef(null);
   const { dispatch } = useData();
 
+  // Handle emoji reaction click
   const handleReaction = (reaction) => {
     if (videoRef.current) {
       const timestamp = videoRef.current.currentTime;
-  
-      // Flattened structure for emoji reaction
+
+      // Store emoji reaction and timestamp separately
       setVideoData((prevData) => ({
         ...prevData,
         emojiReaction_reaction: reaction,
@@ -90,10 +92,10 @@ function VideoScreen({
     setShareDialogOpen(false);
   };
 
-  const handleShareOptionChange = (value) => {
+  const handleShareOptionChange = (event) => {
     setVideoData(prevData => ({
       ...prevData,
-      shareOption: value,
+      shareOption: event.target.value,
     }));
   };
 
@@ -104,7 +106,7 @@ function VideoScreen({
       ...prevData,
       nextTimestamp: timestamp,
     }));
-console.log('Video data', videoData)
+    
     dispatch({
       type: "SET_DATA",
       key: `videoData_${videoId}`,
@@ -128,7 +130,12 @@ console.log('Video data', videoData)
     <Container>
       <VideoPlayer videoSrc={videoSrc} overlayText={overlayText} factInfo={factInfo} ref={videoRef} />
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
-        <EmojiReaction selectedEmoji={videoData.emojiReaction?.reaction} onReaction={handleReaction} interactive={true} emojiType={emojiType} />
+        <EmojiReaction
+          selectedEmoji={videoData.emojiReaction_reaction}
+          onReaction={handleReaction}
+          interactive={true}
+          emojiType={emojiType}
+        />
         <CustomButton
           text={"Comment"}
           onClick={handleAddComment}
@@ -153,7 +160,7 @@ console.log('Video data', videoData)
       <Modal open={shareDialogOpen} onClose={() => setShareDialogOpen(false)}>
         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', p: 4 }}>
           <Typography variant="h6">Would you share this video on social media?</Typography>
-          <RadioGroup row value={videoData.shareOption} onChange={(e) => handleShareOptionChange(e.target.value)}>
+          <RadioGroup row value={videoData.shareOption} onChange={handleShareOptionChange}>
             <FormControlLabel value="yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="no" control={<Radio />} label="No" />
           </RadioGroup>
