@@ -116,7 +116,7 @@ function Survey({ onSubmit, onQuestionChange }) {
       ...selectedValues,
       submitTimestamp: finalTimestamp,
     };
-
+console.log('Survey data', surveyData)
     // Send data to PsychoJS
     window.parent.postMessage(
       {

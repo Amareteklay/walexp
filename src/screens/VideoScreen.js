@@ -37,13 +37,15 @@ function VideoScreen({
   const videoRef = useRef(null);
   const { dispatch } = useData();
 
-  // Handle emoji reaction
   const handleReaction = (reaction) => {
     if (videoRef.current) {
       const timestamp = videoRef.current.currentTime;
-      setVideoData(prevData => ({
+  
+      // Flattened structure for emoji reaction
+      setVideoData((prevData) => ({
         ...prevData,
-        emojiReaction: { reaction, timestamp }
+        emojiReaction_reaction: reaction,
+        emojiReaction_timestamp: timestamp,
       }));
     }
   };
@@ -117,7 +119,7 @@ console.log('Video data', videoData)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsNextDisabled(false);
-    }, 5000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
