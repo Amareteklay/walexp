@@ -18,113 +18,100 @@ function VideoScreen({
   factInfo,
   emojiType,
 }) {
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [comment, setComment] = useState("");
-  const [shareOption, setShareOption] = useState("");
+  const [videoData, setVideoData] = useState({
+    emojiReaction: null,
+    comment: "",
+    commentTimestamp: null,
+    commentDialogTimestamp: null,
+    shareOption: "",
+    shareDialogTimestamp: null,
+    shareTimestamp: null,
+    nextTimestamp: null,
+  });
+
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [commentSubmitted, setCommentSubmitted] = useState(false);
-  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
-  const [isShareSubmitted, setIsShareSubmitted] = useState(false);
-
+  const [shareSubmitted, setShareSubmitted] = useState(false);
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const videoRef = useRef(null);
   const { dispatch } = useData();
 
+  // Handle emoji reaction
   const handleReaction = (reaction) => {
     if (videoRef.current) {
       const timestamp = videoRef.current.currentTime;
-      setSelectedEmoji(reaction);
-
-      // Dispatch emoji reaction with timestamp
-      dispatch({
-        type: "SET_DATA",
-        key: `emojiReaction_${videoId}`,
-        value: {
-          reaction,
-          videoId,
-          timestamp,
-        },
-      });
+      setVideoData(prevData => ({
+        ...prevData,
+        emojiReaction: { reaction, timestamp }
+      }));
     }
   };
 
+  // Open and log the comment dialog
   const handleAddComment = () => {
-    setOpen(true);
-
-    // Record timestamp for comment dialog open
-    dispatch({
-      type: "SET_DATA",
-      key: `commentDialogOpenTimestamp_${videoId}`,
-      value: new Date().toISOString(),
-    });
+    setCommentDialogOpen(true);
+    setVideoData(prevData => ({
+      ...prevData,
+      commentDialogTimestamp: new Date().toISOString(),
+    }));
   };
 
+  // Handle comment submission
   const handleSubmitComment = () => {
     const timestamp = new Date().toISOString();
-    console.log("Submitting comment:", comment, "Timestamp:", timestamp);
-    // Dispatch comment data with timestamp
-    dispatch({
-      type: "SET_DATA",
-      key: `comment_${videoId}`,
-      value: {
-        comment,
-        videoId,
-        timestamp,
-      },
-    });
-
-    setOpen(false);
+    setVideoData(prevData => ({
+      ...prevData,
+      commentTimestamp: timestamp,
+    }));
     setCommentSubmitted(true);
+    setCommentDialogOpen(false);
   };
 
-  const handleCancelComment = () => {
-    setOpen(false);
+  // Open and log the share dialog
+  const handleShareClick = () => {
+    setShareDialogOpen(true);
+    setVideoData(prevData => ({
+      ...prevData,
+      shareDialogTimestamp: new Date().toISOString(),
+    }));
   };
 
+  // Handle share option selection and submission
+  const handleShareSubmit = () => {
+    const timestamp = new Date().toISOString();
+    setVideoData(prevData => ({
+      ...prevData,
+      shareTimestamp: timestamp,
+    }));
+    setShareSubmitted(true);
+    setShareDialogOpen(false);
+  };
+
+  const handleShareOptionChange = (value) => {
+    setVideoData(prevData => ({
+      ...prevData,
+      shareOption: value,
+    }));
+  };
+
+  // Finalize and dispatch video data on Next
   const handleNext = () => {
     const timestamp = new Date().toISOString();
-
-    // Dispatch Next button click timestamp
+    setVideoData(prevData => ({
+      ...prevData,
+      nextTimestamp: timestamp,
+    }));
+console.log('Video data', videoData)
     dispatch({
       type: "SET_DATA",
-      key: `nextClick_${videoId}`,
-      value: timestamp,
+      key: `videoData_${videoId}`,
+      value: videoData,
     });
 
     if (onProceed && nextScreen) {
       onProceed(nextScreen);
     }
-  };
-
-  const handleShareOptionChange = (value) => {
-    setShareOption(value);
-  };
-
-  const handleShareClick = () => {
-    setIsShareDialogOpen(true);
-
-    // Record timestamp for share dialog open
-    dispatch({
-      type: "SET_DATA",
-      key: `shareDialogOpenTimestamp_${videoId}`,
-      value: new Date().toISOString(),
-    });
-  };
-
-  const handleShareSubmit = () => {
-    const timestamp = new Date().toISOString();
-    setIsShareDialogOpen(false);
-    setIsShareSubmitted(true);
-
-    // Dispatch share submission with timestamp
-    dispatch({
-      type: "SET_DATA",
-      key: `shareOption_${videoId}`,
-      value: {
-        shareOption,
-        timestamp,
-      },
-    });
   };
 
   useEffect(() => {
@@ -137,19 +124,9 @@ function VideoScreen({
 
   return (
     <Container>
-      <VideoPlayer
-        videoSrc={videoSrc}
-        overlayText={overlayText}
-        factInfo={factInfo}
-        ref={videoRef}
-      />
+      <VideoPlayer videoSrc={videoSrc} overlayText={overlayText} factInfo={factInfo} ref={videoRef} />
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
-        <EmojiReaction
-          selectedEmoji={selectedEmoji}
-          onReaction={handleReaction}
-          interactive={true}
-          emojiType={emojiType}
-        />
+        <EmojiReaction selectedEmoji={videoData.emojiReaction?.reaction} onReaction={handleReaction} interactive={true} emojiType={emojiType} />
         <CustomButton
           text={"Comment"}
           onClick={handleAddComment}
@@ -163,46 +140,36 @@ function VideoScreen({
           text={"Share"}
           onClick={handleShareClick}
           startIcon={<ShareIcon />}
-          disabled={isShareSubmitted}
+          disabled={shareSubmitted}
           fontSize="12px"
           fontWeight={400}
           padding="6px 12px"
         />
       </Box>
 
-      <Modal
-        open={isShareDialogOpen}
-        onClose={() => setIsShareDialogOpen(false)}
-        aria-labelledby="share-modal-title"
-        aria-describedby="share-modal-description"
-      >
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 2 }}>
-          <Typography id="share-modal-title" variant="h6" sx={{mb: 2}} gutterBottom>
-            Would you normally share this video on your social media?
-          </Typography>
-          <RadioGroup row value={shareOption} onChange={(e) => handleShareOptionChange(e.target.value)} sx={{mb: 2}}>
+      {/* Share Dialog */}
+      <Modal open={shareDialogOpen} onClose={() => setShareDialogOpen(false)}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', p: 4 }}>
+          <Typography variant="h6">Would you share this video on social media?</Typography>
+          <RadioGroup row value={videoData.shareOption} onChange={(e) => handleShareOptionChange(e.target.value)}>
             <FormControlLabel value="yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="no" control={<Radio />} label="No" />
           </RadioGroup>
-          <CustomButton text={"Submit"} onClick={handleShareSubmit} disabled={!shareOption} />
+          <CustomButton text={"Submit"} onClick={handleShareSubmit} disabled={!videoData.shareOption} />
         </Box>
       </Modal>
 
+      {/* Next Button */}
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2, marginTop: 8 }}>
-        <CustomButton
-          id="nextButton"
-          text={"Next"}
-          onClick={handleNext}
-          endIcon={<ArrowForwardIcon />}
-          disabled={isNextDisabled}
-        />
+        <CustomButton id="nextButton" text={"Next"} onClick={handleNext} endIcon={<ArrowForwardIcon />} disabled={isNextDisabled} />
       </Box>
 
+      {/* Comment Dialog */}
       <CommentDialog
-        open={open}
-        comment={comment}
-        onClose={handleCancelComment}
-        onCommentChange={setComment}
+        open={commentDialogOpen}
+        comment={videoData.comment}
+        onClose={() => setCommentDialogOpen(false)}
+        onCommentChange={(text) => setVideoData(prevData => ({ ...prevData, comment: text }))}
         onSubmit={handleSubmitComment}
       />
     </Container>
