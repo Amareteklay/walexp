@@ -18,7 +18,7 @@ function AgeQuestion({ selectedValue, handleInputChange }) {
         margin="normal"
         inputProps={{
           min: 18, // Prevent user from entering a value below 18
-          max: 70, // Prevent user from entering a value above 70
+          max: 90, // Prevent user from entering a value above 70
         }}
       />
     </Box>

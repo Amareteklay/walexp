@@ -2,81 +2,74 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CustomButton from '../components/CustomButton';
+import { useData } from '../contexts/DataContext'; // Ensuring useData is properly imported
 
 const OddOneOutTask = ({ onProceed, nextScreen }) => {
-  // State variables
+  const { dispatch } = useData();
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [items, setItems] = useState([]);
   const [oddIndex, setOddIndex] = useState(null);
-
-  // Refs for timing
   const startTimeRef = useRef(null);
   const endTimeRef = useRef(null);
 
-  // Generate items when the component mounts
   useEffect(() => {
     const { items: generatedItems, oddIndex: generatedOddIndex } = generateItems();
     setItems(generatedItems);
     setOddIndex(generatedOddIndex);
-
-    // Record the start time
     startTimeRef.current = new Date().toISOString();
+    console.log('Component mounted. Items and odd index generated.', { generatedItems, generatedOddIndex });
   }, []);
 
-  // Generate items for the grid
   const generateItems = () => {
-    const itemsArray = Array(9).fill('😊'); // Fill the array with identical emojis
-    const randomOddIndex = Math.floor(Math.random() * 9); // Random index for the odd item
-    itemsArray[randomOddIndex] = '😎'; // Set the odd item
+    const itemsArray = Array(9).fill('😊');
+    const randomOddIndex = Math.floor(Math.random() * 9);
+    itemsArray[randomOddIndex] = '😎';
     return { items: itemsArray, oddIndex: randomOddIndex };
   };
 
-  // Handle item click
   const handleItemClick = (index) => {
     if (!hasSubmitted) {
       setSelectedIndex(index);
+      console.log('Item clicked. Index:', index);
     }
   };
 
-  // Handle submission
   const handleSubmit = () => {
     if (selectedIndex !== null) {
       setHasSubmitted(true);
-      endTimeRef.current = new Date().toISOString(); // Record end time
+      endTimeRef.current = new Date().toISOString();
+      console.log('Submit clicked. Selected index and task end time recorded.', { selectedIndex, endTime: endTimeRef.current });
 
       const isCorrect = selectedIndex === oddIndex;
-
-      // Send data to PsychoJS
-      window.parent.postMessage(
-        {
-          type: 'odd_one_out_result',
-          selectedIndex,
-          oddIndex,
-          isCorrect,
-          startTime: startTimeRef.current,
-          endTime: endTimeRef.current,
-        },
-        '*'
-      );
-
-      if (isCorrect) {
-        setFeedback('Correct! You found the odd one out.');
-      } else {
-        setFeedback('Incorrect. Please pay closer attention next time.');
-      }
+      setFeedback(isCorrect ? 'Correct! You found the odd one out.' : 'Incorrect. Please pay closer attention next time.');
+      console.log('Feedback set:', feedback);
     } else {
       setFeedback('Please select an item before submitting.');
+      console.log('No item selected on submit.');
     }
   };
 
-  // Proceed to the next part of your platform
   const handleNext = () => {
     const timestamp = new Date().toISOString();
+    const taskData = {
+      oddOneOutData: {
+        selectedIndex,
+        oddIndex,
+        startTime: startTimeRef.current,
+        endTime: endTimeRef.current,
+        isCorrect: selectedIndex === oddIndex,
+      },
+      nextTimestamp: timestamp,
+    };
 
-    // Send next button click event to PsychoJS
-    window.parent.postMessage({ type: 'next_click', task: 'odd_one_out', timestamp }, '*');
+    console.log('Next clicked. Dispatching data:', taskData);
+    dispatch({
+      type: 'SET_DATA',
+      key: 'oddOneOutTaskData', // Unique key for each task completion
+      value: taskData,
+    });
 
     if (onProceed && nextScreen) {
       onProceed(nextScreen);
@@ -157,11 +150,7 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
         >
           <Typography variant="h6">{feedback}</Typography>
           {hasSubmitted && (
-            <Box sx={{ alignItems: 'center', // Vertically center the items
-              justifyContent: 'center',
-              gap: 2, // Add some space between the items
-              marginTop: 8,
-              marginLeft: "48%" }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
               <CustomButton
                 id="nextButton"
                 text={'Next'}

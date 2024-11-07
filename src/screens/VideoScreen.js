@@ -102,20 +102,22 @@ function VideoScreen({
   // Finalize and dispatch video data on Next
   const handleNext = () => {
     const timestamp = new Date().toISOString();
-    setVideoData(prevData => ({
-      ...prevData,
-      nextTimestamp: timestamp,
-    }));
-    
-    dispatch({
-      type: "SET_DATA",
-      key: `videoData_${videoId}`,
-      value: videoData,
+    setVideoData(prevData => {
+      const newData = { ...prevData, nextTimestamp: timestamp };
+      console.log("Next timestamp", timestamp);  // Log the new timestamp immediately
+  
+      dispatch({
+        type: "SET_DATA",
+        key: `videoData_${videoId}`,
+        value: newData,
+      });
+  
+      if (onProceed && nextScreen) {
+        onProceed(nextScreen);
+      }
+  
+      return newData;
     });
-
-    if (onProceed && nextScreen) {
-      onProceed(nextScreen);
-    }
   };
 
   useEffect(() => {

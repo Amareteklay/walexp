@@ -4,6 +4,7 @@ import AudioCheck from "../screens/AudioCheck"
 import Feedback from "../screens/Feedback"
 import EmotionsScale from "../screens/EmotionsScale"
 import Instructions from "../screens/Instructions"
+import InstructionsTwo from "../screens/InstructionsTwo"
 import DemoEmoicons from "../screens/DemoEmoicons"
 import PracticePrompt from "../screens/PracticePrompt"
 import DemoShare from "../screens/DemoShare"
@@ -27,6 +28,7 @@ const screens = {
     <EmotionsScale {...props} nextScreen="instructions" emotionId="1" />
   ),
   instructions: Instructions,
+  instructionsTwo: InstructionsTwo,
   demoScreen: DemoScreen,
   demoicons: (props) => (
     <DemoEmoicons {...props} emojiType={props.emojiType} />
@@ -42,6 +44,7 @@ const screens = {
       emojiType={props.emojiType}
       overlayText="Sample Video"
       factInfo="Sample Text"
+      videoId={'video00'}
     />
   ),
   transitionOne: TransitionScreen,

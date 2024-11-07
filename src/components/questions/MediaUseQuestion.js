@@ -7,7 +7,7 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
 
   const options = [
     'I am not on social media',
-    'I only use it to catch up on content posted by others',
+    'I use it to catch up on content posted by others',
     'I use it to interact with my friends and family',
     'I use it to share information I find important and/or interesting',
     'Other reason, specify',

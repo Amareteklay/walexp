@@ -9,6 +9,7 @@ function DemoScreen({ onProceed, emojiType }) {
   const videoRef = useRef(null);
   const [showReplayButton, setShowReplayButton] = useState(false);
   const [replayCount, setReplayCount] = useState(0);
+  const [replayTimestamps, setReplayTimestamps] = useState([]); // Store timestamps of all replays
   const { dispatch } = useData();
 
   // Determines the appropriate video source based on the emojiType prop
@@ -24,11 +25,14 @@ function DemoScreen({ onProceed, emojiType }) {
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Save the timestamp when the Continue button is clicked
+    // Dispatch once with all relevant data when continuing
     dispatch({
       type: "SET_DATA",
-      key: "demoScreenContinueTimestamp",
-      value: currentTimestamp,
+      key: "demoScreenData",
+      value: {
+        continueTimestamp: currentTimestamp,
+        replayTimestamps: replayTimestamps,
+      },
     });
 
     onProceed("practicePrompt");
@@ -42,18 +46,14 @@ function DemoScreen({ onProceed, emojiType }) {
   // Handler for replay button click
   const handleReplay = () => {
     if (videoRef.current) {
-      const currentTimestamp = new Date().toISOString();
       videoRef.current.currentTime = 0;
       videoRef.current.play();
       setShowReplayButton(false);
       setReplayCount((prevCount) => prevCount + 1);
+      const currentTimestamp = new Date().toISOString();
 
-      // Save the replay click timestamp with a unique key for each replay count
-      dispatch({
-        type: "SET_DATA",
-        key: `demoScreenReplayTimestamp_${replayCount + 1}`,
-        value: currentTimestamp,
-      });
+      // Add current timestamp to the replayTimestamps array
+      setReplayTimestamps((prevTimestamps) => [...prevTimestamps, currentTimestamp]);
     }
   };
 

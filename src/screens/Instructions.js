@@ -23,7 +23,7 @@ function Instructions({ onProceed }) {
     });
 
     // Proceed to the next screen
-    onProceed("demoScreen");
+    onProceed("instructionsTwo");
   };
 
   return (
@@ -36,38 +36,12 @@ function Instructions({ onProceed }) {
         environmental phenomena such as flooding, forest fires, storms, and
         migration.
       </Typography>
-
-      <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2 }}>
-        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
-          <EmojiEmotionsIcon sx={{ mr: 2, color: "blue" }} />
-          <CardContent>
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              You will use emojis to indicate your reaction towards the videos.
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
-          <CommentIcon sx={{ mr: 2, color: "blue" }} />
-          <CardContent>
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              You will have the chance to comment on some of the videos.
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
-          <ShareIcon sx={{ mr: 2, color: "blue" }} />
-          <CardContent>
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              You will use a 'Share' button to indicate if you would share the video on social media.
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
+      <Typography variant="h6" sx={{ fontWeight: "bold", mx: 4 }}>
+        
+      </Typography>
 
       <Typography variant="h5" sx={{ fontWeight: "bold", padding: 4 }}>
-        Click 'Next' when you're ready.
+        Click 'Next' to continue reading the instructions.
       </Typography>
       <CustomButton
         text={"Next"}

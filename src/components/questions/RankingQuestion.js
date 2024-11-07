@@ -30,7 +30,7 @@ function RankingQuestion({ selectedRanks, handleRankChange, notifyCompletion }) 
       <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 2 }}>
         Rank the following factors in the order in which they have most changed the way you look at your future.
       </Typography>
-      <Typography variant="caption" sx={{ color: '#666', mb: 2, display: 'block' }}>
+      <Typography variant="body1" sx={{ mb: 2, display: 'block' }}>
         (1 = Most impact, {factors.length} = Least impact)
       </Typography>
       

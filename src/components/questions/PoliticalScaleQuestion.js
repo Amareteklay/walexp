@@ -6,8 +6,8 @@ function PoliticalScaleQuestion({ selectedValue, handleRadioChange, isUS }) {
     ? "Where would you place yourself politically on a liberal-to-conservative scale?"
     : "Where would you place yourself politically on a left-to-right scale?";
   const scaleDescription = isUS
-    ? "(1: Very leaning towards liberal, 7: Very leaning towards conservative)"
-    : "(1: Very leaning towards left, 7: Very leaning towards right)";
+    ? "1: Very leaning towards liberal, 7: Very leaning towards conservative"
+    : "1: Very leaning towards left, 7: Very leaning towards right";
 
   return (
     <Box sx={{ padding: 2, border: '1px solid #e0e0e0', borderRadius: 2, backgroundColor: '#f9f9f9', mb: 3 }}>
@@ -18,7 +18,7 @@ function PoliticalScaleQuestion({ selectedValue, handleRadioChange, isUS }) {
           <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
             Q5. {questionText}
           </Typography>
-          <Typography variant="caption" sx={{ color: '#666' }}>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
             {scaleDescription}
           </Typography>
         </Grid>

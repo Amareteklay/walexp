@@ -8,6 +8,7 @@ import {
   Radio,
   Grid,
   Tooltip,
+  TextField,
   IconButton
 } from "@mui/material";
 import { styled } from "@mui/system";
@@ -32,6 +33,7 @@ function DonationForm({ onProceed }) {
   const [selectedCharity, setSelectedCharity] = useState("");
   const [valueTimestamp, setValueTimestamp] = useState(null);
   const [charityTimestamp, setCharityTimestamp] = useState(null);
+  const [charityExplanation, setCharityExplanation] = useState("");
   const { dispatch } = useData();
 
   const handleDonationChange = (event) => {
@@ -43,24 +45,25 @@ function DonationForm({ onProceed }) {
     setSelectedCharity(event.target.value);
     setCharityTimestamp(new Date().toISOString()); // Record the timestamp for charity selection
   };
-
+  const handleExplanationChange = (event) => {
+    setCharityExplanation(event.target.value);
+  };
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Dispatch all relevant data to the centralized store
     dispatch({
       type: "SET_DATA",
       key: "donationFormSubmission",
       value: {
         selectedValue,
         selectedCharity,
+        charityExplanation,
         valueTimestamp,
         charityTimestamp,
         submitTimestamp: currentTimestamp,
       },
     });
 
-    // Proceed to the next screen
     onProceed("surveyPrompt");
   };
 
@@ -114,6 +117,17 @@ function DonationForm({ onProceed }) {
                 ))}
               </RadioGroup>
             </FormControl>
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              Could you state why you made that decision?
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+              onChange={handleExplanationChange}
+              value={charityExplanation}
+            />
           </FormContainer>
         </Grid>
       </Grid>
