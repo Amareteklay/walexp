@@ -1,13 +1,25 @@
 import React from 'react';
 import { Box, Grid, RadioGroup, FormControlLabel, Radio, Typography } from '@mui/material';
+import { useData } from "../../contexts/DataContext";  // Assuming you're using context to store country data
 
-function PoliticalScaleQuestion({ selectedValue, handleRadioChange, isUS }) {
+function PoliticalScaleQuestion({ selectedValue, handleRadioChange }) {
+  // Access the selected country from the context
+  const { state } = useData();
+  const isUS = state.selectedCountry === "US";
+  const isUK = state.selectedCountry === "UK";
+
+  // Question and scale descriptions based on the selected country
   const questionText = isUS
     ? "Where would you place yourself politically on a liberal-to-conservative scale?"
-    : "Where would you place yourself politically on a left-to-right scale?";
+    : isUK
+    ? "Where would you place yourself politically on a left-to-right scale?"
+    : "Where would you place yourself politically?";
+
   const scaleDescription = isUS
     ? "1: Very leaning towards liberal, 7: Very leaning towards conservative"
-    : "1: Very leaning towards left, 7: Very leaning towards right";
+    : isUK
+    ? "1: Very leaning towards left, 7: Very leaning towards right"
+    : "1: Very left-wing, 7: Very right-wing";
 
   return (
     <Box sx={{ padding: 2, border: '1px solid #e0e0e0', borderRadius: 2, backgroundColor: '#f9f9f9', mb: 3 }}>

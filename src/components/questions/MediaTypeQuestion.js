@@ -1,4 +1,3 @@
-// MediaTypeQuestion.js
 import React, { useEffect, useState } from 'react';
 import { Typography, FormGroup, FormControlLabel, Checkbox, TextField } from '@mui/material';
 
@@ -19,14 +18,28 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
     setNextEnabled(selectedValues.length > 0);
   }, [selectedValues, setNextEnabled]);
 
-  // Handle checkbox changes
-  const handleChange = (option) => {
-    const updatedMediaType = selectedValues.includes(option)
-      ? selectedValues.filter((value) => value !== option)
-      : [...selectedValues, option];
+  // Disable other options if 'I don’t stay updated on current events' is selected
+  const isNotStayingUpdated = selectedValues.includes('I don’t stay updated on current events');
 
-    // Pass the updated array to the parent handler
-    handleCheckboxChange(updatedMediaType);
+  const handleChange = (option) => {
+    if (option === 'I don’t stay updated on current events') {
+      // If 'I don’t stay updated on current events' is selected, unselect everything else
+      const updatedMediaType = isNotStayingUpdated ? [] : [option];
+      handleCheckboxChange(updatedMediaType);
+    } else if (option === 'Others, specify' && !isNotStayingUpdated) {
+      // Handle 'Others, specify' option text change
+      if (selectedValues.includes(option)) {
+        handleCheckboxChange(selectedValues.filter(value => value !== option));
+      } else {
+        handleCheckboxChange([...selectedValues, option]);
+      }
+    } else {
+      const updatedMediaType = selectedValues.includes(option)
+        ? selectedValues.filter((value) => value !== option)
+        : [...selectedValues, option];
+
+      handleCheckboxChange(updatedMediaType);
+    }
   };
 
   // Handle the change in "Others" text field
@@ -50,6 +63,7 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
               <Checkbox
                 checked={selectedValues.includes(option)}
                 onChange={() => handleChange(option)}
+                disabled={isNotStayingUpdated && option !== 'I don’t stay updated on current events'}
               />
             }
             label={<span style={{ fontSize: '0.875rem' }}>{option}</span>}

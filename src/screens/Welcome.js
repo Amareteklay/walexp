@@ -39,7 +39,7 @@ function Welcome({ onStart }) {
       <Typography variant="h6" fontWeight="bold" padding={2} gutterBottom>
         Please read the instructions carefully.
       </Typography>
-      <Typography variant="h6" fontWeight="bold" padding={2} marginBottom={12} gutterBottom>
+      <Typography variant="h6" sx={{p:2, mb: 4, mt: 4}} gutterBottom>
         Click 'Continue' when you're ready.
       </Typography>
       <Box display="flex" justifyContent="center">

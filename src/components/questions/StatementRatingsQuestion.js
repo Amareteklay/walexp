@@ -26,7 +26,7 @@ function StatementRatingsQuestion({ selectedValues, handleRadioChange, setAllAns
 
   return (
     <Box>
-      <Typography sx={{ mb: 2 }} variant="body1">
+      <Typography sx={{ mb: 4 }} variant="body1">
         Q7. To what degree do you agree with the following statements? Indicate on a scale from 1 completely
         disagree, to 7 completely agree, or select "Don't know" or "Prefer not to say".
       </Typography>
@@ -37,7 +37,7 @@ function StatementRatingsQuestion({ selectedValues, handleRadioChange, setAllAns
           {/* Statement Row */}
           <Grid container>
             <Grid item xs={12}>
-              <Typography variant="subtitle1" sx={{ mb: 2 }}>{text}</Typography>
+              <Typography variant="h6" sx={{ mb: 2 }}>{text}</Typography>
             </Grid>
           </Grid>
 

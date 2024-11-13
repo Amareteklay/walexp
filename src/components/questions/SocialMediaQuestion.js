@@ -1,4 +1,3 @@
-// SocialMediaQuestion.js
 import React, { useEffect, useState } from "react";
 import { Typography, FormGroup, FormControlLabel, Checkbox, TextField } from "@mui/material";
 
@@ -20,12 +19,28 @@ function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNex
     setNextEnabled(selectedValues.length > 0);
   }, [selectedValues, setNextEnabled]);
 
-  const handleChange = (option) => {
-    const updatedSocialMedia = selectedValues.includes(option)
-      ? selectedValues.filter((value) => value !== option)
-      : [...selectedValues, option];
+  // Disable other options if 'I am not on social media' is selected
+  const isSocialMediaDisabled = selectedValues.includes("I am not on social media");
 
-    handleCheckboxChange(updatedSocialMedia);
+  const handleChange = (option) => {
+    if (option === "I am not on social media") {
+      // If 'I am not on social media' is selected, unselect everything else
+      const updatedSocialMedia = isSocialMediaDisabled ? [] : [option];
+      handleCheckboxChange(updatedSocialMedia);
+    } else if (option === "Other(s)" && !isSocialMediaDisabled) {
+      // Handle 'Other(s)' option text change
+      if (selectedValues.includes(option)) {
+        handleCheckboxChange(selectedValues.filter(value => value !== option));
+      } else {
+        handleCheckboxChange([...selectedValues, option]);
+      }
+    } else {
+      const updatedSocialMedia = selectedValues.includes(option)
+        ? selectedValues.filter((value) => value !== option)
+        : [...selectedValues, option];
+
+      handleCheckboxChange(updatedSocialMedia);
+    }
   };
 
   const handleOtherTextChange = (event) => {
@@ -48,6 +63,7 @@ function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNex
               <Checkbox
                 checked={selectedValues.includes(option)}
                 onChange={() => handleChange(option)}
+                disabled={isSocialMediaDisabled && option !== "I am not on social media"}
               />
             }
             label={option}

@@ -28,9 +28,6 @@ function InstructionsTwo({ onProceed }) {
 
   return (
     <>
-      <Typography variant="h3" sx={{ fontWeight: "bold", mb: 2 }} gutterBottom>
-        Instructions
-      </Typography>
       <Typography variant="h6" sx={{ fontWeight: "bold", mx: 4 }}>
       Imagine you see these videos while you are at a social media platform. We want to investigate how you interact with the content on this platform.
       </Typography>
@@ -38,7 +35,7 @@ function InstructionsTwo({ onProceed }) {
         
       </Typography>
 
-      <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2 }}>
+      <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2, mb: 4 }}>
         <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <EmojiEmotionsIcon sx={{ mr: 2, color: "blue" }} />
           <CardContent>
@@ -67,9 +64,9 @@ function InstructionsTwo({ onProceed }) {
         </Card>
       </Box>
 
-      <Typography variant="h5" sx={{ fontWeight: "bold", padding: 4 }}>
+     {/*  <Typography variant="h5" sx={{ fontWeight: "bold", padding: 4 }}>
         Click 'Next' when you're ready.
-      </Typography>
+      </Typography> */}
       <CustomButton
         text={"Next"}
         onClick={handleContinue}

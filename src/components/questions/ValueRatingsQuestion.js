@@ -22,7 +22,7 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
     { id: 'VR16', text: '16. Gratification for oneself' }
   ];
   
-  const itemsPerPage = 4;
+  const itemsPerPage = 2;
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = Math.ceil(values.length / itemsPerPage);
 
@@ -38,7 +38,7 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
   return (
     <Box>
       <Typography sx={{ mb: 4 }} variant="body1">
-        Q6. See these 16 values as potential guiding principles in your life. For each, please rate its importance on a 7-point scale, where 1 is "not at all important" and 7 is "extremely important."
+        Q6. See the following 16 values as potential guiding principles in your life. For each, please rate its importance on a 7-point scale, where 1 is "not at all important" and 7 is "extremely important."
       </Typography>
 
       {/* Header row for rating options */}
@@ -59,7 +59,7 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
       {currentValues.map(({ id, text }, index) => (
         <Grid container spacing={0} alignItems="center" key={id} mt={1} sx={{ backgroundColor: index % 2 !== 0 ? '#d9d4d4' : '' }}>
           <Grid item xs={3}>
-            <Typography variant="subtitle1">{text}</Typography>
+            <Typography variant="h6">{text}</Typography>
           </Grid>
           {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
             <Grid item xs={1} key={val}>

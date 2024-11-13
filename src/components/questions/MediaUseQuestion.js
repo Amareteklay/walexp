@@ -1,4 +1,3 @@
-// MediaUseQuestion.js
 import React, { useEffect, useState } from 'react';
 import { Typography, FormGroup, FormControlLabel, Checkbox, TextField } from '@mui/material';
 
@@ -18,14 +17,28 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
     setNextEnabled(selectedValues.length > 0);
   }, [selectedValues, setNextEnabled]);
 
-  // Handle checkbox changes
-  const handleChange = (option) => {
-    const updatedMediaUse = selectedValues.includes(option)
-      ? selectedValues.filter((value) => value !== option)
-      : [...selectedValues, option];
+  // Disable other options if 'I am not on social media' is selected
+  const isSocialMediaDisabled = selectedValues.includes('I am not on social media');
 
-    // Pass the updated array to the parent handler
-    handleCheckboxChange(updatedMediaUse);
+  const handleChange = (option) => {
+    if (option === 'I am not on social media') {
+      // If 'I am not on social media' is selected, unselect everything else
+      const updatedMediaUse = isSocialMediaDisabled ? [] : [option];
+      handleCheckboxChange(updatedMediaUse);
+    } else if (option === 'Other reason, specify' && !isSocialMediaDisabled) {
+      // Handle 'Other reason, specify' option text change
+      if (selectedValues.includes(option)) {
+        handleCheckboxChange(selectedValues.filter(value => value !== option));
+      } else {
+        handleCheckboxChange([...selectedValues, option]);
+      }
+    } else {
+      const updatedMediaUse = selectedValues.includes(option)
+        ? selectedValues.filter((value) => value !== option)
+        : [...selectedValues, option];
+
+      handleCheckboxChange(updatedMediaUse);
+    }
   };
 
   // Handle the change in "Other" text field
@@ -49,6 +62,7 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
               <Checkbox
                 checked={selectedValues.includes(option)}
                 onChange={() => handleChange(option)}
+                disabled={isSocialMediaDisabled && option !== 'I am not on social media'}
               />
             }
             label={<span style={{ fontSize: '0.875rem' }}>{option}</span>}

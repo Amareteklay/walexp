@@ -37,7 +37,7 @@ function PracticePrompt({ onProceed }) {
         After watching the video on the next screen, try the following.
       </Typography>
 
-      <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2 }}>
+      <Box sx={{ mx: 4, mt: 2, display: 'grid', gap: 2, mb: 4 }}>
         <Card sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
           <EmojiEmotionsIcon sx={{ mr: 1, color: 'blue' }} />
           <CardContent>
@@ -66,9 +66,6 @@ function PracticePrompt({ onProceed }) {
         </Card>
       </Box>
 
-      <Typography variant="body1" sx={{ fontWeight: "bold", padding: 4 }}>
-        Click 'Next' to start the practice.
-      </Typography>
       <CustomButton
         text={"Next"}
         onClick={handleContinue}

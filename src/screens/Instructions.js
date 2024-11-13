@@ -28,7 +28,7 @@ function Instructions({ onProceed }) {
 
   return (
     <>
-      <Typography variant="h3" sx={{ fontWeight: "bold", mb: 2 }} gutterBottom>
+      <Typography variant="h3" sx={{ fontWeight: "bold", mb: 8 }} gutterBottom>
         Instructions
       </Typography>
       <Typography variant="h6" sx={{ fontWeight: "bold", mx: 4 }}>
@@ -36,11 +36,8 @@ function Instructions({ onProceed }) {
         environmental phenomena such as flooding, forest fires, storms, and
         migration.
       </Typography>
-      <Typography variant="h6" sx={{ fontWeight: "bold", mx: 4 }}>
-        
-      </Typography>
 
-      <Typography variant="h5" sx={{ fontWeight: "bold", padding: 4 }}>
+      <Typography variant="h5" sx={{ fontWeight: "bold", padding: 4, my: 4 }}>
         Click 'Next' to continue reading the instructions.
       </Typography>
       <CustomButton

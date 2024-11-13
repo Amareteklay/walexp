@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Box,
@@ -9,7 +9,7 @@ import {
   Grid,
   Tooltip,
   TextField,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import InfoIcon from "@mui/icons-material/Info";
@@ -22,32 +22,55 @@ const FormContainer = styled(Box)({
   display: "inline-block",
 });
 
+// Charity info for global, US, and UK
 const charityInfo = {
-  Greenpeace: "Greenpeace aims to ensure the ability of the Earth to nurture life in all its diversity through environmental activism.",
-  WWF: "The World Wildlife Fund (WWF) works to conserve nature and reduce the most pressing threats to the diversity of life on Earth.",
-  NatureConservancy: "The Nature Conservancy is a global environmental nonprofit working to create a world where people and nature can thrive.",
+  global: {
+    UNEnvironment: "The UN Environment Programme works on environmental issues around the globe.",
+  },
+  US: {
+    Greenpeace: "Greenpeace USA aims to ensure the ability of the Earth to nurture life through environmental activism.",
+    WWF: "The World Wildlife Fund (WWF) works to conserve nature and reduce the most pressing threats to life on Earth.",
+    NatureConservancy: "The Nature Conservancy works to protect land and water on a global scale.",
+  },
+  UK: {
+    Greenpeace: "Greenpeace UK is focused on environmental activism in the UK and around the world.",
+    WWF: "WWF UK works to protect the environment and conserve nature.",
+    TheWildlifeTrusts: "The Wildlife Trusts are dedicated to protecting wildlife and wild places across the UK.",
+  },
 };
 
 function DonationForm({ onProceed }) {
+  const { state, dispatch } = useData();
+  const selectedCountry = state.selectedCountry;
+
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedCharity, setSelectedCharity] = useState("");
-  const [valueTimestamp, setValueTimestamp] = useState(null);
-  const [charityTimestamp, setCharityTimestamp] = useState(null);
   const [charityExplanation, setCharityExplanation] = useState("");
-  const { dispatch } = useData();
+  const [currency, setCurrency] = useState("Euro");
+
+  // Update currency based on selected country
+  useEffect(() => {
+    if (selectedCountry === "US") {
+      setCurrency("USD");
+    } else if (selectedCountry === "UK") {
+      setCurrency("GBP");
+    } else {
+      setCurrency("Euro");
+    }
+  }, [selectedCountry]);
 
   const handleDonationChange = (event) => {
     setSelectedValue(event.target.value);
-    setValueTimestamp(new Date().toISOString()); // Record the timestamp for donation selection
   };
 
   const handleCharityChange = (event) => {
     setSelectedCharity(event.target.value);
-    setCharityTimestamp(new Date().toISOString()); // Record the timestamp for charity selection
   };
+
   const handleExplanationChange = (event) => {
     setCharityExplanation(event.target.value);
   };
+
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
@@ -58,8 +81,6 @@ function DonationForm({ onProceed }) {
         selectedValue,
         selectedCharity,
         charityExplanation,
-        valueTimestamp,
-        charityTimestamp,
         submitTimestamp: currentTimestamp,
       },
     });
@@ -67,10 +88,17 @@ function DonationForm({ onProceed }) {
     onProceed("surveyPrompt");
   };
 
+  const charities =
+    selectedCountry === "US"
+      ? charityInfo.US
+      : selectedCountry === "UK"
+      ? charityInfo.UK
+      : charityInfo.global;
+
   return (
     <>
       <Typography variant="body1" sx={{ mx: 8, mb: 2 }}>
-        Please indicate how much of the 3 Euros/Dollars you would like to donate to an environmental charity, and choose the organization.
+        Please indicate how much of the 3 {currency} you would like to donate to an environmental charity, and choose the organization.
       </Typography>
 
       <Grid container spacing={2}>
@@ -79,13 +107,13 @@ function DonationForm({ onProceed }) {
             <Typography variant="h6">Donation Amount</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedValue} onChange={handleDonationChange}>
-                <FormControlLabel value="0" control={<Radio />} label="0 Euro/Dollar" />
-                <FormControlLabel value="0.3" control={<Radio />} label="0.3 Euro/Dollar (10%)" />
-                <FormControlLabel value="0.75" control={<Radio />} label="0.75 Euro/Dollar (25%)" />
-                <FormControlLabel value="1.5" control={<Radio />} label="1.5 Euro/Dollar (50%)" />
-                <FormControlLabel value="2.25" control={<Radio />} label="2.25 Euro/Dollar (75%)" />
-                <FormControlLabel value="2.7" control={<Radio />} label="2.7 Euro/Dollar (90%)" />
-                <FormControlLabel value="3" control={<Radio />} label="3 Euro/Dollar (100%)" />
+                <FormControlLabel value="0" control={<Radio />} label={`0 ${currency}`} />
+                <FormControlLabel value="0.3" control={<Radio />} label={`0.3 ${currency} (10%)`} />
+                <FormControlLabel value="0.75" control={<Radio />} label={`0.75 ${currency} (25%)`} />
+                <FormControlLabel value="1.5" control={<Radio />} label={`1.5 ${currency} (50%)`} />
+                <FormControlLabel value="2.25" control={<Radio />} label={`2.25 ${currency} (75%)`} />
+                <FormControlLabel value="2.7" control={<Radio />} label={`2.7 ${currency} (90%)`} />
+                <FormControlLabel value="3" control={<Radio />} label={`3 ${currency} (100%)`} />
               </RadioGroup>
             </FormControl>
           </FormContainer>
@@ -96,7 +124,7 @@ function DonationForm({ onProceed }) {
             <Typography variant="h6">Select Charity Organization</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedCharity} onChange={handleCharityChange}>
-                {Object.entries(charityInfo).map(([name, info]) => (
+                {Object.entries(charities).map(([name, info]) => (
                   <FormControlLabel
                     key={name}
                     value={name}
