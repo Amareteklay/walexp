@@ -5,10 +5,6 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CustomButton from "../components/CustomButton";
 import { useData } from "../contexts/DataContext";
 
-const FeedbackBox = styled(Box)({
-  marginTop: "20px",
-  marginBottom: "20px",
-});
 
 function TransitionScreen({ onProceed }) {
   const { dispatch } = useData();
@@ -25,7 +21,7 @@ function TransitionScreen({ onProceed }) {
       },
     });
 
-    onProceed("videoSeries");
+    onProceed("emotionsOne");
   };
 
   return (
@@ -33,17 +29,15 @@ function TransitionScreen({ onProceed }) {
       <Typography variant="h4" sx={{ fontWeight: "bold", mb: 4 }} gutterBottom>
         Practice Round Complete
       </Typography>
-      <FeedbackBox>
-        <Typography variant="h6" sx={{ mx: 4, mt: 2 }}>
-          Great job! You've successfully completed the practice round. You're
-          now ready to begin the experiment.
+        <Typography variant="h6" sx={{ mx: 8, mt: 2 }}>
+          Great job! You've completed the practice round. You're
+          now ready to start the experiment.
         </Typography>
-        <Typography variant="h6" sx={{ mx: 4, mt: 4, mb: 8 }}>
-         Click 'Continue' to start the experiment.
+        <Typography variant="h6" sx={{ mx: 4, mt: 8, mb: 4 }}>
+         Click 'Start' to proceed.
         </Typography>
-      </FeedbackBox>
       <CustomButton
-        text={"Continue"}
+        text={"Start"}
         onClick={handleContinue}
         endIcon={<ArrowForwardIcon />}
       />

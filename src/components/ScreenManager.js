@@ -24,9 +24,6 @@ import DemoScreen from "../screens/DemoScreen"
 const screens = {
   audioCheck: AudioCheck,
   feedback: Feedback,
-  emotionsOne: (props) => (
-    <EmotionsScale {...props} nextScreen="instructions" emotionId="1" />
-  ),
   instructions: Instructions,
   instructionsTwo: InstructionsTwo,
   demoScreen: DemoScreen,
@@ -48,31 +45,34 @@ const screens = {
     />
   ),
   transitionOne: TransitionScreen,
+  emotionsOne: (props) => (
+    <EmotionsScale {...props} nextScreen="videoSeries" emotionId="1" />
+  ),
   oddOneOut: (props) => (
     <OddOneOutTask {...props} nextScreen={"videoSeries"} />),
+    emotionsFinal: (props) => (
+      <EmotionsScale {...props} nextScreen="surveyPrompt" emotionId="7" />
+    ),
   videoSeries: (props) => {
     const { currentStep, onProceed, framingType, emojiType } = props;
 
     const handleNextScreen = () => {
         const nextStep = currentStep + 1;
-
-        if ([2, 5, videoData.length - 1].includes(currentStep)) {
+console.log("Current step", currentStep);
+        if ([4, 9, 14, 19, videoData.length - 1].includes(currentStep)) {
             onProceed("emotions");
         } else if (currentStep === 6) {
             onProceed("oddOneOut");
-        } else if (nextStep < videoData.length) {
-            onProceed("videoSeries");
         } else {
-            onProceed("surveyPrompt");
-        }
+            onProceed("videoSeries");
+        } 
     };
-
     const videoIndex = currentStep < videoData.length ? currentStep : 0;
     
     // Determine the textKey based on currentStep and framingType
     let textKey = "neutral"; // Default to neutral for the first three videos
 
-    if (currentStep >= 3) {
+    if (currentStep >= 5) {
       textKey = framingType === "Positive" ? "positive" :
                  framingType === "Negative" ? "negative" :
                  framingType === "Neutral" ? "neutral" : "neutral";
@@ -136,7 +136,6 @@ function ScreenManager({
       ...prev,
       [emotionId]: { emotionId, emotion: value, timestamp },
     }))
-    console.log(`Emotion Response Saved: ${emotionId}, Emotion: ${value}, Timestamp: ${timestamp}`)
   }
 
   const handlePostAllEmotions = () => {
@@ -158,7 +157,6 @@ function ScreenManager({
       emojiType={emojiType}
       onProceed={(nextScreen) => {
         onProceed(nextScreen)
-        // Post all emotion responses once we reach the donation prompt or thank you screen
         if (nextScreen === "donationPrompt" || nextScreen === "thankyou") {
           handlePostAllEmotions()
         }

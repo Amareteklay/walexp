@@ -301,7 +301,7 @@ console.log('Survey data', surveyData)
             alignItems: "center",
             justifyContent: "center",
             gap: 2,
-            marginTop: 12,
+            marginTop: 8,
           }}
         >
           <CustomButton
@@ -320,7 +320,7 @@ console.log('Survey data', surveyData)
             alignItems: "center",
             justifyContent: "center",
             gap: 2,
-            marginTop: 12,
+            marginTop: 8,
           }}
         >
           <CustomButton

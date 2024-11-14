@@ -10,7 +10,7 @@ const FeedbackContainer = styled(Container)({
 function Feedback({ onProceed }) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      onProceed("emotionsOne") // Navigate to the "emotionsOne" screen after the feedback
+      onProceed("instructions") 
     }, 4000)
     return () => clearTimeout(timer)
   }, [onProceed])
@@ -21,7 +21,7 @@ function Feedback({ onProceed }) {
         Excellent!
       </Typography>
       <Typography variant="body1" sx={{fontWeight: "bold", marginBottom: 8}}>
-        You're all set up now. The next task will start in 4 seconds ...
+        You're all set up now. Now you will see the instructions.
       </Typography>
     </FeedbackContainer>
   )

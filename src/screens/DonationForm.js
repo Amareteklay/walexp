@@ -24,16 +24,13 @@ const FormContainer = styled(Box)({
 
 // Charity info for global, US, and UK
 const charityInfo = {
-  global: {
-    UNEnvironment: "The UN Environment Programme works on environmental issues around the globe.",
-  },
   US: {
-    Greenpeace: "Greenpeace USA aims to ensure the ability of the Earth to nurture life through environmental activism.",
+    UNEP: "The UN Environment Programme works on environmental issues around the globe.",
     WWF: "The World Wildlife Fund (WWF) works to conserve nature and reduce the most pressing threats to life on Earth.",
     NatureConservancy: "The Nature Conservancy works to protect land and water on a global scale.",
   },
   UK: {
-    Greenpeace: "Greenpeace UK is focused on environmental activism in the UK and around the world.",
+    UNEP: "The UN Environment Programme works on environmental issues around the globe.",
     WWF: "WWF UK works to protect the environment and conserve nature.",
     TheWildlifeTrusts: "The Wildlife Trusts are dedicated to protecting wildlife and wild places across the UK.",
   },
@@ -42,11 +39,10 @@ const charityInfo = {
 function DonationForm({ onProceed }) {
   const { state, dispatch } = useData();
   const selectedCountry = state.selectedCountry;
-
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedCharity, setSelectedCharity] = useState("");
   const [charityExplanation, setCharityExplanation] = useState("");
-  const [currency, setCurrency] = useState("Euro");
+  const [currency, setCurrency] = useState("USD");
 
   // Update currency based on selected country
   useEffect(() => {
@@ -54,9 +50,7 @@ function DonationForm({ onProceed }) {
       setCurrency("USD");
     } else if (selectedCountry === "UK") {
       setCurrency("GBP");
-    } else {
-      setCurrency("Euro");
-    }
+    } 
   }, [selectedCountry]);
 
   const handleDonationChange = (event) => {
@@ -85,15 +79,13 @@ function DonationForm({ onProceed }) {
       },
     });
 
-    onProceed("surveyPrompt");
+    onProceed("emotionsFinal");
   };
 
   const charities =
     selectedCountry === "US"
       ? charityInfo.US
-      : selectedCountry === "UK"
-      ? charityInfo.UK
-      : charityInfo.global;
+      : charityInfo.UK;
 
   return (
     <>

@@ -38,6 +38,10 @@ function VideoScreen({
   const videoRef = useRef(null);
   const { dispatch } = useData();
 
+  const commentEnabledVideoIds = new Set(["video2", "video5", "video7", "video10", "video12", "video15", "video17", "video20", "video22", "video25"]);
+
+  const showCommentButton = commentEnabledVideoIds.has(videoId);
+
   // Handle emoji reaction click
   const handleReaction = (reaction) => {
     if (videoRef.current) {
@@ -138,15 +142,17 @@ function VideoScreen({
           interactive={true}
           emojiType={emojiType}
         />
-        <CustomButton
-          text={"Comment"}
-          onClick={handleAddComment}
-          startIcon={<AddCommentIcon />}
-          disabled={commentSubmitted}
-          fontSize="12px"
-          fontWeight={400}
-          padding="6px 12px"
-        />
+        {showCommentButton && (
+          <CustomButton
+            text={"Comment"}
+            onClick={handleAddComment}
+            startIcon={<AddCommentIcon />}
+            disabled={commentSubmitted}
+            fontSize="12px"
+            fontWeight={400}
+            padding="6px 12px"
+          />
+        )}
         <CustomButton
           text={"Share"}
           onClick={handleShareClick}

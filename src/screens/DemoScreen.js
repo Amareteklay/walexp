@@ -60,11 +60,11 @@ function DemoScreen({ onProceed, emojiType }) {
   return (
     <>
       <Typography
-        variant="h6"
-        sx={{ fontWeight: "bold", padding: 4, color: "#175676" }}
+        variant="body1"
+        sx={{ fontWeight: "bold", px: 8, color: "#175676" }}
         gutterBottom
       >
-        To help you understand the task, please watch the walkthrough video below.
+       Please watch the walkthrough video below to understand how to interact with the platform.
       </Typography>
 
       <div style={{ position: "relative", width: "100%", height: "60%" }}>
@@ -107,8 +107,8 @@ function DemoScreen({ onProceed, emojiType }) {
         )}
       </div>
 
-      <Typography variant="h5" sx={{ fontWeight: "bold", padding: 2 }}>
-        Click 'Continue' to proceed to the next screen.
+      <Typography variant="h6" sx={{ fontWeight: "bold", padding: 2 }}>
+        Click 'Continue' to proceed.
       </Typography>
       <CustomButton
         text={"Continue"}
