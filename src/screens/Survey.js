@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Container, Box } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -40,10 +40,14 @@ function Survey({ onSubmit, onQuestionChange }) {
   });
 
   const [pageIndex, setPageIndex] = useState(0);
+  const [currentPageVRQ, setCurrentPageVRQ] = useState(0);  // For ValueRatingsQuestion pagination
+  const [currentPageSRQ, setCurrentPageSRQ] = useState(0); // State for StatementRatingsQuestion
   const [isAnswered, setIsAnswered] = useState(false);
   const [allValuesAnswered, setAllValuesAnswered] = useState(false);
   const [allStatementsAnswered, setAllStatementsAnswered] = useState(false);
   const [rankingComplete, setRankingComplete] = useState(false);
+  const [totalPagesVRQ] = useState(Math.ceil(16 / 2));  // Assuming 2 items per page for ValueRatingsQuestion
+  const totalStatements = 8; // Total statements
 
   const areAllValuesAnswered = (updatedValues) => {
     return Object.values(updatedValues).every((val) => val !== "");
@@ -104,11 +108,22 @@ function Survey({ onSubmit, onQuestionChange }) {
   }, [pageIndex, onQuestionChange, selectedValues, allValuesAnswered, allStatementsAnswered, rankingComplete]);
 
   const handleNext = () => {
-    if (isAnswered && pageIndex < questions.length - 1) {
-      setIsAnswered(false);
+    const isValueRatings = pageIndex === 5;
+    const isStatementRatings = pageIndex === 6;
+
+    if (isValueRatings && currentPageVRQ < totalPagesVRQ - 1) {
+      setCurrentPageVRQ(currentPageVRQ + 1);
+    } else if (isStatementRatings && currentPageSRQ < totalStatements - 1) {
+      setCurrentPageSRQ(currentPageSRQ + 1);
+    } else {
       setPageIndex(pageIndex + 1);
+      setCurrentPageVRQ(0);
+      setCurrentPageSRQ(0);
     }
+    setIsAnswered(true); // Ensure button is enabled after page transition
   };
+
+
 
   const handleSubmit = () => {
     const finalTimestamp = new Date().toISOString();
@@ -131,50 +146,43 @@ console.log('Survey data', surveyData)
     }
   };
 
-  const handleRadioChange = (field, key, value) => {
+  const handleRadioChange = useCallback((field, key, value) => {
     setSelectedValues((prev) => {
       let updatedRatings;
-      if (field === "frequency") {
-        return { ...prev, frequency: value };
+      switch (field) {
+        case "frequency":
+          return { ...prev, frequency: value };
+        case "politicalScale":
+          return { ...prev, politicalScale: value };
+        case "statementRatings":
+          updatedRatings = { ...prev.statementRatings, [key]: value };
+          setAllStatementsAnswered(areAllValuesAnswered(updatedRatings));
+          return { ...prev, statementRatings: updatedRatings };
+        case "valueRatings":
+          updatedRatings = { ...prev.valueRatings, [key]: value };
+          setAllValuesAnswered(areAllValuesAnswered(updatedRatings));
+          return { ...prev, valueRatings: updatedRatings };
+        case "gender":
+          return { ...prev, gender: value };
+        case "income":
+          return { ...prev, income: value };
+        case "area":
+          return { ...prev, area: value };
+        case "age":
+          return { ...prev, age: value };
+        case "education":
+          return { ...prev, education: value };
+        case "adults":
+          return { ...prev, adults: value };
+        case "children":
+          return { ...prev, children: value };
+        default:
+          return prev; // If no case matches, return previous state unchanged
       }
-      if (field === "politicalScale") {
-        return { ...prev, politicalScale: value };
-      }
-      if (field === "statementRatings") {
-        updatedRatings = { ...prev.statementRatings, [key]: value };
-        setAllStatementsAnswered(areAllValuesAnswered(updatedRatings));
-        return { ...prev, statementRatings: updatedRatings };
-      }
-      if (field === "valueRatings") {
-        updatedRatings = { ...prev.valueRatings, [key]: value };
-        setAllValuesAnswered(areAllValuesAnswered(updatedRatings));
-        return { ...prev, valueRatings: updatedRatings };
-      }
-      if (field === "gender") {
-        return { ...prev, gender: value };
-      }
-      if (field === "income") {
-        return { ...prev, income: value };
-      }
-      if (field === "area") {
-        return { ...prev, area: value };
-      }
-      if (field === "age") {
-        return { ...prev, age: value };
-      }
-      if (field === "education") {
-        return { ...prev, education: value };
-      }
-      if (field === "adults") {
-        return { ...prev, adults: value };
-      }
-      if (field === "children") {
-        return { ...prev, children: value };
-      }
-      return prev;
     });
     setIsAnswered(true);
-  };
+  }, [setSelectedValues, setAllStatementsAnswered, setAllValuesAnswered]);
+  
 
   const handleInputChange = (field, value) => {
     setSelectedValues((prev) => ({
@@ -229,16 +237,17 @@ console.log('Survey data', surveyData)
         handleRadioChange("politicalScale", null, value)
       }
     />,
-    <ValueRatingsQuestion
-      key="Q6"
-      selectedValues={selectedValues.valueRatings}
-      handleRadioChange={(key, value) => handleRadioChange("valueRatings", key, value)}
-      setAllAnswered={setAllValuesAnswered}
-    />,
+    <ValueRatingsQuestion 
+    key="Q6" 
+    currentPage={currentPageVRQ} 
+    selectedValues={selectedValues.valueRatings} 
+    handleRadioChange={handleRadioChange} 
+    setAllAnswered={setAllValuesAnswered} />,
     <StatementRatingsQuestion
       key="Q7"
+      currentPage={currentPageSRQ} 
       selectedValues={selectedValues.statementRatings}
-      handleRadioChange={(key, value) => handleRadioChange("statementRatings", key, value)}
+      handleRadioChange={handleRadioChange}
       setAllAnswered={setAllStatementsAnswered}
     />,
     <RankingQuestion
@@ -308,7 +317,7 @@ console.log('Survey data', surveyData)
             onClick={handleNext}
             endIcon={<ArrowForwardIcon />}
             text={"Next"}
-            disabled={!isAnswered}
+            disabled={!(pageIndex === 5 || pageIndex === 6 || isAnswered)}
           />
         </Box>
       )}

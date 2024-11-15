@@ -38,7 +38,7 @@ function VideoScreen({
   const videoRef = useRef(null);
   const { dispatch } = useData();
 
-  const commentEnabledVideoIds = new Set(["video2", "video5", "video7", "video10", "video12", "video15", "video17", "video20", "video22", "video25"]);
+  const commentEnabledVideoIds = new Set(["video00", "video2", "video5", "video7", "video10", "video12", "video15", "video17", "video20", "video22", "video25"]);
 
   const showCommentButton = commentEnabledVideoIds.has(videoId);
 

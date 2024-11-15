@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import { Typography, Box, Grid, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 
-function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswered }) {
+function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswered, currentPage }) {
   // Define values with IDs and texts
   const values = [
     { id: 'VR1', text: '1. Social power' },
@@ -23,22 +23,22 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
   ];
   
   const itemsPerPage = 2;
-  const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = Math.ceil(values.length / itemsPerPage);
+  const currentValues = values.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  
 
   // Check if all values have been answered
   useEffect(() => {
-    const allAnswered = Object.values(selectedValues).filter(Boolean).length === values.length;
+    const allAnswered = values.every((value) => selectedValues[value.id] !== undefined && selectedValues[value.id] !== '');
     setAllAnswered(allAnswered);
   }, [selectedValues, setAllAnswered]);
 
-  // Get the values for the current page
-  const currentValues = values.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
   return (
     <Box>
       <Typography sx={{ mb: 4 }} variant="body1">
-        Q6. See the following 16 values as potential guiding principles in your life. For each, please rate its importance on a 7-point scale, where 1 is "not at all important" and 7 is "extremely important."
+        Q6. See these 16 values as potential guiding principles in Your life. For each of these, we ask you to state
+how important it is to you by rating each of them on a 7-point scale from 1 = not at all important, to 7 =
+extremely important.
       </Typography>
 
       {/* Header row for rating options */}
@@ -59,14 +59,15 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
       {currentValues.map(({ id, text }, index) => (
         <Grid container spacing={0} alignItems="center" key={id} mt={1} sx={{ backgroundColor: index % 2 !== 0 ? '#d9d4d4' : '' }}>
           <Grid item xs={3}>
-            <Typography variant="h6">{text}</Typography>
+            <Typography id={`${id}-label`} variant="h6">{text}</Typography>
           </Grid>
           {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
             <Grid item xs={1} key={val}>
               <Box display="flex" justifyContent="center">
                 <RadioGroup
+                name={id}
                   value={selectedValues[id] || ''}
-                  onChange={(e) => handleRadioChange(id, e.target.value)}
+                  onChange={(e) => handleRadioChange('valueRatings', id, e.target.value)}
                 >
                   <FormControlLabel
                     value={val.toString()}
@@ -81,24 +82,6 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
           ))}
         </Grid>
       ))}
-
-      {/* Pagination Controls */}
-      <Box mt={4} display="flex" justifyContent="space-between">
-        <Button
-          variant="contained"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-          disabled={currentPage === 0}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
-          disabled={currentPage === totalPages - 1}
-        >
-          Next
-        </Button>
-      </Box>
     </Box>
   );
 }

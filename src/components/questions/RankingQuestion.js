@@ -22,7 +22,7 @@ function RankingQuestion({ selectedRanks, handleRankChange, notifyCompletion }) 
 
   useEffect(() => {
     const allRanked = shuffledFactors.every(factor => selectedRanks[factor] !== undefined && selectedRanks[factor] !== "");
-    notifyCompletion(allRanked && (otherFactor.trim() !== ""));
+    notifyCompletion(allRanked);
   }, [selectedRanks, shuffledFactors, notifyCompletion, otherFactor]);
 
   const handleOtherChange = (e) => {

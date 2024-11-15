@@ -30,13 +30,13 @@ export const videoData = [
     },
   },
   {
-    videoId: "video7",
-    video: "Floods7.mp4",
+    videoId: "video4",
+    video: "Floods4.mp4",
     texts: {
-      factInfo: "Urban flooding in a local business area",
-      positive: "If we act in time, we can prevent events like this",
-      negative: "Acting too late will cause irreversible damages to our local economies",
-      neutral: "Due to flooding in cities, streets will be temporarily closed down",
+      factInfo: "Mud flows after extreme weather in California",
+      positive: "Thanks to better planning and investments in climate resilience, this community was not harmed by extreme precipitation",
+      negative: "If we act too late, our economies are at risk of major crises due to extreme weather events.",
+      neutral: "Heavy rains and underdeveloped planning can lead to an increase in mud flows.",
     },
   },
   {
@@ -50,6 +50,26 @@ export const videoData = [
     },
   },
   {
+    videoId: "video6",
+    video: "Floods6.mp4",
+    texts: {
+      factInfo: "Floods in New York last year.",
+      positive: "The city is increasing investments in better infrastructure, which has led to large improvements for people in the last years",
+      negative: "Future generations will not forgive our failure to act to deal with the climate emergency.",
+      neutral: "Extreme precipitation affects major cities all over the world.",
+    },
+  },
+  {
+    videoId: "video7",
+    video: "Floods7.mp4",
+    texts: {
+      factInfo: "Urban flooding in a local business area",
+      positive: "If we act in time, we can prevent events like this",
+      negative: "Acting too late will cause irreversible damages to our local economies",
+      neutral: "Due to flooding in cities, streets will be temporarily closed down",
+    },
+  },
+  {
     videoId: "video8",
     video: "Fires1.mp4",
     texts: {
@@ -57,6 +77,16 @@ export const videoData = [
       positive: "Politicians are now acting to prevent forest fires like these",
       negative: "Politicians have failed to act on the climate crisis and as a result we are likely to see more forest fires",
       neutral: "Forest fires can have a significant effect on the wildlife",
+    },
+  }, 
+  {
+    videoId: "video9",
+    video: "Fires2.mp4",
+    texts: {
+      factInfo: "Sydney covered by smoke from forest fires",
+      positive: "People of Australia is waking up and demand politicians take their responsibility to combat climate change",
+      negative: "Smoke from forest fires is extremely toxic. Peoples health is at risk due to climate change",
+      neutral: "People will have to stay indoors due to smoke from forest fires",
     },
   },
   {
@@ -69,16 +99,7 @@ export const videoData = [
       neutral: "Forest fires like these will affect livelihoods of people",
     },
   },
-  {
-    videoId: "video9",
-    video: "Fires2.mp4",
-    texts: {
-      factInfo: "Sydney covered by smoke from forest fires",
-      positive: "People of Australia is waking up and demand politicians take their responsibility to combat climate change",
-      negative: "Smoke from forest fires is extremely toxic. Peoples health is at risk due to climate change",
-      neutral: "People will have to stay indoors due to smoke from forest fires",
-    },
-  },
+ 
   {
     videoId: "video11",
     video: "Fires4.mp4",
@@ -137,26 +158,6 @@ export const videoData = [
       positive: "Collaborations between people and agencies helped people cope with the effects of this storm",
       negative: "Climate change poses a threat to our livelihoods and it will soon be too late to stop run-away climate disruption.",
       neutral: "Strong storms affect local communities",
-    },
-  },
-  {
-    videoId: "video4",
-    video: "Floods4.mp4",
-    texts: {
-      factInfo: "Mud flows after extreme weather in California",
-      positive: "Thanks to better planning and investments in climate resilience, this community was not harmed by extreme precipitation",
-      negative: "If we act too late, our economies are at risk of major crises due to extreme weather events.",
-      neutral: "Heavy rains and underdeveloped planning can lead to an increase in mud flows.",
-    },
-  },
-  {
-    videoId: "video6",
-    video: "Floods6.mp4",
-    texts: {
-      factInfo: "Floods in New York last year.",
-      positive: "The city is increasing investments in better infrastructure, which has led to large improvements for people in the last years",
-      negative: "Future generations will not forgive our failure to act to deal with the climate emergency.",
-      neutral: "Extreme precipitation affects major cities all over the world.",
     },
   },
   {
