@@ -33,10 +33,9 @@ function StatementRatingsQuestion({ selectedValues, handleRadioChange, setAllAns
           <Typography variant="h6" sx={{ mb: 2 }}>{text}</Typography>
 
           {/* Header row for rating options displayed right below each statement */}
-          <Grid container spacing={2} alignItems="center" sx={{ backgroundColor: '#d9d4d4' }}>
-            <Grid item xs={2}></Grid> {/* Placeholder for alignment */}
+          <Grid container spacing={1} alignItems="center" sx={{ backgroundColor: '#d9d4d4' }}>
             {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val, i) => (
-              <Grid item xs={1} key={i}>
+              <Grid item xs={i < 7 ? 1 : 2.5} key={i}>
                 <Box display="flex" justifyContent="center">
                   <Typography variant="subtitle2" align="center">{val}</Typography>
                 </Box>
@@ -45,10 +44,9 @@ function StatementRatingsQuestion({ selectedValues, handleRadioChange, setAllAns
           </Grid>
 
           {/* Radio buttons for the current statement */}
-          <Grid container spacing={0} alignItems="center">
-            <Grid item xs={3}></Grid> {/* Alignment with header */}
+          <Grid container spacing={1} alignItems="center">
             {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val, i) => (
-              <Grid item xs={1} key={i}>
+              <Grid item xs={i < 7 ? 1 : 2.5}  key={i}>
                 <RadioGroup
                   row
                   name={id}

@@ -13,7 +13,7 @@ function App() {
   const [videoSeriesStarted, setVideoSeriesStarted] = useState(false);
 
   const [questionIndex, setQuestionIndex] = useState(0); // Track the survey question index
-  const totalSteps = 36;
+  const totalSteps = 59;
 
   // State to hold the group assignment
   const [groupAssignment, setGroupAssignment] = useState({

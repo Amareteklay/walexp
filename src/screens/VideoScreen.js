@@ -171,6 +171,7 @@ function VideoScreen({
           <RadioGroup row value={videoData.shareOption} onChange={handleShareOptionChange}>
             <FormControlLabel value="yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="no" control={<Radio />} label="No" />
+            <FormControlLabel value="don't know" control={<Radio />} label="Don't know" />
           </RadioGroup>
           <CustomButton text={"Submit"} onClick={handleShareSubmit} disabled={!videoData.shareOption} />
         </Box>

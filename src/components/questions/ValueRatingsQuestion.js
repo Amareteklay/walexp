@@ -59,7 +59,7 @@ extremely important.
       {currentValues.map(({ id, text }, index) => (
         <Grid container spacing={0} alignItems="center" key={id} mt={1} sx={{ backgroundColor: index % 2 !== 0 ? '#d9d4d4' : '' }}>
           <Grid item xs={3}>
-            <Typography id={`${id}-label`} variant="h6">{text}</Typography>
+            <Typography id={`${id}-label`} variant="body1">{text}</Typography>
           </Grid>
           {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
             <Grid item xs={1} key={val}>

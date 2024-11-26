@@ -38,9 +38,8 @@ function PoliticalScaleQuestion({ selectedValue, handleRadioChange }) {
 
       {/* Header Row for Scale Options */}
       <Grid container spacing={0} alignItems="center" sx={{ backgroundColor: '#d9d4d4', mt: 2, py: 1 }}>
-        <Grid item xs={3}></Grid>
         {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
-          <Grid item xs={1} key={val}>
+          <Grid item xs={val <= 7 ? 1 : 2.5}  key={val}>
             <Box display="flex" justifyContent="center">
               <Typography variant="subtitle2" align="center">
                 {val}
@@ -52,9 +51,8 @@ function PoliticalScaleQuestion({ selectedValue, handleRadioChange }) {
 
       {/* Radio Buttons Row */}
       <Grid container spacing={0} alignItems="center">
-        <Grid item xs={3}></Grid>
         {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
-          <Grid item xs={1} key={val}>
+          <Grid item xs={val <= 7 ? 1 : 2.5}  key={val}>
             <Box display="flex" justifyContent="center">
               <RadioGroup
                 value={selectedValue}
