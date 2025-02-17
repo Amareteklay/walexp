@@ -15,10 +15,10 @@ function DemoScreen({ onProceed, emojiType }) {
   // Determines the appropriate video source based on the emojiType prop
   const getVideoSource = () => {
     const videoSources = {
-      Facebook: "FacebookDemo.mp4",
-      Generic: "GenericDemo.mp4",
+      Facebook: "Demo_fb.mp4",
+      Generic: "Demo_gen.mp4",
     };
-    return `${process.env.PUBLIC_URL}/videos/${videoSources[emojiType] || "GenericDemo.mp4"}`;
+    return `${process.env.PUBLIC_URL}/videos/${videoSources[emojiType] || "Demo_gen.mp4"}`;
   };
 
   // Handler for when the user clicks the 'Continue' button

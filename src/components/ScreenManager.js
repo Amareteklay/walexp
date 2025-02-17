@@ -39,8 +39,8 @@ const screens = {
       videoSrc={`${process.env.PUBLIC_URL}/videos/sampleVideo.mp4`}
       nextScreen="transitionOne"
       emojiType={props.emojiType}
-      overlayText="Sample Video"
-      factInfo="Sample Text"
+      overlayText="Captured in 2024"
+      factInfo="Water and Island near Stockholm"
       videoId={'video00'}
     />
   ),

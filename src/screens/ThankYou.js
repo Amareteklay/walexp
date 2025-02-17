@@ -19,8 +19,8 @@ console.log("State: ", state)
       );
 
       // Optional: Display an alert or any other final message
-      alert("Experiment complete. Thank you!");
-    }, 5000);
+      // alert("Experiment complete. Thank you!");
+    }, 9000);
 
     // Clear the timer on component unmount
     return () => clearTimeout(timer);
@@ -30,6 +30,10 @@ console.log("State: ", state)
     <>
       <Typography variant="h4" gutterBottom>
         Thank you for participating!
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        We will donate the amount you specified on behalf of you. You will be redirected to Prolific and you will receive the full amount for your time and effort.
+
       </Typography>
     </>
   );
