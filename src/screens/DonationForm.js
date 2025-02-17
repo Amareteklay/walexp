@@ -42,14 +42,14 @@ function DonationForm({ onProceed }) {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedCharity, setSelectedCharity] = useState("");
   const [charityExplanation, setCharityExplanation] = useState("");
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("$");
 
   // Update currency based on selected country
   useEffect(() => {
     if (selectedCountry === "US") {
-      setCurrency("USD");
+      setCurrency("$");
     } else if (selectedCountry === "UK") {
-      setCurrency("GBP");
+      setCurrency("£");
     } 
   }, [selectedCountry]);
 
@@ -89,31 +89,27 @@ function DonationForm({ onProceed }) {
 
   return (
     <>
-      <Typography variant="body1" sx={{ mx: 8, mb: 2 }}>
-        Please indicate how much of the 3 {currency} you would like to donate to an environmental charity, and choose the organization.
-      </Typography>
-
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <FormContainer sx={{ marginLeft: 8 }}>
-            <Typography variant="h6">Donation Amount</Typography>
+          <FormContainer sx={{ marginLeft: 4, p: 2, border: "1px solid #a0a0a0", borderRadius: 2, minHeight: "360px", boxShadow: 3 }}>
+            <Typography variant="h6">How much would you like to donate?</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedValue} onChange={handleDonationChange}>
-                <FormControlLabel value="0" control={<Radio />} label={`0 ${currency}`} />
-                <FormControlLabel value="0.3" control={<Radio />} label={`0.3 ${currency} (10%)`} />
-                <FormControlLabel value="0.75" control={<Radio />} label={`0.75 ${currency} (25%)`} />
-                <FormControlLabel value="1.5" control={<Radio />} label={`1.5 ${currency} (50%)`} />
-                <FormControlLabel value="2.25" control={<Radio />} label={`2.25 ${currency} (75%)`} />
-                <FormControlLabel value="2.7" control={<Radio />} label={`2.7 ${currency} (90%)`} />
-                <FormControlLabel value="3" control={<Radio />} label={`3 ${currency} (100%)`} />
+                <FormControlLabel value="0" control={<Radio />} label={`${currency}0 - No donation`} />
+                <FormControlLabel value="0.3" control={<Radio />} label={`${currency}0.3 (10%)`} />
+                <FormControlLabel value="0.75" control={<Radio />} label={`${currency}0.75 (25%)`} />
+                <FormControlLabel value="1.5" control={<Radio />} label={`${currency}1.5 (50%)`} />
+                <FormControlLabel value="2.25" control={<Radio />} label={`${currency}2.25 (75%)`} />
+                <FormControlLabel value="2.7" control={<Radio />} label={`${currency}2.7 (90%)`} />
+                <FormControlLabel value="3" control={<Radio />} label={`${currency}3 (100%)`} />
               </RadioGroup>
             </FormControl>
           </FormContainer>
         </Grid>
 
         <Grid item xs={6}>
-          <FormContainer sx={{ marginLeft: 4 }}>
-            <Typography variant="h6">Select Charity Organization</Typography>
+          <FormContainer sx={{ marginLeft: 4, p: 2, border: "1px solid #a0a0a0", borderRadius: 2, minHeight: "360px", boxShadow: 3}}>
+            <Typography variant="h6">Choose a Charity:</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedCharity} onChange={handleCharityChange}>
                 {Object.entries(charities).map(([name, info]) => (
@@ -138,7 +134,7 @@ function DonationForm({ onProceed }) {
               </RadioGroup>
             </FormControl>
             <Typography variant="body1" sx={{ mt: 2 }}>
-              Could you state why you made that decision?
+            What influenced your choice? <span style={{ fontSize: '0.8em', fontStyle: 'italic' }}>(Optional)</span>
             </Typography>
             <TextField
               fullWidth

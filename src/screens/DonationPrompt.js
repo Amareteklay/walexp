@@ -16,9 +16,9 @@ function DonationPrompt({ onProceed }) {
 
     // Set the currency based on the country
     if (country === "US") {
-      setCurrency("USD");
+      setCurrency("$");
     } else if (country === "UK") {
-      setCurrency("GBP");
+      setCurrency("£");
     }
   };
 
@@ -72,12 +72,10 @@ function DonationPrompt({ onProceed }) {
         // Donation prompt with selected currency
         <>
           <Typography variant="h5" sx={{fontWeight: "bold", my: 4}} gutterBottom>
-            You will receive an additional 3 {currency}.
+          Your participation fee includes an extra {currency}3.
           </Typography>
           <Typography variant="h6" sx={{ mx: 8, mb: 4 }} paragraph>
-            You have the opportunity to donate some of this money to an
-            environmental charity working to spread awareness and promote action to
-            combat climate change.
+          You have the opportunity to donate a portion of this amount to an environmental charity supporting climate action.
           </Typography>
           <Box mt={4}>
             <CustomButton

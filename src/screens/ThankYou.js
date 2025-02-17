@@ -28,12 +28,14 @@ console.log("State: ", state)
 
   return (
     <>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" sx={{mb: 4}} gutterBottom>
         Thank you for participating!
       </Typography>
-      <Typography variant="body1" gutterBottom>
-        We will donate the amount you specified on behalf of you. You will be redirected to Prolific and you will receive the full amount for your time and effort.
-
+      <Typography variant="h6" sx={{mx: 8}} gutterBottom>
+      We will donate the amount you specified on your behalf, without deducting it from your payment.
+      </Typography>
+      <Typography variant="h6" sx={{mx: 8}} gutterBottom>
+     You'll now be redirected to Prolific, where you'll receive your full participation fee.
       </Typography>
     </>
   );

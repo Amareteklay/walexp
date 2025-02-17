@@ -22,8 +22,8 @@ function StatementRatingsQuestion({ selectedValues, handleRadioChange, setAllAns
   }, [selectedValues, setAllAnswered, currentStatements]);
 
   return (
-    <Box>
-      <Typography sx={{ mb: 4 }} variant="body1">
+    <Box sx={{p: 2, border: "1px solid #a0a0a0", borderRadius: 2, boxShadow: 3}}>
+      <Typography sx={{ mb: 4, fontWeight: "bold" }} variant="body1">
         Q7. To what degree do you agree with the following statements? Indicate on a scale from 1 = completely
         disagree, to 7 = completely agree.
       </Typography>

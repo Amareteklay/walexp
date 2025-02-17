@@ -30,13 +30,13 @@ function RankingQuestion({ selectedRanks, handleRankChange, notifyCompletion }) 
   };
 
   return (
-    <Box sx={{ p: 2, border: '1px solid #e0e0e0', borderRadius: 2, backgroundColor: '#f9f9f9' }}>
+    <Box sx={{ p: 2, border: '1px solid #e0e0e0', borderRadius: 2, backgroundColor: '#f9f9f9', boxShadow: 3 }}>
       <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 2 }}>
         Rank the following factors in the order in which they have most changed the way you look at your future.
         (1 = Most impact, {factors.length} = Least impact)
       </Typography>
       
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ borderTop: '1px solid #e0e0e0'}}>
         {shuffledFactors.map((factor, index) => (
           <Grid container item xs={12} spacing={2} key={factor} alignItems="center">
             <Grid item xs={6}>
@@ -63,7 +63,7 @@ function RankingQuestion({ selectedRanks, handleRankChange, notifyCompletion }) 
             </Grid>
           </Grid>
         ))}
-        <Grid item xs={12} sx={{ mt: 3, display: 'flex', alignItems: 'center' }}>
+        <Grid item xs={12} sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
   <Grid item xs={3}>
     <Typography variant="subtitle1">Other, specify:</Typography>
   </Grid>

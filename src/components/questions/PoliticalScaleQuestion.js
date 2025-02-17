@@ -22,15 +22,15 @@ function PoliticalScaleQuestion({ selectedValue, handleRadioChange }) {
     : "1: Very left-wing, 7: Very right-wing";
 
   return (
-    <Box sx={{ padding: 2, border: '1px solid #e0e0e0', borderRadius: 2, backgroundColor: '#f9f9f9', mb: 3 }}>
+    <Box sx={{ padding: 2, border: '1px solid #e0e0e0', borderRadius: 2, backgroundColor: '#f9f9f9', mb: 3, boxShadow: 3 }}>
       
       {/* Statement Row */}
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 4 }}>
             Q5. {questionText}
           </Typography>
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="body1" sx={{ fontWeight: 'normal' }}>
             {scaleDescription}
           </Typography>
         </Grid>
