@@ -22,7 +22,7 @@ const FormContainer = styled(Box)({
   display: "inline-block",
 });
 
-// Charity info for global, US, and UK
+// Charity info for US and UK
 const charityInfo = {
   US: {
     UNEP: "The UN Environment Programme works on environmental issues around the globe.",
@@ -46,25 +46,31 @@ function DonationForm({ onProceed }) {
 
   // Update currency based on selected country
   useEffect(() => {
-    if (selectedCountry === "US") {
-      setCurrency("$");
-    } else if (selectedCountry === "UK") {
-      setCurrency("£");
-    } 
+    setCurrency(selectedCountry === "UK" ? "£" : "$");
   }, [selectedCountry]);
 
+  // Handle donation selection
   const handleDonationChange = (event) => {
-    setSelectedValue(event.target.value);
+    const value = event.target.value;
+    setSelectedValue(value);
+
+    // If donation amount is 0, reset charity selection
+    if (value === "0") {
+      setSelectedCharity("");
+    }
   };
 
+  // Handle charity selection
   const handleCharityChange = (event) => {
     setSelectedCharity(event.target.value);
   };
 
+  // Handle explanation input
   const handleExplanationChange = (event) => {
     setCharityExplanation(event.target.value);
   };
 
+  // Handle form submission
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
@@ -82,10 +88,8 @@ function DonationForm({ onProceed }) {
     onProceed("emotionsFinal");
   };
 
-  const charities =
-    selectedCountry === "US"
-      ? charityInfo.US
-      : charityInfo.UK;
+  const charities = selectedCountry === "US" ? charityInfo.US : charityInfo.UK;
+  const isDonationZero = selectedValue === "0";
 
   return (
     <>
@@ -108,7 +112,7 @@ function DonationForm({ onProceed }) {
         </Grid>
 
         <Grid item xs={6}>
-          <FormContainer sx={{ marginLeft: 4, p: 2, border: "1px solid #a0a0a0", borderRadius: 2, minHeight: "360px", boxShadow: 3}}>
+          <FormContainer sx={{ marginLeft: 4, p: 2, border: "1px solid #a0a0a0", borderRadius: 2, minHeight: "360px", boxShadow: 3 }}>
             <Typography variant="h6">Choose a Charity:</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedCharity} onChange={handleCharityChange}>
@@ -116,15 +120,15 @@ function DonationForm({ onProceed }) {
                   <FormControlLabel
                     key={name}
                     value={name}
-                    control={<Radio />}
+                    control={<Radio disabled={isDonationZero} />}
                     label={
                       <Box display="flex" alignItems="center">
-                        <Typography variant="body1" sx={{ marginRight: 1 }}>
+                        <Typography variant="body1" sx={{ marginRight: 1, color: isDonationZero ? "gray" : "inherit" }}>
                           {name}
                         </Typography>
                         <Tooltip title={info} arrow>
-                          <IconButton size="small">
-                            <InfoIcon fontSize="small" sx={{ color: "#5E5DF0" }} />
+                          <IconButton size="small" disabled={isDonationZero}>
+                            <InfoIcon fontSize="small" sx={{ color: isDonationZero ? "gray" : "#5E5DF0" }} />
                           </IconButton>
                         </Tooltip>
                       </Box>
@@ -134,7 +138,7 @@ function DonationForm({ onProceed }) {
               </RadioGroup>
             </FormControl>
             <Typography variant="body1" sx={{ mt: 2 }}>
-            What influenced your choice? <span style={{ fontSize: '0.8em', fontStyle: 'italic' }}>(Optional)</span>
+              What influenced your choice? <span style={{ fontSize: '0.8em', fontStyle: 'italic' }}>(Optional)</span>
             </Typography>
             <TextField
               fullWidth
@@ -152,7 +156,7 @@ function DonationForm({ onProceed }) {
         <CustomButton
           text={"Submit"}
           onClick={handleContinue}
-          disabled={!selectedValue || !selectedCharity}
+          disabled={!selectedValue || (!isDonationZero && !selectedCharity)}
         />
       </Box>
     </>

@@ -36,9 +36,7 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
   return (
     <Box sx={{py: 2, px: 1, border: "1px solid #a0a0a0", borderRadius: 2, boxShadow: 3}}>
       <Typography sx={{ mb: 4 }} variant="body1">
-        Q6. See these 16 values as potential guiding principles in your life. For each of these, we ask you to state
-how important it is to you by rating each of them on a 7-point scale from 1 = not at all important, to 7 =
-extremely important.
+        Q6. Consider these 16 values as potential guiding principles in your life. For each value, please rate its importance to you, from 1 ('not at all important') to 7 ('extremely important').
       </Typography>
 
       {/* Header row for rating options */}

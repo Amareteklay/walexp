@@ -144,7 +144,7 @@ export const videoData = [
     videoId: "video15",
     video: "Migration1.mp4",
     texts: {
-      factInfo: "Climated related forced migration by boat",
+      factInfo: "Climated related migration",
       positive: "These displaced people have found new homes thanks to the swift action by the United Nations.",
       negative: "Climate change will lead to an increasing amount of displaced people",
       neutral: "Climate change impacts lead to migration, as people seek refuge from extreme weather events.",
