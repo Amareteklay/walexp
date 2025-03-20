@@ -13,14 +13,17 @@ function PracticePrompt({ onProceed }) {
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Save the timestamp when the Next button is clicked
-    dispatch({
-      type: "SET_DATA",
-      key: "practicePromptNextTimestamp",
-      value: {
-        timestamp: currentTimestamp,
+    // Dispatch the timestamp in a flat structure
+    const actions = [
+      {
+        type: "SET_DATA",
+        key: "practicePromptNextAt",
+        value: currentTimestamp,
       },
-    });
+    ];
+
+    // Dispatch each action separately
+    actions.forEach(action => dispatch(action));
 
     onProceed("videoOne");
   };

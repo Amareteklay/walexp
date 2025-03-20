@@ -12,30 +12,40 @@ function TransitionScreen({ onProceed }) {
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Save the timestamp when the Continue button is clicked
-    dispatch({
-      type: "SET_DATA",
-      key: "transitionScreenContinueTimestamp",
-      value: { timestamp: currentTimestamp },
-    });
-
-    // Save the yes/no answer about remembering the video capture
-    dispatch({
-      type: "SET_DATA",
-      key: "videoCaptureMemory",
-      value: { answer: rememberVideo },
-    });
-
-    // If the participant remembers, save the additional details they provided
-    if (rememberVideo === "yes" && captureDetail.trim() !== "") {
-      dispatch({
+    // Build an array of flat dispatch actions
+    const actions = [
+      {
         type: "SET_DATA",
-        key: "videoCaptureDetail",
-        value: { answer: captureDetail },
+        key: "transitionContinueAt",
+        value: currentTimestamp,
+      },
+      {
+        type: "SET_DATA",
+        key: "rememberVideo",
+        value: rememberVideo,
+      },
+    ];
+
+    // If the participant remembers, add the additional detail
+    if (rememberVideo === "yes" && captureDetail.trim() !== "") {
+      actions.push({
+        type: "SET_DATA",
+        key: "rememberVideoDetail",
+        value: captureDetail,
       });
     }
 
-    onProceed("emotionsOne");
+    // Dispatch each action
+    actions.forEach(action => {
+      dispatch(action);
+    });
+
+    // Proceed to the next screen
+    if (onProceed) {
+      onProceed("emotionsOne");
+    } else {
+      console.error("onProceed function is not defined");
+    }
   };
 
   return (

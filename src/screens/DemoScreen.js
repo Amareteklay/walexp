@@ -25,15 +25,27 @@ function DemoScreen({ onProceed, emojiType }) {
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Dispatch once with all relevant data when continuing
-    dispatch({
-      type: "SET_DATA",
-      key: "demoScreenData",
-      value: {
-        continueTimestamp: currentTimestamp,
-        replayTimestamps: replayTimestamps,
+    // Dispatch each data point separately in a flat structure
+    const actions = [
+      {
+        type: "SET_DATA",
+        key: "demoContinueAt",
+        value: currentTimestamp,
       },
-    });
+      {
+        type: "SET_DATA",
+        key: "demoReplayAt",
+        value: replayTimestamps.join(", "), // Join timestamps for easy export
+      },
+      {
+        type: "SET_DATA",
+        key: "demoReplayCount",
+        value: replayCount,
+      },
+    ];
+
+    // Dispatch each action separately
+    actions.forEach(action => dispatch(action));
 
     onProceed("practicePrompt");
   };
@@ -64,7 +76,7 @@ function DemoScreen({ onProceed, emojiType }) {
         sx={{ fontWeight: "bold", px: 8, color: "#175676" }}
         gutterBottom
       >
-       Please watch the walkthrough video below to understand how to interact with the platform.
+        Please watch the walkthrough video below to understand how to interact with the platform.
       </Typography>
 
       <div style={{ position: "relative", width: "100%", height: "60%" }}>

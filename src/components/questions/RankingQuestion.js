@@ -26,7 +26,10 @@ function RankingQuestion({ selectedRanks, handleRankChange, notifyCompletion }) 
   }, [selectedRanks, shuffledFactors, notifyCompletion, otherFactor]);
 
   const handleOtherChange = (e) => {
-    setOtherFactor(e.target.value);
+    const newValue = e.target.value;
+    setOtherFactor(newValue);
+    // Save the "Other" text in the parent survey data.
+    handleRankChange("otherFactor", null, newValue);
   };
 
   return (

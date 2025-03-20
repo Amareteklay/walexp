@@ -9,20 +9,19 @@ function Welcome({ onStart }) {
   const { dispatch } = useData();
 
   const handleContinueClick = () => {
-    // Define the action object
-    const action = {
-      type: "SET_DATA",
-      key: "welcomeContinueButton",
-      value: {
-        timestamp: Date.now(),
+    const currentTimestamp = Date.now(); // Get the current timestamp
+
+    // Define the actions to dispatch in a flat structure
+    const actions = [
+      {
+        type: "SET_DATA",
+        key: "welcomeContinueAt",
+        value: currentTimestamp,  // Flat structure: timestamp as a simple value
       },
-    };
-  
-    // Log the action object to check its structure
-    // console.log("Dispatching action:", action);
-  
-    // Dispatch the action to the store
-    dispatch(action);
+    ];
+
+    // Dispatch the actions
+    actions.forEach(action => dispatch(action));
   
     // Trigger the next screen (e.g., audio check screen)
     onStart("audioCheck");

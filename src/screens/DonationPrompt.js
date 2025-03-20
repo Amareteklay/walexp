@@ -5,7 +5,7 @@ import { useData } from "../contexts/DataContext";
 import { useState, useEffect } from "react";
 
 function DonationPrompt({ onProceed }) {
-  const { dispatch, state } = useData();
+  const { dispatch } = useData();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [currency, setCurrency] = useState("");
 
@@ -22,30 +22,40 @@ function DonationPrompt({ onProceed }) {
     }
   };
 
-  // Store the selected country in the context for further use
+  // When selectedCountry changes, dispatch both the country and a timestamp for when it was selected
   useEffect(() => {
     if (selectedCountry) {
-      dispatch({
+      const countryAction = {
         type: "SET_DATA",
         key: "selectedCountry",
         value: selectedCountry,
-      });
+      };
+      const timestampAction = {
+        type: "SET_DATA",
+        key: "selectedCountryAt",
+        value: new Date().toISOString(),
+      };
+      dispatch(countryAction);
+      dispatch(timestampAction);
     }
   }, [selectedCountry, dispatch]);
 
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Save the timestamp when the Next button is clicked
-    dispatch({
+    // Save the timestamp when the Next button is clicked using a flat structure
+    const action = {
       type: "SET_DATA",
-      key: "donationPromptNextTimestamp",
-      value: {
-        timestamp: currentTimestamp,
-      },
-    });
+      key: "donationPromptNextAt",
+      value: currentTimestamp,
+    };
+    dispatch(action);
 
-    onProceed("donationForm");
+    if (onProceed) {
+      onProceed("donationForm");
+    } else {
+      console.error("onProceed is not defined.");
+    }
   };
 
   return (
@@ -53,7 +63,7 @@ function DonationPrompt({ onProceed }) {
       {!selectedCountry ? (
         // Country selection question
         <>
-          <Typography variant="h5" sx={{fontWeight: "bold", my: 4}} gutterBottom>
+          <Typography variant="h5" sx={{ fontWeight: "bold", my: 4 }} gutterBottom>
             What is your country?
           </Typography>
           <FormControl component="fieldset">
@@ -71,11 +81,11 @@ function DonationPrompt({ onProceed }) {
       ) : (
         // Donation prompt with selected currency
         <>
-          <Typography variant="h5" sx={{fontWeight: "bold", my: 4}} gutterBottom>
-          Your participation fee includes an extra {currency}3.
+          <Typography variant="h5" sx={{ fontWeight: "bold", my: 4 }} gutterBottom>
+            Your participation fee includes an extra {currency}3.
           </Typography>
           <Typography variant="h6" sx={{ mx: 8, mb: 4 }} paragraph>
-          You have the opportunity to donate a portion of this amount to an environmental charity supporting climate action.
+            You have the opportunity to donate a portion of this amount to an environmental charity supporting climate action.
           </Typography>
           <Box mt={4}>
             <CustomButton

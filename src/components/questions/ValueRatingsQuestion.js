@@ -1,5 +1,5 @@
-import React, {useEffect } from 'react';
-import { Typography, Box, Grid, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Typography, Box, Grid, MenuItem, Select, TextField, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 
 function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswered, currentPage }) {
   // Define values with IDs and texts
@@ -25,62 +25,65 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
   const itemsPerPage = 2;
   const currentValues = values.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
   
-
-  // Check if all values have been answered
+  // Check if both items on the current page have been answered
   useEffect(() => {
-    const allAnswered = values.every((value) => selectedValues[value.id] !== undefined && selectedValues[value.id] !== '');
-    setAllAnswered(allAnswered);
-  }, [selectedValues, setAllAnswered]);
-
-
+    const allAnsweredForPage = currentValues.every(
+      (value) => selectedValues[value.id] !== undefined && selectedValues[value.id] !== ''
+    );
+    setAllAnswered(allAnsweredForPage);
+  }, [selectedValues, setAllAnswered, currentValues]);
+  
   return (
-    <Box sx={{py: 2, px: 1, border: "1px solid #a0a0a0", borderRadius: 2, boxShadow: 3}}>
-      <Typography sx={{ mb: 4 }} variant="body1">
-        Q6. Consider these 16 values as potential guiding principles in your life. For each value, please rate its importance to you, from 1 ('not at all important') to 7 ('extremely important').
-      </Typography>
-
-      {/* Header row for rating options */}
-      <Grid container spacing={0} alignItems="center" sx={{ backgroundColor: '#d9d4d4' }}>
-        <Grid item xs={3}></Grid>
-        {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
-          <Grid item xs={1} key={val}>
-            <Box display="flex" justifyContent="center">
-              <Typography variant="subtitle2" align="center">
-                {val}
-              </Typography>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Map over currentValues to display each value's question and radio buttons */}
-      {currentValues.map(({ id, text }, index) => (
-        <Grid container spacing={0} alignItems="center" key={id} mt={1} sx={{ backgroundColor: index % 2 !== 0 ? '#d9d4d4' : '' }}>
-          <Grid item xs={3}>
-            <Typography id={`${id}-label`} variant="body1">{text}</Typography>
-          </Grid>
+    <>
+      <Typography variant="h5" sx={{ mb: 2 }}>Value Ratings</Typography>
+      <Box sx={{ py: 2, px: 1, border: "1px solid #a0a0a0", borderRadius: 2, boxShadow: 3 }}>
+        <Typography sx={{ mb: 4 }} variant="body1">
+          Q6. Consider these 16 values as potential guiding principles in your life. For each value, please rate its importance to you, from 1 ('not at all important') to 7 ('extremely important').
+        </Typography>
+  
+        {/* Header row for rating options */}
+        <Grid container spacing={0} alignItems="center" sx={{ backgroundColor: '#d9d4d4' }}>
+          <Grid item xs={3}></Grid>
           {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
             <Grid item xs={1} key={val}>
               <Box display="flex" justifyContent="center">
-                <RadioGroup
-                name={id}
-                  value={selectedValues[id] || ''}
-                  onChange={(e) => handleRadioChange('valueRatings', id, e.target.value)}
-                >
-                  <FormControlLabel
-                    value={val.toString()}
-                    control={<Radio />}
-                    labelPlacement="top"
-                    label=""
-                    sx={{ margin: 0 }}
-                  />
-                </RadioGroup>
+                <Typography variant="subtitle2" align="center">
+                  {val}
+                </Typography>
               </Box>
             </Grid>
           ))}
         </Grid>
-      ))}
-    </Box>
+  
+        {/* Map over currentValues to display each value's question and radio buttons */}
+        {currentValues.map(({ id, text }, index) => (
+          <Grid container spacing={0} alignItems="center" key={id} mt={1} sx={{ backgroundColor: index % 2 !== 0 ? '#d9d4d4' : '' }}>
+            <Grid item xs={3}>
+              <Typography id={`${id}-label`} variant="body1">{text}</Typography>
+            </Grid>
+            {[1, 2, 3, 4, 5, 6, 7, "Don't know", "Prefer not to say"].map((val) => (
+              <Grid item xs={1} key={val}>
+                <Box display="flex" justifyContent="center">
+                  <RadioGroup
+                    name={id}
+                    value={selectedValues[id] || ''}
+                    onChange={(e) => handleRadioChange('valueRatings', id, e.target.value)}
+                  >
+                    <FormControlLabel
+                      value={val.toString()}
+                      control={<Radio />}
+                      labelPlacement="top"
+                      label=""
+                      sx={{ margin: 0 }}
+                    />
+                  </RadioGroup>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        ))}
+      </Box>
+    </>
   );
 }
 

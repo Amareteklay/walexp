@@ -18,32 +18,39 @@ const marks = [
 
 function EmotionsScale({ onProceed, nextScreen, emotionId }) {
   const [value, setValue] = useState(null);
+  const [scaleClickedAt, setScaleClickedAt] = useState(null);
   const { dispatch } = useData();
 
   const handleChange = (event, newValue) => {
+    if (scaleClickedAt === null) {
+      setScaleClickedAt(new Date().toISOString());
+    }
     setValue(newValue);
   };
 
   const handleConfirm = () => {
     if (value !== null) {
-      const currentTimestamp = new Date().toISOString();
+      const continueClickedAt = new Date().toISOString();
 
-      // Save the emotion response to the centralized state with a unique key for each instance
-      dispatch({
-        type: "SET_DATA",
-        key: `emotionResponse_${emotionId}`,
-        value: {
-          emotionId: emotionId,
-          emotionValue: value,
-          timestamp: currentTimestamp,
-        },
+      const flatData = {
+        emotionId: emotionId,
+        emotionValue: value,
+        emotionClickedAt: scaleClickedAt,
+        emotionContinueAt: continueClickedAt,
+      };
+
+      Object.entries(flatData).forEach(([key, val]) => {
+        const action = {
+          type: "SET_DATA",
+          key,
+          value: val,
+        };
+        dispatch(action);
       });
 
-      // Log the data for debugging purposes
-      console.log(`Emotion Saved: ${emotionId}, Value: ${value}, Timestamp: ${currentTimestamp}`);
-
-      // Proceed to the next screen
-      onProceed(nextScreen);
+      if (onProceed) {
+        onProceed(nextScreen);
+      }
     }
   };
 
@@ -65,17 +72,23 @@ function EmotionsScale({ onProceed, nextScreen, emotionId }) {
         value={value}
         onChange={handleChange}
         aria-labelledby="emotion-scale-slider"
-        aria-valuetext={value !== null ? `Emotion level ${value}` : "No emotion selected"}
+        aria-valuetext={
+          value !== null ? `Emotion level ${value}` : "No emotion selected"
+        }
         step={0.01}
         defaultValue={0}
         marks={marks}
         min={-2}
         max={2}
         valueLabelDisplay="auto"
-        sx={{ mb: 12, mt: 8, width: "80%",
+        sx={{
+          mb: 12,
+          mt: 8,
+          width: "80%",
           "& .MuiSlider-thumb": {
             display: value === null ? "none" : "block",
-          }, }}
+          },
+        }}
       />
 
       <CustomButton

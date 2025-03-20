@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   Typography,
   Box,
@@ -17,55 +17,54 @@ function AudioCheck({ onProceed }) {
   const videoRef = useRef(null);
   const { dispatch } = useData();
 
-  useEffect(() => {
-    // Function to play the video for audio only and handle potential errors
-    const playAudioOnly = async () => {
-      const videoElement = videoRef.current;
-      if (videoElement) {
-        try {
-          await videoElement.play();
-        } catch (error) {
-          console.error("Autoplay was prevented or another error occurred:", error);
-        }
+  // Using useCallback to memoize the function and avoid unnecessary re-renders
+  const playAudioOnly = useCallback(async () => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      try {
+        await videoElement.play();
+      } catch (error) {
+        console.error("Autoplay was prevented or another error occurred:", error);
+        setErrorMessage("There was an issue with the audio playback.");
       }
-    };
-
-    // Delay to ensure video is fully rendered
-    const timeoutId = setTimeout(playAudioOnly, 100);
-
-    return () => clearTimeout(timeoutId); // Clean up timeout on component unmount
+    }
   }, []);
+
+  useEffect(() => {
+    // Delay to ensure video is fully rendered and ready to play
+    const timeoutId = setTimeout(playAudioOnly, 100);
+    return () => clearTimeout(timeoutId);
+  }, [playAudioOnly]);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
-    setErrorMessage(""); // Clear error message when the user selects an option
+    setErrorMessage(""); // Clear error message when the user interacts
   };
 
   const handleContinue = () => {
     const currentTimestamp = Date.now();
     const newAttempts = attempts + 1;
-  
+
     // Increment the number of attempts
     setAttempts(newAttempts);
-  
-    // Generate keys based on the attempt count
-    const attemptKey = `attempt${newAttempts}`;
-    const timestampKey = `timestampAttempt${newAttempts}`;
-  
-    // Dispatch the selected option with a unique key for this attempt
-    dispatch({
-      type: "SET_DATA",
-      key: attemptKey,
-      value: selectedOption,
-    });
-  
-    // Dispatch the timestamp with a unique key for this attempt
-    dispatch({
-      type: "SET_DATA",
-      key: timestampKey,
-      value: currentTimestamp,
-    });
-  
+
+    // Dispatch each piece of data separately in a flat structure
+    const actions = [
+      {
+        type: "SET_DATA",
+        key: `attempt${newAttempts}`,
+        value: selectedOption,
+      },
+      {
+        type: "SET_DATA",
+        key: `attempt${newAttempts}_at`,
+        value: currentTimestamp,
+      },
+    ];
+
+    // Dispatch each action separately
+    actions.forEach(action => dispatch(action));
+
     // Only proceed if the correct option is selected
     if (selectedOption === "birds") {
       onProceed("feedback");
@@ -89,11 +88,7 @@ function AudioCheck({ onProceed }) {
         Your browser does not support the video tag.
       </video>
 
-      <Typography
-        variant="h5"
-        sx={{ fontWeight: "bold", padding: 2 }}
-        gutterBottom
-      >
+      <Typography variant="h5" sx={{ fontWeight: "bold", padding: 2 }} gutterBottom>
         Check audio system
       </Typography>
       <Typography variant="body1" sx={{ fontWeight: "bold", marginBottom: 4 }}>
@@ -118,7 +113,7 @@ function AudioCheck({ onProceed }) {
         </Typography>
       )}
 
-      {/* Button to show video if needed */}
+      {/* Button to proceed */}
       <Box mt={2}>
         <CustomButton
           text={"Continue"}

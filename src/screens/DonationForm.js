@@ -49,43 +49,46 @@ function DonationForm({ onProceed }) {
     setCurrency(selectedCountry === "UK" ? "£" : "$");
   }, [selectedCountry]);
 
-  // Handle donation selection
   const handleDonationChange = (event) => {
     const value = event.target.value;
     setSelectedValue(value);
-
-    // If donation amount is 0, reset charity selection
     if (value === "0") {
       setSelectedCharity("");
     }
   };
 
-  // Handle charity selection
   const handleCharityChange = (event) => {
     setSelectedCharity(event.target.value);
   };
 
-  // Handle explanation input
   const handleExplanationChange = (event) => {
     setCharityExplanation(event.target.value);
   };
 
-  // Handle form submission
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    dispatch({
-      type: "SET_DATA",
-      key: "donationFormSubmission",
-      value: {
-        selectedValue,
-        selectedCharity,
-        charityExplanation,
-        submitTimestamp: currentTimestamp,
-      },
+    const flatData = {
+      donationAmount: selectedValue,
+      donationCharity: selectedCharity,
+      donationExplanation: charityExplanation,
+      donationSubmitAt: currentTimestamp,
+    };
+
+    Object.entries(flatData).forEach(([key, value]) => {
+      const action = {
+        type: "SET_DATA",
+        key,
+        value,
+      };
+      dispatch(action);
     });
 
-    onProceed("emotionsFinal");
+    if (onProceed) {
+      onProceed("emotionsFinal");
+    } else {
+      console.error("onProceed is not defined.");
+    }
   };
 
   const charities = selectedCountry === "US" ? charityInfo.US : charityInfo.UK;
@@ -95,24 +98,70 @@ function DonationForm({ onProceed }) {
     <>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <FormContainer sx={{ marginLeft: 4, p: 2, border: "1px solid #a0a0a0", borderRadius: 2, minHeight: "360px", boxShadow: 3 }}>
+          <FormContainer
+            sx={{
+              marginLeft: 4,
+              p: 2,
+              border: "1px solid #a0a0a0",
+              borderRadius: 2,
+              minHeight: "360px",
+              boxShadow: 3,
+            }}
+          >
             <Typography variant="h6">How much would you like to donate?</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedValue} onChange={handleDonationChange}>
-                <FormControlLabel value="0" control={<Radio />} label={`${currency}0 - No donation`} />
-                <FormControlLabel value="0.3" control={<Radio />} label={`${currency}0.3 (10%)`} />
-                <FormControlLabel value="0.75" control={<Radio />} label={`${currency}0.75 (25%)`} />
-                <FormControlLabel value="1.5" control={<Radio />} label={`${currency}1.5 (50%)`} />
-                <FormControlLabel value="2.25" control={<Radio />} label={`${currency}2.25 (75%)`} />
-                <FormControlLabel value="2.7" control={<Radio />} label={`${currency}2.7 (90%)`} />
-                <FormControlLabel value="3" control={<Radio />} label={`${currency}3 (100%)`} />
+                <FormControlLabel
+                  value="0"
+                  control={<Radio />}
+                  label={`${currency}0 - No donation`}
+                />
+                <FormControlLabel
+                  value="0.3"
+                  control={<Radio />}
+                  label={`${currency}0.3 (10%)`}
+                />
+                <FormControlLabel
+                  value="0.75"
+                  control={<Radio />}
+                  label={`${currency}0.75 (25%)`}
+                />
+                <FormControlLabel
+                  value="1.5"
+                  control={<Radio />}
+                  label={`${currency}1.5 (50%)`}
+                />
+                <FormControlLabel
+                  value="2.25"
+                  control={<Radio />}
+                  label={`${currency}2.25 (75%)`}
+                />
+                <FormControlLabel
+                  value="2.7"
+                  control={<Radio />}
+                  label={`${currency}2.7 (90%)`}
+                />
+                <FormControlLabel
+                  value="3"
+                  control={<Radio />}
+                  label={`${currency}3 (100%)`}
+                />
               </RadioGroup>
             </FormControl>
           </FormContainer>
         </Grid>
 
         <Grid item xs={6}>
-          <FormContainer sx={{ marginLeft: 4, p: 2, border: "1px solid #a0a0a0", borderRadius: 2, minHeight: "360px", boxShadow: 3 }}>
+          <FormContainer
+            sx={{
+              marginLeft: 4,
+              p: 2,
+              border: "1px solid #a0a0a0",
+              borderRadius: 2,
+              minHeight: "360px",
+              boxShadow: 3,
+            }}
+          >
             <Typography variant="h6">Choose a Charity:</Typography>
             <FormControl component="fieldset">
               <RadioGroup value={selectedCharity} onChange={handleCharityChange}>
@@ -123,7 +172,10 @@ function DonationForm({ onProceed }) {
                     control={<Radio disabled={isDonationZero} />}
                     label={
                       <Box display="flex" alignItems="center">
-                        <Typography variant="body1" sx={{ marginRight: 1, color: isDonationZero ? "gray" : "inherit" }}>
+                        <Typography
+                          variant="body1"
+                          sx={{ marginRight: 1, color: isDonationZero ? "gray" : "inherit" }}
+                        >
                           {name}
                         </Typography>
                         <Tooltip title={info} arrow>
@@ -138,7 +190,8 @@ function DonationForm({ onProceed }) {
               </RadioGroup>
             </FormControl>
             <Typography variant="body1" sx={{ mt: 2 }}>
-              What influenced your choice? <span style={{ fontSize: '0.8em', fontStyle: 'italic' }}>(Optional)</span>
+              What influenced your choice?{" "}
+              <span style={{ fontSize: "0.8em", fontStyle: "italic" }}>(Optional)</span>
             </Typography>
             <TextField
               fullWidth

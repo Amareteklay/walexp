@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CustomButton from '../components/CustomButton';
-import { useData } from '../contexts/DataContext'; // Ensuring useData is properly imported
+import { useData } from '../contexts/DataContext';
 
 const OddOneOutTask = ({ onProceed, nextScreen }) => {
   const { dispatch } = useData();
@@ -14,12 +14,12 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
   const startTimeRef = useRef(null);
   const endTimeRef = useRef(null);
 
+  // Generate items and record start time on mount
   useEffect(() => {
     const { items: generatedItems, oddIndex: generatedOddIndex } = generateItems();
     setItems(generatedItems);
     setOddIndex(generatedOddIndex);
     startTimeRef.current = new Date().toISOString();
-    console.log('Component mounted. Items and odd index generated.', { generatedItems, generatedOddIndex });
   }, []);
 
   const generateItems = () => {
@@ -32,7 +32,6 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
   const handleItemClick = (index) => {
     if (!hasSubmitted) {
       setSelectedIndex(index);
-      console.log('Item clicked. Index:', index);
     }
   };
 
@@ -40,11 +39,9 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
     if (selectedIndex !== null) {
       setHasSubmitted(true);
       endTimeRef.current = new Date().toISOString();
-      console.log('Submit clicked. Selected index and task end time recorded.', { selectedIndex, endTime: endTimeRef.current });
 
       const isCorrect = selectedIndex === oddIndex;
       setFeedback(isCorrect ? 'Correct! You found the odd one out.' : 'Incorrect. Please pay closer attention next time.');
-      console.log('Feedback set:', feedback);
     } else {
       setFeedback('Please select an item before submitting.');
       console.log('No item selected on submit.');
@@ -53,22 +50,29 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
 
   const handleNext = () => {
     const timestamp = new Date().toISOString();
+    // Create a flat taskData object
     const taskData = {
-      oddOneOutData: {
-        selectedIndex,
-        oddIndex,
-        startTime: startTimeRef.current,
-        endTime: endTimeRef.current,
-        isCorrect: selectedIndex === oddIndex,
-      },
-      nextTimestamp: timestamp,
+      selectedIndex,
+      oddIndex,
+      startTime: startTimeRef.current,
+      endTime: endTimeRef.current,
+      isCorrect: selectedIndex === oddIndex,
+      nextAt: timestamp,
     };
 
-    console.log('Next clicked. Dispatching data:', taskData);
-    dispatch({
-      type: 'SET_DATA',
-      key: 'oddOneOutTaskData', // Unique key for each task completion
-      value: taskData,
+    // Flatten the data with keys prefixed by "oddOneOutTask_"
+    const flatData = {};
+    Object.entries(taskData).forEach(([field, value]) => {
+      flatData[`odd_${field}`] = value;
+    });
+
+    // Dispatch each key-value pair as a separate action
+    Object.entries(flatData).forEach(([key, value]) => {
+      dispatch({
+        type: 'SET_DATA',
+        key,
+        value,
+      });
     });
 
     if (onProceed && nextScreen) {
@@ -125,9 +129,9 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'center', // Vertically center the items
+            alignItems: 'center',
             justifyContent: 'center',
-            gap: 2, // Add some space between the items
+            gap: 2,
             marginTop: 12,
           }}
         >
@@ -136,7 +140,7 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
             text={'Submit'}
             onClick={handleSubmit}
             endIcon={<ArrowForwardIcon />}
-            disabled={selectedIndex === null} // Disable button until an item is selected
+            disabled={selectedIndex === null}
           />
         </Box>
       )}

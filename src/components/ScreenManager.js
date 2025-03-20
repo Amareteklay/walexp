@@ -4,11 +4,7 @@ import AudioCheck from "../screens/AudioCheck"
 import Feedback from "../screens/Feedback"
 import EmotionsScale from "../screens/EmotionsScale"
 import Instructions from "../screens/Instructions"
-import InstructionsTwo from "../screens/InstructionsTwo"
-import DemoEmoicons from "../screens/DemoEmoicons"
 import PracticePrompt from "../screens/PracticePrompt"
-import DemoShare from "../screens/DemoShare"
-import SampleVideo from "../screens/SampleVideo"
 import VideoScreen from "../screens/VideoScreen"
 import TransitionScreen from "../screens/TransitionScreen"
 import DonationPrompt from "../screens/DonationPrompt"
@@ -25,14 +21,11 @@ const screens = {
   audioCheck: AudioCheck,
   feedback: Feedback,
   instructions: Instructions,
-  instructionsTwo: InstructionsTwo,
   demoScreen: DemoScreen,
   demoicons: (props) => (
     <DemoEmoicons {...props} emojiType={props.emojiType} />
   ),
-  sampleVideo: SampleVideo,
   practicePrompt: PracticePrompt,
-  demoshare: DemoShare,
   videoOne: (props) => (
     <VideoScreen
       {...props}
@@ -41,7 +34,7 @@ const screens = {
       emojiType={props.emojiType}
       overlayText="Captured in 2024"
       factInfo="Water and Island near Stockholm"
-      videoId={'video00'}
+      videoId={'video0'}
     />
   ),
   transitionOne: TransitionScreen,

@@ -24,8 +24,8 @@ const EmojiIcon = styled(Box)(({ selected, interactive }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  border: selected ? "2px #5937ce solid" : "2px transparent solid",
-  backgroundColor: selected ? "#5937ce" : "none",
+  border: selected ? "2px solid #5937ce" : "2px solid transparent",
+  backgroundColor: selected ? "#5937ce" : "transparent",
   borderRadius: "50%",
   transition: "border 0.2s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease",
   cursor: interactive ? "pointer" : "default",
@@ -61,7 +61,6 @@ function EmojiReaction({ selectedEmoji, onReaction, interactive = false, emojiTy
 
   // Select the appropriate emoji set based on the emojiType prop
   const emojis = emojiType === "Facebook" ? fbEmojis : genEmojis;
-  console.log(emojiType);
 
   return (
     <EmojiContainer>

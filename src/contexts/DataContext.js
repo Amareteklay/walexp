@@ -1,4 +1,3 @@
-// src/contexts/DataContext.js
 import React, { createContext, useReducer, useContext } from 'react';
 
 // Create the Data Context

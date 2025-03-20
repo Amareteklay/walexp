@@ -41,7 +41,7 @@ function Survey({ onSubmit, onQuestionChange }) {
 
   const [pageIndex, setPageIndex] = useState(0);
   const [currentPageVRQ, setCurrentPageVRQ] = useState(0);  // For ValueRatingsQuestion pagination
-  const [currentPageSRQ, setCurrentPageSRQ] = useState(0); // State for StatementRatingsQuestion
+  const [currentPageSRQ, setCurrentPageSRQ] = useState(0); // For StatementRatingsQuestion pagination
   const [isAnswered, setIsAnswered] = useState(false);
   const [allValuesAnswered, setAllValuesAnswered] = useState(false);
   const [allStatementsAnswered, setAllStatementsAnswered] = useState(false);
@@ -49,6 +49,28 @@ function Survey({ onSubmit, onQuestionChange }) {
   const [totalPagesVRQ] = useState(Math.ceil(16 / 2));  // Assuming 2 items per page for ValueRatingsQuestion
   const totalStatements = 8; // Total statements
 
+  // New state for tracking time spent on each question
+  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+  const [questionDurations, setQuestionDurations] = useState({});
+
+  // Helper function to flatten nested objects
+  const flattenData = (data, prefix = "") => {
+    let flat = {};
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      const newKey = prefix ? `${prefix}_${key}` : key;
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        Object.assign(flat, flattenData(value, newKey));
+      } else if (Array.isArray(value)) {
+        flat[newKey] = value.join(", ");
+      } else {
+        flat[newKey] = value;
+      }
+    });
+    return flat;
+  };
+
+  // Check if all values in an object are answered (non-empty)
   const areAllValuesAnswered = (updatedValues) => {
     return Object.values(updatedValues).every((val) => val !== "");
   };
@@ -105,46 +127,73 @@ function Survey({ onSubmit, onQuestionChange }) {
         setIsAnswered(false);
         break;
     }
-  }, [pageIndex, onQuestionChange, selectedValues, allValuesAnswered, allStatementsAnswered, rankingComplete]);
+    // Reset the start time for the new question (or sub-page)
+    setQuestionStartTime(Date.now());
+  }, [
+    pageIndex,
+    onQuestionChange,
+    selectedValues,
+    allValuesAnswered,
+    allStatementsAnswered,
+    rankingComplete,
+  ]);
 
   const handleNext = () => {
+    // Calculate time spent on the current question/page
+    const endTime = Date.now();
+    const timeSpent = endTime - questionStartTime; // in milliseconds
+    // Save the duration for the current page
+    setQuestionDurations((prev) => ({ ...prev, [pageIndex]: timeSpent }));
+
     const isValueRatings = pageIndex === 5;
     const isStatementRatings = pageIndex === 6;
 
     if (isValueRatings && currentPageVRQ < totalPagesVRQ - 1) {
       setCurrentPageVRQ(currentPageVRQ + 1);
+      setQuestionStartTime(Date.now());
     } else if (isStatementRatings && currentPageSRQ < totalStatements - 1) {
       setCurrentPageSRQ(currentPageSRQ + 1);
+      setQuestionStartTime(Date.now());
     } else {
       setPageIndex(pageIndex + 1);
       setCurrentPageVRQ(0);
       setCurrentPageSRQ(0);
+      setQuestionStartTime(Date.now());
     }
     setIsAnswered(true); // Ensure button is enabled after page transition
   };
 
-
-
   const handleSubmit = () => {
+    // Record time spent on the final page
+    const endTime = Date.now();
+    const timeSpent = endTime - questionStartTime;
+    const finalDurations = { ...questionDurations, [pageIndex]: timeSpent };
+
     const finalTimestamp = new Date().toISOString();
     const surveyData = {
       ...selectedValues,
-      submitTimestamp: finalTimestamp,
+      submittedAt: finalTimestamp,
+      questionDurations: finalDurations,
     };
-console.log('Survey data', surveyData)
+
+    const flatSurveyData = flattenData(surveyData);
+    console.log("Flattened Survey Data:", flatSurveyData);
+
     // Send data to PsychoJS
     window.parent.postMessage(
       {
         type: "survey_complete",
-        data: surveyData,
+        data: flatSurveyData,
       },
       "*"
     );
 
     if (onSubmit) {
-      onSubmit(surveyData);
+      onSubmit(flatSurveyData);
     }
   };
+
+  // Handlers for various input types
 
   const handleRadioChange = useCallback((field, key, value) => {
     setSelectedValues((prev) => {
@@ -177,12 +226,11 @@ console.log('Survey data', surveyData)
         case "children":
           return { ...prev, children: value };
         default:
-          return prev; // If no case matches, return previous state unchanged
+          return prev;
       }
     });
     setIsAnswered(true);
-  }, [setSelectedValues, setAllStatementsAnswered, setAllValuesAnswered]);
-  
+  }, []);
 
   const handleInputChange = (field, value) => {
     setSelectedValues((prev) => ({
@@ -238,11 +286,12 @@ console.log('Survey data', surveyData)
       }
     />,
     <ValueRatingsQuestion 
-    key="Q6" 
-    currentPage={currentPageVRQ} 
-    selectedValues={selectedValues.valueRatings} 
-    handleRadioChange={handleRadioChange} 
-    setAllAnswered={setAllValuesAnswered} />,
+      key="Q6" 
+      currentPage={currentPageVRQ} 
+      selectedValues={selectedValues.valueRatings} 
+      handleRadioChange={handleRadioChange} 
+      setAllAnswered={setAllValuesAnswered} 
+    />,
     <StatementRatingsQuestion
       key="Q7"
       currentPage={currentPageSRQ} 
@@ -251,19 +300,29 @@ console.log('Survey data', surveyData)
       setAllAnswered={setAllStatementsAnswered}
     />,
     <RankingQuestion
-      key="Q8"
-      selectedRanks={selectedValues.ranking}
-      handleRankChange={(factor, rank) => {
-        setSelectedValues((prev) => ({
-          ...prev,
-          ranking: {
-            ...prev.ranking,
-            [factor]: rank,
-          },
-        }));
-      }}
-      notifyCompletion={(isComplete) => setRankingComplete(isComplete)}
-    />,
+  key="Q8"
+  selectedRanks={selectedValues.ranking}
+  handleRankChange={(factor, rank, value) => {
+    if (factor === "otherFactor") {
+      setSelectedValues((prev) => ({
+        ...prev,
+        ranking: {
+          ...prev.ranking,
+          otherFactor: value,
+        },
+      }));
+    } else {
+      setSelectedValues((prev) => ({
+        ...prev,
+        ranking: {
+          ...prev.ranking,
+          [factor]: rank,
+        },
+      }));
+    }
+  }}
+  notifyCompletion={(isComplete) => setRankingComplete(isComplete)}
+/>,
     <GenderQuestion
       key="Q9"
       selectedValue={selectedValues.gender}
