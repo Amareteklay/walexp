@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, TextField, FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CustomButton from "../components/CustomButton";
@@ -8,6 +8,15 @@ function TransitionScreen({ onProceed }) {
   const { dispatch } = useData();
   const [rememberVideo, setRememberVideo] = useState("");
   const [captureDetail, setCaptureDetail] = useState("");
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  // Enable the Continue button after a 5-second delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonEnabled(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
@@ -93,6 +102,7 @@ function TransitionScreen({ onProceed }) {
         text={"Continue"}
         onClick={handleContinue}
         endIcon={<ArrowForwardIcon />}
+        disabled={!isButtonEnabled}
       />
     </>
   );

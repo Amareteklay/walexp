@@ -49,11 +49,11 @@ function VideoScreen({
   emojiType,
 }) {
   const [videoData, dispatchVideoData] = useReducer(reducer, initialState);
-  const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [commentSubmitted, setCommentSubmitted] = useState(false);
   const [shareSubmitted, setShareSubmitted] = useState(false);
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [isDelayPassed, setIsDelayPassed] = useState(false);
   const videoRef = useRef(null);
   const { dispatch } = useData();
 
@@ -77,7 +77,6 @@ function VideoScreen({
     }
   };
   
-
   // Open comment dialog and record when it was opened.
   const handleAddComment = () => {
     setCommentDialogOpen(true);
@@ -115,7 +114,7 @@ function VideoScreen({
     const newNextTimestamp = getTimestamp();
     const finalData = { ...videoData, nextAt: newNextTimestamp };
 
-    // Flatten the finalData: for each property, create a key like "videoData_<videoId>_<field>".
+    // Flatten the finalData: for each property, create a key like "videoId_field".
     const flatData = {};
     Object.entries(finalData).forEach(([field, value]) => {
       flatData[`${videoId}_${field}`] = value;
@@ -135,11 +134,11 @@ function VideoScreen({
     }
   };
 
-  // Enable the Next button after a 1-second delay.
+  // Enable the Next button only after a 10-second delay.
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsNextDisabled(false);
-    }, 1000);
+      setIsDelayPassed(true);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -210,7 +209,7 @@ function VideoScreen({
           text={"Next"} 
           onClick={handleNext} 
           endIcon={<ArrowForwardIcon />} 
-          disabled={isNextDisabled} 
+          disabled={!isDelayPassed || !videoData.emojiReaction} 
         />
       </Box>
 

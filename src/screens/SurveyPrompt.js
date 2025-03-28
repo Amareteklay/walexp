@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CustomButton from "../components/CustomButton";
@@ -6,6 +6,15 @@ import { useData } from "../contexts/DataContext";
 
 function SurveyPrompt({ onProceed }) {
   const { dispatch } = useData();
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  // Enable the button after a 5-second delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonEnabled(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
@@ -40,6 +49,7 @@ function SurveyPrompt({ onProceed }) {
         text={"Next"}
         onClick={handleContinue}
         endIcon={<ArrowForwardIcon />}
+        disabled={!isButtonEnabled}
       />
     </>
   );

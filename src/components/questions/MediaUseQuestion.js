@@ -22,13 +22,21 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
 
   const handleChange = (option) => {
     if (option === 'I am not on social media') {
-      // If 'I am not on social media' is selected, unselect everything else
+      // If 'I am not on social media' is selected, unselect everything else.
       const updatedMediaUse = isSocialMediaDisabled ? [] : [option];
       handleCheckboxChange(updatedMediaUse);
-    } else if (option === 'Other reason, specify' && !isSocialMediaDisabled) {
-      // Handle 'Other reason, specify' option text change
-      if (selectedValues.includes(option)) {
-        handleCheckboxChange(selectedValues.filter(value => value !== option));
+    } else if (option === 'Other reason, specify') {
+      // Toggle "Other reason, specify"
+      const hasOther = selectedValues.some(
+        (val) => val === 'Other reason, specify' || val.startsWith('Other reason, specify:')
+      );
+      if (hasOther) {
+        // Remove any existing "Other reason, specify" entry.
+        const updated = selectedValues.filter(
+          (val) => !(val === 'Other reason, specify' || val.startsWith('Other reason, specify:'))
+        );
+        handleCheckboxChange(updated);
+        setOtherText("");
       } else {
         handleCheckboxChange([...selectedValues, option]);
       }
@@ -36,17 +44,24 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
       const updatedMediaUse = selectedValues.includes(option)
         ? selectedValues.filter((value) => value !== option)
         : [...selectedValues, option];
-
       handleCheckboxChange(updatedMediaUse);
     }
   };
 
-  // Handle the change in "Other" text field
+  // Update the "Other reason, specify" text and append it to the parent's array.
   const handleOtherTextChange = (event) => {
-    setOtherText(event.target.value);
-    if (!selectedValues.includes("Other reason, specify")) {
-      handleChange("Other reason, specify");
+    const newText = event.target.value;
+    setOtherText(newText);
+    // Remove any previous "Other reason, specify" entries.
+    let updated = selectedValues.filter(
+      (val) => !(val === 'Other reason, specify' || val.startsWith('Other reason, specify:'))
+    );
+    if (newText.trim() !== "") {
+      updated.push(`Other reason, specify: ${newText}`);
+    } else {
+      updated.push('Other reason, specify');
     }
+    handleCheckboxChange(updated);
   };
 
   return (
@@ -60,7 +75,15 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
             key={option}
             control={
               <Checkbox
-                checked={selectedValues.includes(option)}
+                checked={
+                  option === 'Other reason, specify'
+                    ? selectedValues.some(
+                        (val) =>
+                          val === 'Other reason, specify' ||
+                          val.startsWith('Other reason, specify:')
+                      )
+                    : selectedValues.includes(option)
+                }
                 onChange={() => handleChange(option)}
                 disabled={isSocialMediaDisabled && option !== 'I am not on social media'}
               />
@@ -68,7 +91,10 @@ function MediaUseQuestion({ selectedValues, handleCheckboxChange, setNextEnabled
             label={<span style={{ fontSize: '0.875rem' }}>{option}</span>}
           />
         ))}
-        {selectedValues.includes("Other reason, specify") && (
+        {selectedValues.some(
+          (val) =>
+            val === 'Other reason, specify' || val.startsWith('Other reason, specify:')
+        ) && (
           <TextField
             sx={{ mt: 2, ml: 4 }}
             label="Please specify"

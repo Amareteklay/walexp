@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, Card, CardContent } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
@@ -10,8 +10,23 @@ import { useData } from "../contexts/DataContext";
 function Instructions({ onProceed }) {
   const [step, setStep] = useState(1); // Track which instruction step to show
   const { dispatch } = useData();
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  // Set up a delay of 10 seconds each time the step changes
+  useEffect(() => {
+    setIsButtonEnabled(false); // Disable button on step change
+    const timer = setTimeout(() => {
+      setIsButtonEnabled(true);
+    }, 4000);
+
+    // Clean up the timer when the component unmounts or step changes
+    return () => clearTimeout(timer);
+  }, [step]);
 
   const handleContinue = () => {
+    // Optionally prevent early click even if the button is clicked programmatically
+    if (!isButtonEnabled) return;
+
     const currentTimestamp = new Date().toISOString();
 
     // Dispatch the timestamp for the current step in a flat structure
@@ -92,6 +107,7 @@ function Instructions({ onProceed }) {
         text={step === 1 ? "Next" : "Continue"}
         onClick={handleContinue}
         endIcon={<ArrowForwardIcon />}
+        disabled={!isButtonEnabled}
       />
     </>
   );

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Typography, Box, Grid, MenuItem, Select, TextField, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
+import React, { useLayoutEffect, useMemo } from 'react';
+import { Typography, Box, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
 function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswered, currentPage }) {
   // Define values with IDs and texts
@@ -23,15 +23,23 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
   ];
   
   const itemsPerPage = 2;
-  const currentValues = values.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  const currentValues = useMemo(() => 
+    values.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage),
+    [currentPage]
+  );
   
-  // Check if both items on the current page have been answered
-  useEffect(() => {
-    const allAnsweredForPage = currentValues.every(
-      (value) => selectedValues[value.id] !== undefined && selectedValues[value.id] !== ''
-    );
+  const allAnsweredForPage = useMemo(() => 
+    currentValues.every(v => 
+      selectedValues[v.id] !== undefined && 
+      selectedValues[v.id].trim() !== ""
+    ),
+    [currentValues, selectedValues]
+  );
+  
+  // Use useLayoutEffect to update synchronously and include currentPage in dependencies
+  useLayoutEffect(() => {
     setAllAnswered(allAnsweredForPage);
-  }, [selectedValues, setAllAnswered, currentValues]);
+  }, [allAnsweredForPage, currentPage, setAllAnswered]);
   
   return (
     <>
@@ -55,9 +63,9 @@ function ValueRatingsQuestion({ selectedValues, handleRadioChange, setAllAnswere
           ))}
         </Grid>
   
-        {/* Map over currentValues to display each value's question and radio buttons */}
-        {currentValues.map(({ id, text }, index) => (
-          <Grid container spacing={0} alignItems="center" key={id} mt={1} sx={{ backgroundColor: index % 2 !== 0 ? '#d9d4d4' : '' }}>
+        {/* Render the two items for the current page */}
+        {currentValues.map(({ id, text }) => (
+          <Grid container spacing={0} alignItems="center" key={id} mt={1} sx={{ backgroundColor: '#d9d4d4' }}>
             <Grid item xs={3}>
               <Typography id={`${id}-label`} variant="body1">{text}</Typography>
             </Grid>

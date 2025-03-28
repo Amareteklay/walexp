@@ -48,10 +48,10 @@ const screens = {
     ),
   videoSeries: (props) => {
     const { currentStep, onProceed, framingType, emojiType } = props;
-
+    console.log("Frame type", framingType);
     const handleNextScreen = () => {
         const nextStep = currentStep + 1;
-console.log("Current step", currentStep);
+    console.log("Current step", currentStep);
         if ([4, 9, 14, 19, videoData.length - 1].includes(currentStep)) {
             onProceed("emotions");
         } else if (currentStep === 6) {

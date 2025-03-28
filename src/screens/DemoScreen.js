@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Typography, IconButton } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ReplayIcon from "@mui/icons-material/Replay";
@@ -9,7 +9,8 @@ function DemoScreen({ onProceed, emojiType }) {
   const videoRef = useRef(null);
   const [showReplayButton, setShowReplayButton] = useState(false);
   const [replayCount, setReplayCount] = useState(0);
-  const [replayTimestamps, setReplayTimestamps] = useState([]); // Store timestamps of all replays
+  const [replayTimestamps, setReplayTimestamps] = useState([]);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const { dispatch } = useData();
 
   // Determines the appropriate video source based on the emojiType prop
@@ -21,8 +22,19 @@ function DemoScreen({ onProceed, emojiType }) {
     return `${process.env.PUBLIC_URL}/videos/${videoSources[emojiType] || "Demo_gen.mp4"}`;
   };
 
+  // Set up a delay of 10 seconds on mount before enabling the Continue button
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonEnabled(true);
+    }, 50000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Handler for when the user clicks the 'Continue' button
   const handleContinue = () => {
+    if (!isButtonEnabled) return; // Prevent early clicks
+
     const currentTimestamp = new Date().toISOString();
 
     // Dispatch each data point separately in a flat structure
@@ -35,7 +47,7 @@ function DemoScreen({ onProceed, emojiType }) {
       {
         type: "SET_DATA",
         key: "demoReplayAt",
-        value: replayTimestamps.join(", "), // Join timestamps for easy export
+        value: replayTimestamps.join(", "),
       },
       {
         type: "SET_DATA",
@@ -44,9 +56,7 @@ function DemoScreen({ onProceed, emojiType }) {
       },
     ];
 
-    // Dispatch each action separately
     actions.forEach(action => dispatch(action));
-
     onProceed("practicePrompt");
   };
 
@@ -61,11 +71,9 @@ function DemoScreen({ onProceed, emojiType }) {
       videoRef.current.currentTime = 0;
       videoRef.current.play();
       setShowReplayButton(false);
-      setReplayCount((prevCount) => prevCount + 1);
+      setReplayCount(prevCount => prevCount + 1);
       const currentTimestamp = new Date().toISOString();
-
-      // Add current timestamp to the replayTimestamps array
-      setReplayTimestamps((prevTimestamps) => [...prevTimestamps, currentTimestamp]);
+      setReplayTimestamps(prevTimestamps => [...prevTimestamps, currentTimestamp]);
     }
   };
 
@@ -126,6 +134,7 @@ function DemoScreen({ onProceed, emojiType }) {
         text={"Continue"}
         onClick={handleContinue}
         endIcon={<ArrowForwardIcon />}
+        disabled={!isButtonEnabled}
       />
     </>
   );

@@ -18,36 +18,51 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
     setNextEnabled(selectedValues.length > 0);
   }, [selectedValues, setNextEnabled]);
 
-  // Disable other options if 'I don’t stay updated on current events' is selected
+  // Disable other options if "I don’t stay updated on current events" is selected
   const isNotStayingUpdated = selectedValues.includes('I don’t stay updated on current events');
 
   const handleChange = (option) => {
     if (option === 'I don’t stay updated on current events') {
-      // If 'I don’t stay updated on current events' is selected, unselect everything else
+      // If this option is selected, unselect everything else.
       const updatedMediaType = isNotStayingUpdated ? [] : [option];
       handleCheckboxChange(updatedMediaType);
-    } else if (option === 'Others, specify' && !isNotStayingUpdated) {
-      // Handle 'Others, specify' option text change
-      if (selectedValues.includes(option)) {
-        handleCheckboxChange(selectedValues.filter(value => value !== option));
+    } else if (option === 'Others, specify') {
+      // Toggle the "Others, specify" option
+      const hasOther = selectedValues.some(
+        (val) => val === 'Others, specify' || val.startsWith('Others, specify:')
+      );
+      if (hasOther) {
+        // Remove any "Others, specify" entry and clear local text.
+        const updated = selectedValues.filter(
+          (val) => !(val === 'Others, specify' || val.startsWith('Others, specify:'))
+        );
+        handleCheckboxChange(updated);
+        setOtherText("");
       } else {
         handleCheckboxChange([...selectedValues, option]);
       }
     } else {
-      const updatedMediaType = selectedValues.includes(option)
+      const updated = selectedValues.includes(option)
         ? selectedValues.filter((value) => value !== option)
         : [...selectedValues, option];
-
-      handleCheckboxChange(updatedMediaType);
+      handleCheckboxChange(updated);
     }
   };
 
-  // Handle the change in "Others" text field
+  // Handle changes in the "Others, specify" text field
   const handleOtherTextChange = (event) => {
-    setOtherText(event.target.value);
-    if (!selectedValues.includes("Others, specify")) {
-      handleChange("Others, specify");
+    const newText = event.target.value;
+    setOtherText(newText);
+    // Remove any previous "Others, specify" entries from the selected values.
+    let updated = selectedValues.filter(
+      (val) => !(val === 'Others, specify' || val.startsWith('Others, specify:'))
+    );
+    if (newText.trim() !== "") {
+      updated.push(`Others, specify: ${newText}`);
+    } else {
+      updated.push('Others, specify');
     }
+    handleCheckboxChange(updated);
   };
 
   return (
@@ -61,7 +76,13 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
             key={option}
             control={
               <Checkbox
-                checked={selectedValues.includes(option)}
+                checked={
+                  option === 'Others, specify'
+                    ? selectedValues.some(
+                        (val) => val === 'Others, specify' || val.startsWith('Others, specify:')
+                      )
+                    : selectedValues.includes(option)
+                }
                 onChange={() => handleChange(option)}
                 disabled={isNotStayingUpdated && option !== 'I don’t stay updated on current events'}
               />
@@ -69,7 +90,9 @@ function MediaTypeQuestion({ selectedValues, handleCheckboxChange, setNextEnable
             label={<span style={{ fontSize: '0.875rem' }}>{option}</span>}
           />
         ))}
-        {selectedValues.includes("Others, specify") && (
+        {selectedValues.some(
+          (val) => val === 'Others, specify' || val.startsWith('Others, specify:')
+        ) && (
           <TextField
             sx={{ mt: 2, ml: 4 }}
             label="Please specify"

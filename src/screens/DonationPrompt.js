@@ -8,6 +8,7 @@ function DonationPrompt({ onProceed }) {
   const { dispatch } = useData();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [currency, setCurrency] = useState("");
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   // Handle country selection and set the currency based on the country
   const handleCountryChange = (event) => {
@@ -37,6 +38,13 @@ function DonationPrompt({ onProceed }) {
       };
       dispatch(countryAction);
       dispatch(timestampAction);
+
+      // Disable the Next button and enable it after a 5-second delay
+      setIsButtonEnabled(false);
+      const timer = setTimeout(() => {
+        setIsButtonEnabled(true);
+      }, 4000);
+      return () => clearTimeout(timer);
     }
   }, [selectedCountry, dispatch]);
 
@@ -92,6 +100,7 @@ function DonationPrompt({ onProceed }) {
               text={"Next"}
               onClick={handleContinue}
               endIcon={<ArrowForwardIcon />}
+              disabled={!isButtonEnabled}
             />
           </Box>
         </>

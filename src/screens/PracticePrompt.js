@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, Card, CardContent } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
@@ -9,8 +9,20 @@ import { useData } from "../contexts/DataContext";
 
 function PracticePrompt({ onProceed }) {
   const { dispatch } = useData();
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  // Enable the button after a 5-second delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonEnabled(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleContinue = () => {
+    if (!isButtonEnabled) return; // Prevent early click
+
     const currentTimestamp = new Date().toISOString();
 
     // Dispatch the timestamp in a flat structure
@@ -22,9 +34,7 @@ function PracticePrompt({ onProceed }) {
       },
     ];
 
-    // Dispatch each action separately
     actions.forEach(action => dispatch(action));
-
     onProceed("videoOne");
   };
 
@@ -73,6 +83,7 @@ function PracticePrompt({ onProceed }) {
         text={"Next"}
         onClick={handleContinue}
         endIcon={<ArrowForwardIcon />}
+        disabled={!isButtonEnabled}
       />
     </>
   );

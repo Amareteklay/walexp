@@ -19,35 +19,48 @@ function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNex
     setNextEnabled(selectedValues.length > 0);
   }, [selectedValues, setNextEnabled]);
 
-  // Disable other options if 'I am not on social media' is selected
-  const isSocialMediaDisabled = selectedValues.includes("I am not on social media");
+  // Determine if "I am not on social media" is selected
+  const isNotOnSocialMedia = selectedValues.includes("I am not on social media");
 
   const handleChange = (option) => {
     if (option === "I am not on social media") {
-      // If 'I am not on social media' is selected, unselect everything else
-      const updatedSocialMedia = isSocialMediaDisabled ? [] : [option];
-      handleCheckboxChange(updatedSocialMedia);
-    } else if (option === "Other(s)" && !isSocialMediaDisabled) {
-      // Handle 'Other(s)' option text change
-      if (selectedValues.includes(option)) {
-        handleCheckboxChange(selectedValues.filter(value => value !== option));
+      // If this option is selected, unselect all others.
+      const updated = isNotOnSocialMedia ? [] : [option];
+      handleCheckboxChange(updated);
+    } else if (option === "Other(s)") {
+      // Toggle the selection for "Other(s)" if no text has been entered yet.
+      const hasOther =
+        selectedValues.some(val => val === "Other(s)") ||
+        selectedValues.some(val => val.startsWith("Other(s):"));
+      if (hasOther) {
+        // Remove any "Other(s)" entry.
+        const updated = selectedValues.filter(val => !(val === "Other(s)" || val.startsWith("Other(s):")));
+        handleCheckboxChange(updated);
+        setOtherText("");
       } else {
         handleCheckboxChange([...selectedValues, option]);
       }
     } else {
-      const updatedSocialMedia = selectedValues.includes(option)
-        ? selectedValues.filter((value) => value !== option)
+      const updated = selectedValues.includes(option)
+        ? selectedValues.filter(value => value !== option)
         : [...selectedValues, option];
-
-      handleCheckboxChange(updatedSocialMedia);
+      handleCheckboxChange(updated);
     }
   };
 
   const handleOtherTextChange = (event) => {
-    setOtherText(event.target.value);
-    if (!selectedValues.includes("Other(s)")) {
-      handleChange("Other(s)");
+    const newText = event.target.value;
+    setOtherText(newText);
+    // Remove any previous "Other(s)" entries.
+    let updated = selectedValues.filter(val => !(val === "Other(s)" || val.startsWith("Other(s):")));
+    // Append the updated "Other(s)" text.
+    if (newText.trim() !== "") {
+      updated.push(`Other(s): ${newText}`);
+    } else {
+      // If the text field is empty, you might still want to mark the option as selected.
+      updated.push("Other(s)");
     }
+    handleCheckboxChange(updated);
   };
 
   return (
@@ -56,20 +69,24 @@ function SocialMediaQuestion({ selectedValues = [], handleCheckboxChange, setNex
         Q1. What social media platforms do you use frequently? (You can mark several alternatives.)
       </Typography>
       <FormGroup sx={{ paddingLeft: "20px" }}>
-        {options.map((option) => (
+        {options.map(option => (
           <FormControlLabel
             key={option}
             control={
               <Checkbox
-                checked={selectedValues.includes(option)}
+                checked={
+                  option === "Other(s)"
+                    ? selectedValues.some(val => val === "Other(s)" || val.startsWith("Other(s):"))
+                    : selectedValues.includes(option)
+                }
                 onChange={() => handleChange(option)}
-                disabled={isSocialMediaDisabled && option !== "I am not on social media"}
+                disabled={isNotOnSocialMedia && option !== "I am not on social media"}
               />
             }
             label={option}
           />
         ))}
-        {selectedValues.includes("Other(s)") && (
+        {selectedValues.some(val => val === "Other(s)" || val.startsWith("Other(s):")) && (
           <TextField
             sx={{ mt: 2, ml: 4 }}
             label="Please specify"

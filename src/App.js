@@ -13,7 +13,7 @@ function App() {
   const [videoSeriesStarted, setVideoSeriesStarted] = useState(false);
 
   const [questionIndex, setQuestionIndex] = useState(0); // Track the survey question index
-  const totalSteps = 59;
+  const totalSteps = 58;
 
   // State to hold the group assignment
   const [groupAssignment, setGroupAssignment] = useState({
@@ -25,22 +25,30 @@ function App() {
   useEffect(() => {
     function handleMessage(event) {
       if (event.origin !== 'https://run.pavlovia.org') return;
-
+  
       if (event.data.type === 'group_assignment') {
-        setGroupAssignment({
-          framingType: event.data.framingType,
-          emojiType: event.data.emojiType,
+        // Only update if framingType is not already set
+        setGroupAssignment(prevState => {
+          if (prevState.framingType !== null) {
+            console.log("Framing type already set:", prevState.framingType);
+            return prevState;
+          }
+          console.log('Group Assignment received:', event.data);
+          return {
+            framingType: event.data.framingType,
+            emojiType: event.data.emojiType,
+          };
         });
-        console.log('Group Assignment received:', event.data);
       }
     }
-
+  
     window.addEventListener('message', handleMessage);
-
+  
     return () => {
       window.removeEventListener('message', handleMessage);
     };
   }, []);
+  
 
   // Determine the overlay text and fact info based on the current step and framing type
   const { overlayText, factInfo } = useFraming(currentStep, groupAssignment.framingType);

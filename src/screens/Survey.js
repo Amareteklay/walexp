@@ -17,6 +17,7 @@ import AreaQuestion from "../components/questions/AreaQuestion";
 import AgeQuestion from "../components/questions/AgeQuestion";
 import EducationQuestion from "../components/questions/EducationQuestion";
 import HouseholdCompositionQuestion from "../components/questions/HouseholdCompositionQuestion";
+import { useData } from "../contexts/DataContext";
 
 import CustomButton from "../components/CustomButton";
 
@@ -50,8 +51,9 @@ function Survey({ onSubmit, onQuestionChange }) {
   const totalStatements = 8; // Total statements
 
   // New state for tracking time spent on each question
-  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+  const [questionStartTime, setQuestionStartTime] = useState(new Date().toISOString());
   const [questionDurations, setQuestionDurations] = useState({});
+  const { dispatch } = useData();
 
   // Helper function to flatten nested objects
   const flattenData = (data, prefix = "") => {
@@ -115,7 +117,10 @@ function Survey({ onSubmit, onQuestionChange }) {
         setIsAnswered(selectedValues.area !== "");
         break;
       case 11:
-        setIsAnswered(selectedValues.age !== "");
+        const ageValue = selectedValues.age;
+        const age = parseInt(ageValue, 10);
+        const isValid = !isNaN(age) && age >= 18 && age <= 90;
+        setIsAnswered(isValid);
         break;
       case 12:
         setIsAnswered(selectedValues.education !== "");
@@ -128,9 +133,10 @@ function Survey({ onSubmit, onQuestionChange }) {
         break;
     }
     // Reset the start time for the new question (or sub-page)
-    setQuestionStartTime(Date.now());
+    setQuestionStartTime(new Date().toISOString());
   }, [
     pageIndex,
+    currentPageVRQ,
     onQuestionChange,
     selectedValues,
     allValuesAnswered,
@@ -139,61 +145,91 @@ function Survey({ onSubmit, onQuestionChange }) {
   ]);
 
   const handleNext = () => {
-    // Calculate time spent on the current question/page
-    const endTime = Date.now();
-    const timeSpent = endTime - questionStartTime; // in milliseconds
-    // Save the duration for the current page
-    setQuestionDurations((prev) => ({ ...prev, [pageIndex]: timeSpent }));
+    const endTime = new Date().toISOString();
+    const currentQuestionIndex = pageIndex;
+    const isValueRatings = currentQuestionIndex === 5;
+    const isStatementRatings = currentQuestionIndex === 6;
 
-    const isValueRatings = pageIndex === 5;
-    const isStatementRatings = pageIndex === 6;
-
-    if (isValueRatings && currentPageVRQ < totalPagesVRQ - 1) {
-      setCurrentPageVRQ(currentPageVRQ + 1);
-      setQuestionStartTime(Date.now());
-    } else if (isStatementRatings && currentPageSRQ < totalStatements - 1) {
-      setCurrentPageSRQ(currentPageSRQ + 1);
-      setQuestionStartTime(Date.now());
+    // Determine subpage index based on question type
+    let subpageIndex;
+    if (isValueRatings) {
+      subpageIndex = currentPageVRQ;
+    } else if (isStatementRatings) {
+      subpageIndex = currentPageSRQ;
     } else {
-      setPageIndex(pageIndex + 1);
+      subpageIndex = 0; // Regular questions have no subpages
+    }
+
+    // Update timestamps for the current question/subpage
+    setQuestionDurations(prev => ({
+      ...prev,
+      [currentQuestionIndex]: {
+        ...prev[currentQuestionIndex],
+        [subpageIndex]: {
+          start: questionStartTime,
+          end: endTime
+        }
+      }
+    }));
+
+    // Handle navigation
+    if (isValueRatings && currentPageVRQ < totalPagesVRQ - 1) {
+      setCurrentPageVRQ(p => p + 1);
+    } else if (isStatementRatings && currentPageSRQ < totalStatements - 1) {
+      setCurrentPageSRQ(p => p + 1);
+    } else {
+      setPageIndex(p => p + 1);
       setCurrentPageVRQ(0);
       setCurrentPageSRQ(0);
-      setQuestionStartTime(Date.now());
     }
-    setIsAnswered(true); // Ensure button is enabled after page transition
+
+    // Reset timer for new page/subpage
+    setQuestionStartTime(new Date().toISOString());
   };
 
   const handleSubmit = () => {
-    // Record time spent on the final page
-    const endTime = Date.now();
-    const timeSpent = endTime - questionStartTime;
-    const finalDurations = { ...questionDurations, [pageIndex]: timeSpent };
+    const endTime = new Date().toISOString();
+    setQuestionDurations(prev => ({
+      ...prev,
+      [pageIndex]: {
+        ...prev[pageIndex],
+        [currentPageVRQ]: {
+          start: questionStartTime,
+          end: endTime
+        }
+      }
+    }));
 
-    const finalTimestamp = new Date().toISOString();
+    const formattedDurations = {};
+    Object.entries(questionDurations).forEach(([questionIdx, subpages]) => {
+      const questionNumber = parseInt(questionIdx) + 1;
+      Object.entries(subpages).forEach(([subpageIdx, times]) => {
+        formattedDurations[`Q${questionNumber}_startAt_${subpageIdx}`] = times.start;
+        formattedDurations[`Q${questionNumber}_endAt_${subpageIdx}`] = times.end;
+      });
+    });
+
     const surveyData = {
       ...selectedValues,
-      submittedAt: finalTimestamp,
-      questionDurations: finalDurations,
+      submittedAt: new Date().toISOString(),
+      ...formattedDurations
     };
 
     const flatSurveyData = flattenData(surveyData);
-    console.log("Flattened Survey Data:", flatSurveyData);
 
-    // Send data to PsychoJS
-    window.parent.postMessage(
-      {
-        type: "survey_complete",
-        data: flatSurveyData,
-      },
-      "*"
-    );
+    // Save into global state
+    Object.entries(flatSurveyData).forEach(([key, value]) => {
+      dispatch({
+        type: "SET_DATA",
+        key,
+        value,
+      });
+    });
 
-    if (onSubmit) {
-      onSubmit(flatSurveyData);
-    }
+    window.parent.postMessage({ type: "survey_complete", data: flatSurveyData }, "*");
+    console.log("Survey data submitted:", flatSurveyData);
+    if (onSubmit) onSubmit(flatSurveyData);
   };
-
-  // Handlers for various input types
 
   const handleRadioChange = useCallback((field, key, value) => {
     setSelectedValues((prev) => {
@@ -209,7 +245,6 @@ function Survey({ onSubmit, onQuestionChange }) {
           return { ...prev, statementRatings: updatedRatings };
         case "valueRatings":
           updatedRatings = { ...prev.valueRatings, [key]: value };
-          setAllValuesAnswered(areAllValuesAnswered(updatedRatings));
           return { ...prev, valueRatings: updatedRatings };
         case "gender":
           return { ...prev, gender: value };
@@ -229,7 +264,6 @@ function Survey({ onSubmit, onQuestionChange }) {
           return prev;
       }
     });
-    setIsAnswered(true);
   }, []);
 
   const handleInputChange = (field, value) => {
@@ -237,7 +271,6 @@ function Survey({ onSubmit, onQuestionChange }) {
       ...prev,
       [field]: value,
     }));
-    setIsAnswered(true);
   };
 
   const handleCheckboxChange = (field, updatedValues) => {
@@ -300,29 +333,29 @@ function Survey({ onSubmit, onQuestionChange }) {
       setAllAnswered={setAllStatementsAnswered}
     />,
     <RankingQuestion
-  key="Q8"
-  selectedRanks={selectedValues.ranking}
-  handleRankChange={(factor, rank, value) => {
-    if (factor === "otherFactor") {
-      setSelectedValues((prev) => ({
-        ...prev,
-        ranking: {
-          ...prev.ranking,
-          otherFactor: value,
-        },
-      }));
-    } else {
-      setSelectedValues((prev) => ({
-        ...prev,
-        ranking: {
-          ...prev.ranking,
-          [factor]: rank,
-        },
-      }));
-    }
-  }}
-  notifyCompletion={(isComplete) => setRankingComplete(isComplete)}
-/>,
+      key="Q8"
+      selectedRanks={selectedValues.ranking}
+      handleRankChange={(factor, rank, value) => {
+        if (factor === "otherFactor") {
+          setSelectedValues((prev) => ({
+            ...prev,
+            ranking: {
+              ...prev.ranking,
+              otherFactor: value,
+            },
+          }));
+        } else {
+          setSelectedValues((prev) => ({
+            ...prev,
+            ranking: {
+              ...prev.ranking,
+              [factor]: rank,
+            },
+          }));
+        }
+      }}
+      notifyCompletion={(isComplete) => setRankingComplete(isComplete)}
+    />,
     <GenderQuestion
       key="Q9"
       selectedValue={selectedValues.gender}
@@ -376,7 +409,7 @@ function Survey({ onSubmit, onQuestionChange }) {
             onClick={handleNext}
             endIcon={<ArrowForwardIcon />}
             text={"Next"}
-            disabled={!(pageIndex === 5 || pageIndex === 6 || isAnswered)}
+            disabled={!isAnswered}
           />
         </Box>
       )}
