@@ -22,7 +22,8 @@ function Welcome({ onStart }) {
     // Optionally prevent early click even if button is enabled programmatically
     if (!isButtonEnabled) return;
 
-    const currentTimestamp = Date.now();
+    const currentTimestamp = new Date().toISOString();
+    console.log("[Welcome] Continue clicked at:", currentTimestamp);
     const actions = [
       {
         type: "SET_DATA",

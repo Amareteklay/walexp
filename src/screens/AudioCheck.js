@@ -42,7 +42,7 @@ function AudioCheck({ onProceed }) {
   };
 
   const handleContinue = () => {
-    const currentTimestamp = Date.now();
+    const currentTimestamp = new Date().toISOString();
     const newAttempts = attempts + 1;
 
     // Increment the number of attempts

@@ -20,33 +20,38 @@ function App() {
     framingType: null,
     emojiType: Math.random() < 0.5 ? "Facebook" : "Generic", // Assign emojiType randomly
   });
+  //if (!groupAssignment.framingType) {
+   // return <div>Loading group assignment...</div>;
+  //}
 
-  // Use effect to listen for messages from the parent window (PsychoJS)
   useEffect(() => {
     function handleMessage(event) {
-      if (event.origin !== 'https://run.pavlovia.org') return;
+      // Temporary debug - log all messages
+      console.log("[App] Received message:", event.origin, event.data);
+      
+      // Allow local development and production
+      const allowedOrigins = [
+        'https://run.pavlovia.org',
+        'http://localhost',
+        'http://127.0.0.1'
+      ];
+  
+      if (!allowedOrigins.some(origin => event.origin.startsWith(origin))) {
+        console.warn("Blocked message from unauthorized origin:", event.origin);
+        return;
+      }
   
       if (event.data.type === 'group_assignment') {
-        // Only update if framingType is not already set
-        setGroupAssignment(prevState => {
-          if (prevState.framingType !== null) {
-            console.log("Framing type already set:", prevState.framingType);
-            return prevState;
-          }
-          console.log('Group Assignment received:', event.data);
-          return {
-            framingType: event.data.framingType,
-            emojiType: event.data.emojiType,
-          };
+        console.log("[App] Received valid group assignment:", event.data);
+        setGroupAssignment({
+          framingType: event.data.framingType,
+          emojiType: event.data.emojiType
         });
       }
     }
   
     window.addEventListener('message', handleMessage);
-  
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
   
 

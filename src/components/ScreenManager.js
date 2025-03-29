@@ -1,5 +1,5 @@
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import AudioCheck from "../screens/AudioCheck"
 import Feedback from "../screens/Feedback"
 import EmotionsScale from "../screens/EmotionsScale"
@@ -43,44 +43,56 @@ const screens = {
   ),
   oddOneOut: (props) => (
     <OddOneOutTask {...props} nextScreen={"videoSeries"} />),
-    emotionsFinal: (props) => (
-      <EmotionsScale {...props} nextScreen="surveyPrompt" emotionId="7" />
-    ),
+  emotionsFinal: (props) => (
+    <EmotionsScale {...props} nextScreen="surveyPrompt" emotionId="7" />
+  ),
   videoSeries: (props) => {
     const { currentStep, onProceed, framingType, emojiType } = props;
-    console.log("Frame type", framingType);
-    const handleNextScreen = () => {
-        const nextStep = currentStep + 1;
-    console.log("Current step", currentStep);
-        if ([4, 9, 14, 19, videoData.length - 1].includes(currentStep)) {
-            onProceed("emotions");
-        } else if (currentStep === 6) {
-            onProceed("oddOneOut");
-        } else {
-            onProceed("videoSeries");
-        } 
-    };
-    const videoIndex = currentStep < videoData.length ? currentStep : 0;
     
-    // Determine the textKey based on currentStep and framingType
-    let textKey = "neutral"; // Default to neutral for the first three videos
+    console.log("[VideoSeries] Received framingType:", framingType);
 
-    if (currentStep >= 5) {
-      textKey = framingType === "Positive" ? "positive" :
-                 framingType === "Negative" ? "negative" :
-                 framingType === "Neutral" ? "neutral" : "neutral";
-    }
+    // Safely handle framingType with validation
+  const getTextKey = () => {
+    const validTypes = ["Positive", "Negative", "Neutral"];
+    const validatedType = validTypes.includes(framingType) 
+      ? framingType 
+      : "Neutral";
+
+    // First 4 videos always neutral framing
+    if (currentStep < 5) return "neutral";
+    
+    // After step 5, use actual framing
+    return validatedType.toLowerCase();
+  };
+
+  const textKey = getTextKey();
+  console.log("[VideoSeries] Using textKey:", textKey);
+
+    const handleNextScreen = () => {
+      const nextStep = currentStep + 1;
+      console.log("Current step", currentStep);
+      
+      if ([4, 9, 14, 19, videoData.length - 1].includes(currentStep)) {
+        onProceed("emotions");
+      } else if (currentStep === 6) {
+        onProceed("oddOneOut");
+      } else {
+        onProceed("videoSeries");
+      } 
+    };
+
+    const videoIndex = currentStep < videoData.length ? currentStep : 0;
 
     return (
       <VideoScreen
         key={videoIndex}
         videoSrc={`${process.env.PUBLIC_URL}/videos/${videoData[videoIndex].video}`}
-        overlayText={videoData[videoIndex].texts[textKey]} // Use the determined textKey
+        overlayText={videoData[videoIndex].texts[textKey]}
         videoId={videoData[videoIndex].videoId}
         onProceed={handleNextScreen}
         nextScreen="videoSeries"
         emojiType={emojiType}
-        factInfo={videoData[videoIndex].texts.factInfo} // Pass factInfo too
+        factInfo={videoData[videoIndex].texts.factInfo}
       />
     );
   },
@@ -111,17 +123,18 @@ function ScreenManager({
   onProceed,
   onQuestionChange,
 }) {
+  useEffect(() => {
+    console.log("ScreenManager received framingType:", framingType);
+  }, [framingType]);
+
   const ScreenComponent = screens[screen] || Welcome
 
-  // State to manage questionIndex
   const [questionIndex, setQuestionIndex] = useState(0)
-
-  // State to manage emotion responses
   const [emotionResponses, setEmotionResponses] = useState({})
 
   const handleQuestionChange = (index) => {
-    setQuestionIndex(index) // Update local state
-    onQuestionChange(index) // Propagate change to parent (App)
+    setQuestionIndex(index)
+    onQuestionChange(index)
   }
 
   const handleEmotionSave = (emotionId, value, timestamp) => {
@@ -156,8 +169,8 @@ function ScreenManager({
       }}
       onStart={onProceed}
       questionIndex={questionIndex}
-      onQuestionChange={handleQuestionChange} // Pass the handler to Survey
-      saveEmotionResponse={handleEmotionSave} // Pass the handler to EmotionsScale
+      onQuestionChange={handleQuestionChange}
+      saveEmotionResponse={handleEmotionSave}
     />
   )
 }
