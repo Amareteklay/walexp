@@ -4,7 +4,18 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CustomButton from '../components/CustomButton';
 import { useData } from '../contexts/DataContext';
 
-const OddOneOutTask = ({ onProceed, nextScreen }) => {
+/**
+ * OddOneOutTask – enhanced to support two separate attention checks.
+ *
+ * New props:
+ *  - checkId (number)            // e.g., 1 or 2; defaults to 1
+ *  - onAttentionResult (func)    // callback with { checkId, passed, rt, startedAt, endedAt, choice }
+ *
+ * Data persistence:
+ *  - Keeps your original flat dispatch pattern but namespaces keys with the checkId: odd_${checkId}_*
+ *  - Also reports a concise summary via onAttentionResult so ScreenManager can postMessage & store
+ */
+const OddOneOutTask = ({ onProceed, nextScreen, checkId = 1, onAttentionResult }) => {
   const { dispatch } = useData();
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [feedback, setFeedback] = useState('');
@@ -41,7 +52,11 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
       endTimeRef.current = new Date().toISOString();
 
       const isCorrect = selectedIndex === oddIndex;
-      setFeedback(isCorrect ? 'Correct! You found the odd one out.' : 'Incorrect. Please pay closer attention next time.');
+      setFeedback(
+        isCorrect
+          ? 'Correct! You found the odd one out.'
+          : 'Incorrect. Please pay closer attention next time.'
+      );
     } else {
       setFeedback('Please select an item before submitting.');
       console.log('No item selected on submit.');
@@ -49,30 +64,54 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
   };
 
   const handleNext = () => {
-    const timestamp = new Date().toISOString();
-    // Create a flat taskData object
+    const nowIso = new Date().toISOString();
+
+    // Compute RT (ms) if both timestamps exist
+    const rtMs =
+      startTimeRef.current && endTimeRef.current
+        ? Math.max(
+            0,
+            new Date(endTimeRef.current).getTime() -
+              new Date(startTimeRef.current).getTime()
+          )
+        : null;
+
+    const isCorrect = selectedIndex === oddIndex;
+
+    // 1) Build namespaced flat payload so it won't collide across two checks
     const taskData = {
       selectedIndex,
       oddIndex,
       startTime: startTimeRef.current,
       endTime: endTimeRef.current,
-      isCorrect: selectedIndex === oddIndex,
-      nextAt: timestamp,
+      rtMs,
+      isCorrect,
+      nextAt: nowIso,
+      checkId,
     };
 
-    // Flatten the data with keys prefixed by "oddOneOutTask_"
     const flatData = {};
     Object.entries(taskData).forEach(([field, value]) => {
-      flatData[`odd_${field}`] = value;
+      flatData[`odd_${checkId}_${field}`] = value;
     });
 
-    // Dispatch each key-value pair as a separate action
+    // 2) Dispatch each key-value pair as a separate action
     Object.entries(flatData).forEach(([key, value]) => {
       dispatch({
         type: 'SET_DATA',
         key,
         value,
       });
+    });
+
+    // 3) Notify parent (ScreenManager) with a compact summary for unified logging/postMessage
+    onAttentionResult?.({
+      checkId,
+      passed: isCorrect,
+      rt: rtMs,
+      startedAt: startTimeRef.current,
+      endedAt: endTimeRef.current,
+      choice: selectedIndex,
     });
 
     if (onProceed && nextScreen) {
@@ -118,6 +157,7 @@ const OddOneOutTask = ({ onProceed, nextScreen }) => {
                   : 'transparent'
                 : 'transparent',
               textAlign: 'center',
+              userSelect: 'none',
             }}
           >
             {item}

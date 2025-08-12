@@ -23,7 +23,6 @@ function Welcome({ onStart }) {
     if (!isButtonEnabled) return;
 
     const currentTimestamp = new Date().toISOString();
-    console.log("[Welcome] Continue clicked at:", currentTimestamp);
     const actions = [
       {
         type: "SET_DATA",

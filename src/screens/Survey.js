@@ -227,7 +227,7 @@ function Survey({ onSubmit, onQuestionChange }) {
     });
 
     window.parent.postMessage({ type: "survey_complete", data: flatSurveyData }, "*");
-    console.log("Survey data submitted:", flatSurveyData);
+    //console.log("Survey data submitted:", flatSurveyData);
     if (onSubmit) onSubmit(flatSurveyData);
   };
 

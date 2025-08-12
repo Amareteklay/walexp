@@ -209,7 +209,7 @@ function VideoScreen({
           text={"Next"} 
           onClick={handleNext} 
           endIcon={<ArrowForwardIcon />} 
-          disabled={!isDelayPassed || !videoData.emojiReaction} 
+          disabled={!isDelayPassed || !videoData.emojiReaction || !videoData.shareOption} 
         />
       </Box>
 

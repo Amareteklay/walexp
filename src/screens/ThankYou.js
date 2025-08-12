@@ -5,7 +5,7 @@ import { useData } from "../contexts/DataContext";
 function ThankYou() {
   // Get the complete state from the DataContext
   const { state } = useData();
-console.log("State: ", state)
+//console.log("State: ", state)
   useEffect(() => {
     const timer = setTimeout(() => {
       // Send a message to the parent window (PsychoJS) indicating the experiment is complete
