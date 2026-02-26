@@ -5,7 +5,7 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import CustomButton from "../components/CustomButton";
 import { useData } from "../contexts/DataContext";
 
-function DemoScreen({ onProceed, emojiType }) {
+function DemoScreen({ onProceed }) {
   const videoRef = useRef(null);
   const [showReplayButton, setShowReplayButton] = useState(false);
   const [replayCount, setReplayCount] = useState(0);
@@ -13,13 +13,8 @@ function DemoScreen({ onProceed, emojiType }) {
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const { dispatch } = useData();
 
-  // Determines the appropriate video source based on the emojiType prop
   const getVideoSource = () => {
-    const videoSources = {
-      Facebook: "Demo_fb.mp4",
-      Generic: "Demo_gen.mp4",
-    };
-    return `${process.env.PUBLIC_URL}/videos/${videoSources[emojiType] || "Demo_gen.mp4"}`;
+    return `${process.env.PUBLIC_URL}/videos/${"Demo_gen.mp4"}`;
   };
 
   // Set up a delay of 10 seconds on mount before enabling the Continue button

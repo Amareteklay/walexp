@@ -12,24 +12,17 @@ function App() {
   const [overallProgress, setOverallProgress] = useState(0);
   const [videoSeriesStarted, setVideoSeriesStarted] = useState(false);
 
-  const [questionIndex, setQuestionIndex] = useState(0); // Track the survey question index
+  const [questionIndex, setQuestionIndex] = useState(0);
   const totalSteps = 58;
 
-  // State to hold the group assignment
   const [groupAssignment, setGroupAssignment] = useState({
     framingType: null,
-    emojiType: Math.random() < 0.5 ? "Facebook" : "Generic", // Assign emojiType randomly
   });
-  //if (!groupAssignment.framingType) {
-   // return <div>Loading group assignment...</div>;
-  //}
 
   useEffect(() => {
     function handleMessage(event) {
-      // Temporary debug - log all messages
       console.log("[App] Received message:", event.origin, event.data);
       
-      // Allow local development and production
       const allowedOrigins = [
         'https://run.pavlovia.org',
         'http://localhost',
@@ -45,7 +38,6 @@ function App() {
         console.log("[App] Received valid group assignment:", event.data);
         setGroupAssignment({
           framingType: event.data.framingType,
-          emojiType: event.data.emojiType
         });
       }
     }
@@ -79,9 +71,8 @@ function App() {
             screen={screen}
             currentStep={currentStep}
             overlayText={overlayText}
-            factInfo={factInfo} // Pass factInfo to ScreenManager
+            factInfo={factInfo}
             framingType={groupAssignment.framingType}
-            emojiType={groupAssignment.emojiType}
             onProceed={handleScreenTransition}
             onQuestionChange={setQuestionIndex}
           />

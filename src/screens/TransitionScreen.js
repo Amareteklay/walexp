@@ -10,7 +10,6 @@ function TransitionScreen({ onProceed }) {
   const [captureDetail, setCaptureDetail] = useState("");
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
-  // Enable the Continue button after a 5-second delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsButtonEnabled(true);
@@ -21,7 +20,6 @@ function TransitionScreen({ onProceed }) {
   const handleContinue = () => {
     const currentTimestamp = new Date().toISOString();
 
-    // Build an array of flat dispatch actions
     const actions = [
       {
         type: "SET_DATA",
@@ -35,7 +33,6 @@ function TransitionScreen({ onProceed }) {
       },
     ];
 
-    // If the participant remembers, add the additional detail
     if (rememberVideo === "yes" && captureDetail.trim() !== "") {
       actions.push({
         type: "SET_DATA",
@@ -44,12 +41,10 @@ function TransitionScreen({ onProceed }) {
       });
     }
 
-    // Dispatch each action
     actions.forEach(action => {
       dispatch(action);
     });
 
-    // Proceed to the next screen
     if (onProceed) {
       onProceed("emotionsOne");
     } else {

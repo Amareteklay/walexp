@@ -46,7 +46,6 @@ function VideoScreen({
   onProceed,
   nextScreen,
   factInfo,
-  emojiType,
 }) {
   const [videoData, dispatchVideoData] = useReducer(reducer, initialState);
   const [commentSubmitted, setCommentSubmitted] = useState(false);
@@ -156,7 +155,6 @@ function VideoScreen({
           selectedEmoji={videoData.emojiReaction}
           onReaction={handleReaction}
           interactive={true}
-          emojiType={emojiType}
         />
         {showCommentButton && (
           <CustomButton
