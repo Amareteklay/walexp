@@ -137,7 +137,7 @@ function VideoScreen({
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsDelayPassed(true);
-    }, 10000);
+    }, 12000);
     return () => clearTimeout(timer);
   }, []);
 
